@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\aboutController;
 use App\Http\Controllers\Admin\AboutController as AdminAboutController;
+use App\Http\Controllers\Admin\DeseasesController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\ClientController;
@@ -23,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('users.dasboard');
+    return view('users.home');
 });
 
 
@@ -31,20 +32,21 @@ Route::controller(HomeController::class)->group(function(){
     Route::get('/','index')->name('Home');
 });
 Route::controller(ClientController::class)->group(function(){
+
     Route::get('/produk/category/{id}/{slug}','CategoryPage')->name('category');
     Route::get('/produk','Product')->name('product');
     Route::get('/produk-details/{id}/{slug}','SingleProduct')->name('singleproduct');
-    Route::get('/add-to-cart','AddToCart')->name('addtocart');
-    Route::get('/checkout','Checkout')->name('checkout');
-    Route::get('/user-profile','UserProfile')->name('userprofile');
     Route::get('/new-release','NewRelease')->name('newrelease');
-    Route::get('todays-deal','TodayDeal')->name('todaydeal');
-    Route::get('/custom-service','CustomerService')->name('customerservice');
 });
 
 Route::middleware(['auth','role:user'])->group(function(){
     Route::controller(ClientController::class)->group(function(){
+        Route::get('/about','About')->name('about');
         Route::get('/produk','Product')->name('product');
+        Route::get('/shiping-address','GetShippingaddress')->name('shippingaddress');
+        Route::post('/place-order','PlaceOrder')->name('placeorder');
+        // Route::get('/shiping-address','GetShippingaddress')->name('shippingaddress');
+        Route::post('add-shipping-address','AddShippingAddress')->name('addshippingaddress');
         Route::get('/checkout','Checkout')->name('checkout');
         Route::get('/user-profile','UserProfile')->name('userprofile');
         Route::get('/user-profile/pedding-orders','PeddingOrders')->name('peddingorders');
@@ -52,14 +54,14 @@ Route::middleware(['auth','role:user'])->group(function(){
         Route::get('todays-deal','TodayDeal')->name('todaydeal');
         Route::get('/custom-service','CustomerService')->name('customerservice');
         Route::get('/add-to-cart','AddToCart')->name('addtocart');
-        Route::post('/add-product-to-cart','AddProductToToCart')->name('addproducttocart');
-
+        Route::post('/add-product-to-cart','AddProductToCart')->name('addproducttocart');
+        Route::get('/remove-cart-item/{id}','RemoveCartItem')->name('removeitem');
     });
 });
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
+Route::get('/home', function () {
+    return view('users.home');
 })->middleware(['auth', 'role:user'])->name('dashboard');
 
 
@@ -106,13 +108,24 @@ Route::middleware(['auth','role:admin'])->group(function(){
         Route::get('admin/delete-product/{id}','DeleteProduct')->name('deleteproduct');
 
     });
+    Route::controller(DeseasesController::class)->group(function(){
+        Route::get('/admin/all-penyakit','index')->name('allpenyakit');
+        Route::get('/admin/add-penyakit','AddPenyakit')->name('addpenyakit');
+        Route::post('/admin/store-penyakit','StorePenyakit')->name('storepenyakit');
+        Route::get('/admin/edit-penyakit-img/{id}','EditPenyakitImg')->name('editpenyakitimg');
+        Route::post('/admin/update-penyakit-img','UpdatePenyakitImg')->name('updatepenyakitimg');
+        Route::get('/admin/edit-penyakit/{id}','EditPenyakit')->name('editpenyakit');
+        Route::post('/admin/update-penyakit','UpdatePenyakit')->name('updatepenyakit');
+        Route::get('admin/delete-penyakit/{id}','DeletePenyakit')->name('deletepenyakit');
+
+    });
     Route::controller(OrderController::class)->group(function(){
         Route::get('/admin/pending-order','index')->name('pendingorder');
     });
     Route::controller(AdminAboutController::class)->group(function(){
-        Route::get('/admin/about-web','index1')->name('aboutweb');
-        Route::get('/admin/about-apotek','index2')->name('aboutapotek');
+        Route::get('/admin/about','index')->name('about');
     });
+
 
 });
 

@@ -24,7 +24,7 @@
             <p>Categori - {{$product->product_category_name}}</p>
             <p>Tipe - {{$product->product_subcategory_name}}</p>
             <p>Stok - {{$product->quantity}}</p>
-          <form action="" method="POST">
+          <form action="{{route('addproducttocart')}}" method="POST">
             @csrf
             <input type="hidden" value="{{$product->id}}" name="product_id">
             <input type="hidden" value="{{$product->price}}" name="price">
@@ -57,7 +57,7 @@
               <img src="{{asset($produc->product_img)}}" width="312" height="350" loading="lazy"  class="image-contain">
 
                       <ul class="card-action-list">
-                        <form action="+" method="POST">
+                        <form action="{{route('addproducttocart')}}" method="POST">
                             @csrf
                             <input type="hidden" value="{{$product->id}}" name="product_id">
                             <input type="hidden" value="{{$produc->price}}" name="price">

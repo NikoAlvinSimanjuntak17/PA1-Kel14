@@ -54,15 +54,15 @@
         <ul>
           <li><a class="nav-link scrollto active" href="/">Home</a></li>
           <li><a class="nav-link scrollto" href="{{route('product')}}">Products</a></li>
-          <li><a class="nav-link scrollto" href="{{route('newrelease')}}">New Release</a></li>
-          <li><a class="nav-link scrollto" href="{{route('todaydeal')}}">Today's deal</a></li>
-          <li><a class="nav-link scrollto" href="{{route('customerservice')}}">Customer Service</a></li>
+          <li><a class="nav-link scrollto" href="{{route('newrelease')}}">Deseases</a></li>
+          {{-- {{-- <li><a class="nav-link scrollto" href="{{route('todaydeal')}}">Today's deal</a></li> --}}
+          <li><a class="nav-link scrollto" href="{{route('customerservice')}}">About</a></li> 
           <li><a class="nav-link scrollto" href="#doctors"></a></li>
 
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav>
-      <div class="d-flex p-1 me-3 nav-cart" style=""><a href="" class="cart"><i class="bi bi-cart">&nbsp;Cart</i></a></div>
+      <div class="d-flex p-1 me-3 nav-cart" style=""><a href="{{route('addtocart')}}" class="cart"><i class="bi bi-cart">&nbsp;Cart</i></a></div>
       <!-- .navbar -->
       <img src="{{asset('users/img/profile.png')}}"  width="35px" height="35px" class="profil" onclick="toggleMenu()" alt="">
       <div class="sub-menu-wrap" id="subMenu">

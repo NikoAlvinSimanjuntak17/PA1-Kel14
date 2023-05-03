@@ -1,4 +1,4 @@
-@extends('users.layouts.templete')
+    @extends('users.layouts.templete')
 @section('title','WijayaFarma | Profile')
 @section('css')
 <style>
