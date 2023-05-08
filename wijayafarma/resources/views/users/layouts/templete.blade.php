@@ -54,9 +54,9 @@
         <ul>
           <li><a class="nav-link scrollto active" href="/">Home</a></li>
           <li><a class="nav-link scrollto" href="{{route('product')}}">Products</a></li>
-          <li><a class="nav-link scrollto" href="{{route('newrelease')}}">Deseases</a></li>
+          <li><a class="nav-link scrollto" href="{{route('penyakit')}}">Deseases</a></li>
           {{-- {{-- <li><a class="nav-link scrollto" href="{{route('todaydeal')}}">Today's deal</a></li> --}}
-          <li><a class="nav-link scrollto" href="{{route('customerservice')}}">About</a></li> 
+          <li><a class="nav-link scrollto" href="{{route('customerservice')}}">About</a></li>
           <li><a class="nav-link scrollto" href="#doctors"></a></li>
 
         </ul>

@@ -29,7 +29,8 @@
         </td>
         <td>{{$order->product_id}}</td>
         <td>{{$order->quantity}}</td>
-        <td>{{$order->total_price}}</td>
+        <td>{{$order->totalprice}}</td>
+        <td>{{$order->status}}</td>
         <td><a href="" class="btn btn-success">Approve Now</a></td>
     </tr>
     @endforeach

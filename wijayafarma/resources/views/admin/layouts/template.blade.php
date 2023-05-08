@@ -12,7 +12,7 @@
 
 
     <title>@yield('title','pagetitle')</title>
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <meta name="description" content="" />
 
     <!-- Favicon -->
@@ -68,6 +68,7 @@
                         <i class="bx bx-chevron-left bx-sm align-middle"></i>
                     </a>
                 </div>
+
 
                 <div class="menu-inner-shadow"></div>
 
@@ -312,10 +313,32 @@
         <!-- Overlay -->
         <div class="layout-overlay layout-menu-toggle"></div>
     </div>
+    <script>
+$('.delete').click(function(){
+    swal({
+  title: "Are you sure?",
+  text: "Once deleted, you will not be able to recover this imaginary file!",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+})
+.then((willDelete) => {
+  if (willDelete) {
+    swal("Poof! Your imaginary file has been deleted!", {
+      icon: "success",
+    });
+  } else {
+    swal("Your imaginary file is safe!");
+  }
+});
+
+});
+    </script>
     <!-- / Layout wrapper -->
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
+
     <script src="{{asset('admindasboard/assets/vendor/libs/jquery/jquery.js')}}"></script>
     <script src="{{asset('admindasboard/assets/vendor/libs/popper/popper.js')}}"></script>
     <script src="{{asset('admindasboard/assets/vendor/js/bootstrap.js')}}"></script>
@@ -335,6 +358,7 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+
 </body>
 
 </html>

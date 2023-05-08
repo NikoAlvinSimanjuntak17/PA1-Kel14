@@ -16,6 +16,9 @@ class ClientController extends Controller
     $allproduct = Product::latest()->get();
     return view('users.home',compact('allproduct'));
     }
+    public function Penyakit(){
+        return view('users.penyakit');
+    }
 
     public function CategoryPage($id){
         $category = Category::findOrFail($id);

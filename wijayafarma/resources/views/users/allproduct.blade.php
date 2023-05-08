@@ -1,6 +1,6 @@
 @php
 $categories = App\Models\Category::latest()->get();
-$products = App\Models\Product::latest()->get();
+$products = App\Models\Product::latest()->paginate(20);
 @endphp
 @extends('users.layouts.templete')
 @section('title','WijayaFarma | Category')
@@ -30,7 +30,7 @@ $products = App\Models\Product::latest()->get();
                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All Category
                    </button>
                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    @foreach ($categories as $categori)
+                       @foreach ($categories as $categori)
                     <a class="dropdown-item" href="{{route('category',[$categori->id, $categori->slug]) }}">{{$categori->category_name}}</a>
                     @endforeach
             </div>
@@ -105,13 +105,13 @@ $products = App\Models\Product::latest()->get();
                     </ul>
 
 
+                    {{$products->links()}}
                 </div>
             </section>
 
 
         </div>
 
-        {{-- {{$products->links()}} --}}
 
 
 

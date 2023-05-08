@@ -1,6 +1,6 @@
 @php
-$categories = App\Models\Category::latest()->get();
-$product = App\Models\Product::latest()->get();
+$categories = App\Models\Category::latest()->paginate(20);
+$product = App\Models\Product::latest()->get()
 @endphp
 @extends('users.layouts.templete')
 @section('title','WijayaFarma | Category')
@@ -118,13 +118,7 @@ $product = App\Models\Product::latest()->get();
 
                   </div>
                   </section>
-                  <div class="page-btn container">
-              <span>1</span>
-              <span>2</span>
-              <span>3</span>
-              <span>4</span>
-              <span>&#8594;</span>
-            </div>
+                  {{$categories->links()}}
           </div>
         </div>
 

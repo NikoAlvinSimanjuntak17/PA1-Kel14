@@ -1,5 +1,6 @@
 @extends('admin.layouts.template')
 @section('title','Admin | allproduct')
+@section('js')
 @section('content')
 <div class="container p-5">
     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Pages / </span> All Product</h4>
@@ -38,14 +39,16 @@
                     <td>{{$product->quantity}}</td>
                     <td>{{$product->price}}</td>
                     <td>
+                        <a href="" id="delete">sdsdss</a>
                         <a href="{{route('editproduct',$product->id)}}" class="btn btn-primary">Edit</a>
-                    <a href="{{route('deleteproduct' ,$product->id)}}" class="btn btn-warning">Delete</a>
+                    <a href="" data-id="{route('deleteproduct' ,$product->id)}}" data-name="" class="btn btn-warning delete" id="delete">Delete</a>
                 </td>
             </tr>
             @endforeach
         </tbody>
           </table>
         </div>
-      </div>
+    </div>
+    {{$products->links()}}
 </div>
 @endsection

@@ -42,6 +42,7 @@ Route::controller(ClientController::class)->group(function(){
 Route::middleware(['auth','role:user'])->group(function(){
     Route::controller(ClientController::class)->group(function(){
         Route::get('/about','About')->name('about');
+        Route::get('/penyakit','Penyakit')->name('penyakit');
         Route::get('/produk','Product')->name('product');
         Route::get('/shiping-address','GetShippingaddress')->name('shippingaddress');
         Route::post('/place-order','PlaceOrder')->name('placeorder');
