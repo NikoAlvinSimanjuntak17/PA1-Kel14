@@ -26,6 +26,7 @@
                                     <td>Product Name</td>
                                     <td>Quantity</td>
                                     <td>Price</td>
+                                    <td>Count</td>
 
                                 </tr>
                                 </thead>
@@ -41,12 +42,17 @@
                                     <td>{{$product_name}}</td>
                                     <td>{{$item->quantity}}</td>
                                     <td>{{ 'Rp '.number_format($item->price, 0, ',', '.') }}</td>
+                                    @php
+                                        $count = $item->quantity * $item->price
+                                    @endphp
+                                    <td>{{'Rp '.number_format($count)}}</td>
                                 </tr>
                                 @php
-                                    $total = $total + $item->price;
+                                    $total = $total + $count;
                                 @endphp
                                     @endforeach
                                 <tr>
+                                    <td></td>
                                     <td></td>
                                     <td>Total</td>
                                     <td>{{ 'Rp '.number_format($total, 0, ',', '.') }}</td>

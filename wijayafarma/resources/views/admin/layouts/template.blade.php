@@ -1,8 +1,7 @@
-
 <!DOCTYPE html>
 
 <html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default"
-    data-assets-path="{{asset('admindasboard/assets/')}}" data-template="vertical-menu-template-free">
+    data-assets-path="{{ asset('admindasboard/assets/') }}" data-template="vertical-menu-template-free">
 
 <head>
     <meta charset="utf-8" />
@@ -11,14 +10,16 @@
 
 
 
-    <title>@yield('title','pagetitle')</title>
+    <title>@yield('title', 'pagetitle')</title>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{asset('admindasboard/assets/img/favicon/Kuy_Apotek-transformed.png')}}" />
+    <link rel="icon" type="image/x-icon"
+        href="{{ asset('admindasboard/assets/img/favicon/Kuy_Apotek-transformed.png') }}" />
 
     <!-- Fonts -->
+
     <link rel="preconnect" href="{{ asset('https://fonts.googleapis.com') }}" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -26,26 +27,29 @@
         rel="stylesheet" />
 
     <!-- Icons. Uncomment required icon fonts -->
-    <link rel="stylesheet" href="{{asset('admindasboard/assets/vendor/fonts/boxicons.css')}}" />
+    <link rel="stylesheet" href="{{ asset('admindasboard/assets/vendor/fonts/boxicons.css') }}" />
 
     <!-- Core CSS -->
-    <link rel="stylesheet" href="{{asset('admindasboard/assets/vendor/css/core.css')}}" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="{{asset('admindasboard/assets/vendor/css/theme-default.css')}}" class="template-customizer-theme-css" />
-    <link rel="stylesheet" href="{{asset('admindasboard/assets/css/demo.css')}}" />
+    <link rel="stylesheet" href="{{ asset('admindasboard/assets/vendor/css/core.css') }}"
+        class="template-customizer-core-css" />
+    <link rel="stylesheet" href="{{ asset('admindasboard/assets/vendor/css/theme-default.css') }}"
+        class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="{{ asset('admindasboard/assets/css/demo.css') }}" />
 
     <!-- Vendors CSS -->
-    <link rel="stylesheet" href="{{asset('admindasboard/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
+    <link rel="stylesheet"
+        href="{{ asset('admindasboard/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
 
-    <link rel="stylesheet" href="{{asset('admindasboard/assets/vendor/libs/apex-charts/apex-charts.css')}}" />
-
+    <link rel="stylesheet" href="{{ asset('admindasboard/assets/vendor/libs/apex-charts/apex-charts.css') }}" />
+    @stack('css')
     <!-- Page CSS -->
 
     <!-- Helpers -->
-    <script src="{{asset('admindasboard/assets/vendor/js/helpers.js')}}"></script>
+    <script src="{{ asset('admindasboard/assets/vendor/js/helpers.js') }}"></script>
 
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-    <script src="{{asset('admindasboard/assets/js/config.js')}}"></script>
+    <script src="{{ asset('admindasboard/assets/js/config.js') }}"></script>
 </head>
 
 <body>
@@ -58,7 +62,8 @@
                 <div class="app-brand demo">
                     <a href="index.html" class="app-brand-link">
                         <span class="app-brand-logo demo">
-                            <img src="{{asset('img/20230327_162258.png')}}" height="50em" width="200em" alt="">
+                            <img src="{{ asset('img/20230327_162258.png') }}" height="50em" width="200em"
+                                alt="">
 
                         </span>
                     </a>
@@ -75,7 +80,7 @@
                 <ul class="menu-inner py-1">
                     <!-- Dashboard -->
                     <li class="menu-item active">
-                        <a href="{{route('admindasboard')}}" class="menu-link">
+                        <a href="{{ route('admindasboard') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">Dashboard</div>
                         </a>
@@ -89,13 +94,13 @@
                     </li>
 
                     <li class="menu-item">
-                        <a href="{{route('addproduct')}}" class="menu-link">
+                        <a href="{{ route('addproduct') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">Add Product</div>
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a href="{{route('allproduct')}}" class="menu-link">
+                        <a href="{{ route('allproduct') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">all Product</div>
                         </a>
@@ -107,56 +112,56 @@
                     </li>
                     <li class="menu-item">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
-                          <i class="menu-icon tf-icons bx bx-layout"></i>
-                          <div data-i18n="Layouts">Categori</div>
+                            <i class="menu-icon tf-icons bx bx-layout"></i>
+                            <div data-i18n="Layouts">Categori</div>
                         </a>
 
                         <ul class="menu-sub">
                             <li class="menu-item">
-                                <a href="{{route('addcategory')}}" class="menu-link">
+                                <a href="{{ route('addcategory') }}" class="menu-link">
                                     <i class="menu-icon tf-icons bx bx-home-circle"></i>
                                     <div data-i18n="Analytics">Add Categori</div>
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="{{route('allcategory')}}" class="menu-link">
+                                <a href="{{ route('allcategory') }}" class="menu-link">
                                     <i class="menu-icon tf-icons bx bx-home-circle"></i>
                                     <div data-i18n="Analytics">all Categori</div>
                                 </a>
                             </li>
                         </ul>
-                      </li>
+                    </li>
 
                     <li class="menu-item">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
-                          <i class="menu-icon tf-icons bx bx-layout"></i>
-                          <div data-i18n="Layouts">Sub Categori</div>
+                            <i class="menu-icon tf-icons bx bx-layout"></i>
+                            <div data-i18n="Layouts">Sub Categori</div>
                         </a>
 
                         <ul class="menu-sub">
                             <li class="menu-item">
-                                <a href="{{route('addsubcategory')}}" class="menu-link">
+                                <a href="{{ route('addsubcategory') }}" class="menu-link">
                                     <i class="menu-icon tf-icons bx bx-home-circle"></i>
                                     <div data-i18n="Analytics">Add SubCategori</div>
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="{{route('allsubcategory')}}" class="menu-link">
+                                <a href="{{ route('allsubcategory') }}" class="menu-link">
                                     <i class="menu-icon tf-icons bx bx-home-circle"></i>
                                     <div data-i18n="Analytics">all SubCategori</div>
                                 </a>
                             </li>
                         </ul>
-                      </li>
+                    </li>
 
 
 
-                      <li class="menu-header small text-uppercase">
+                    <li class="menu-header small text-uppercase">
                         <span class="menu-header-text">Orders</span>
                     </li>
 
                     <li class="menu-item">
-                        <a href="{{route('pendingorder')}}" class="menu-link">
+                        <a href="{{ route('pendingorder') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">Pedding Orders</div>
                         </a>
@@ -167,30 +172,30 @@
                     </li>
                     <li class="menu-item">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
-                          <i class="menu-icon tf-icons bx bx-layout"></i>
-                          <div data-i18n="Layouts">Penyakit</div>
+                            <i class="menu-icon tf-icons bx bx-layout"></i>
+                            <div data-i18n="Layouts">Penyakit</div>
                         </a>
 
                         <ul class="menu-sub">
                             <li class="menu-item">
-                                <a href="{{route('addpenyakit')}}" class="menu-link">
+                                <a href="{{ route('addpenyakit') }}" class="menu-link">
                                     <i class="menu-icon tf-icons bx bx-home-circle"></i>
                                     <div data-i18n="Analytics">Add Penyakit</div>
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="{{route('allpenyakit')}}" class="menu-link">
+                                <a href="{{ route('allpenyakit') }}" class="menu-link">
                                     <i class="menu-icon tf-icons bx bx-home-circle"></i>
                                     <div data-i18n="Analytics">all Penyakit</div>
                                 </a>
                             </li>
                         </ul>
-                      </li>
+                    </li>
 
 
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">About</span></li>
                     <li class="menu-item">
-                        <a href="{{route('about')}}" class="menu-link">
+                        <a href="{{ route('about') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">About</div>
                         </a>
@@ -203,7 +208,7 @@
             <div class="layout-page">
                 <!-- Navbar -->
 
-                <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                <nav class="layout-navbar container-fluid navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
                     id="layout-navbar">
                     <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
                         <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
@@ -213,13 +218,7 @@
 
                     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
                         <!-- Search -->
-                        <div class="navbar-nav align-items-center">
-                            <div class="nav-item d-flex align-items-center">
-                                <i class="bx bx-search fs-4 lh-0"></i>
-                                <input type="text" class="form-control border-0 shadow-none"
-                                    placeholder="Search..." aria-label="Search..." />
-                            </div>
-                        </div>
+
                         <!-- /Search -->
 
                         <ul class="navbar-nav flex-row align-items-center ms-auto">
@@ -231,7 +230,7 @@
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
                                     data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
-                                        <img src="{{asset('https://cdn.onlinewebfonts.com/svg/img_87237.png')}}" alt
+                                        <img src="{{ asset('https://cdn.onlinewebfonts.com/svg/img_87237.png') }}" alt
                                             class="w-px-40 h-auto rounded-circle" />
                                     </div>
                                 </a>
@@ -241,8 +240,8 @@
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
-                                                        <img src="{{asset('https://cdn.onlinewebfonts.com/svg/img_87237.png')}}" alt
-                                                            class="w-px-40 h-auto rounded-circle" />
+                                                        <img src="{{ asset('https://cdn.onlinewebfonts.com/svg/img_87237.png') }}"
+                                                            alt class="w-px-40 h-auto rounded-circle" />
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
@@ -285,7 +284,7 @@
                                             @csrf
 
                                             <x-dropdown-link :href="route('logout')"
-                                                    onclick="event.preventDefault();
+                                                onclick="event.preventDefault();
                                                                 this.closest('form').submit();">
                                                 {{ __('Log Out') }}
                                             </x-dropdown-link>
@@ -314,51 +313,51 @@
         <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     <script>
-$('.delete').click(function(){
-    swal({
-  title: "Are you sure?",
-  text: "Once deleted, you will not be able to recover this imaginary file!",
-  icon: "warning",
-  buttons: true,
-  dangerMode: true,
-})
-.then((willDelete) => {
-  if (willDelete) {
-    swal("Poof! Your imaginary file has been deleted!", {
-      icon: "success",
-    });
-  } else {
-    swal("Your imaginary file is safe!");
-  }
-});
+        $('.delete').click(function() {
+            swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this imaginary file!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        swal("Poof! Your imaginary file has been deleted!", {
+                            icon: "success",
+                        });
+                    } else {
+                        swal("Your imaginary file is safe!");
+                    }
+                });
 
-});
+        });
     </script>
     <!-- / Layout wrapper -->
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
 
-    <script src="{{asset('admindasboard/assets/vendor/libs/jquery/jquery.js')}}"></script>
-    <script src="{{asset('admindasboard/assets/vendor/libs/popper/popper.js')}}"></script>
-    <script src="{{asset('admindasboard/assets/vendor/js/bootstrap.js')}}"></script>
-    <script src="{{asset('admindasboard/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
 
-    <script src="{{asset('admindasboard/assets/vendor/js/menu.js')}}"></script>
+    <script src="{{ asset('admindasboard/assets/vendor/libs/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('admindasboard/assets/vendor/libs/popper/popper.js') }}"></script>
+    <script src="{{ asset('admindasboard/assets/vendor/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('admindasboard/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
+    <script src="{{ asset('admindasboard/assets/vendor/js/menu.js') }}"></script>
     <!-- endbuild -->
 
     <!-- Vendors JS -->
-    <script src="{{asset('admindasboard/assets/vendor/libs/apex-charts/apexcharts.js')}}"></script>
+    <script src="{{ asset('admindasboard/assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
 
     <!-- Main JS -->
-    <script src="{{asset('admindasboard/assets/js/main.js')}}"></script>
+    <script src="{{ asset('admindasboard/assets/js/main.js') }}"></script>
 
     <!-- Page JS -->
-    <script src="{{asset('admindasboard/assets/js/dashboards-analytics.js')}}"></script>
+    <script src="{{ asset('admindasboard/assets/js/dashboards-analytics.js') }}"></script>
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-
+    @stack('js')
 </body>
 
 </html>

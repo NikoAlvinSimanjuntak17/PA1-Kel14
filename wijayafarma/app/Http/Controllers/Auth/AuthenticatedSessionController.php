@@ -12,6 +12,14 @@ use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
+//     public function authenticated(Request $request, $user)
+// {
+//     if ($user->hasRole('admin')) {
+//         return redirect()->intended('/admin-dashboard');
+//     } else if ($user->hasRole('user')) {
+//         return redirect()->intended('/user-dashboard');
+//     }
+// }
     /**
      * Display the login view.
      */

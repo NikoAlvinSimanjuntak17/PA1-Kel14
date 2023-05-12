@@ -1,18 +1,28 @@
 @extends('admin.layouts.template')
 @section('title','Admin | allproduct')
-@section('js')
+@push('css')
+    <link href="{{asset('css/tables.css')}}" rel="stylesheet" />
+@endpush
+@push('js')
+    <script src="https://cdn.datatables.net/v/bs5/dt-1.13.4/datatables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#dtbl').DataTable();
+        });
+    </script>
+@endpush
 @section('content')
-<div class="container p-5">
+<div class="container-fluid p-5">
     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Pages / </span> All Product</h4>
     <div class="card">
-        <h5 class="card-header">All Product Information</h5>
         @if (session()->has('message'))
         <div class="alert alert-success">
             {{session()->get('message')}}
         </div>
         @endif
-        <div class="table-responsive text-nowrap">
-          <table class="table">
+        <div class="table-responsive text-nowrap container pb-4">
+            <h5 class="card-header">All Product Information</h5>
+          <table class="table" id="dtbl">
             <thead class="table-light">
               <tr>
                 <th>ID</th>
@@ -39,7 +49,6 @@
                     <td>{{$product->quantity}}</td>
                     <td>{{$product->price}}</td>
                     <td>
-                        <a href="" id="delete">sdsdss</a>
                         <a href="{{route('editproduct',$product->id)}}" class="btn btn-primary">Edit</a>
                     <a href="" data-id="{route('deleteproduct' ,$product->id)}}" data-name="" class="btn btn-warning delete" id="delete">Delete</a>
                 </td>
@@ -49,6 +58,6 @@
           </table>
         </div>
     </div>
-    {{$products->links()}}
+    {{-- {{$products->links()}} --}}
 </div>
 @endsection

@@ -24,31 +24,30 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('users.home');
+    return view('welcome');
 });
 
 
-Route::controller(HomeController::class)->group(function(){
-    Route::get('/','index')->name('Home');
-});
-Route::controller(ClientController::class)->group(function(){
-
-    Route::get('/produk/category/{id}/{slug}','CategoryPage')->name('category');
-    Route::get('/produk','Product')->name('product');
-    Route::get('/produk-details/{id}/{slug}','SingleProduct')->name('singleproduct');
-    Route::get('/new-release','NewRelease')->name('newrelease');
-});
+// Route::controller(HomeController::class)->group(function(){
+//     Route::get('/','index')->name('Home');
+// });
 
 Route::middleware(['auth','role:user'])->group(function(){
     Route::controller(ClientController::class)->group(function(){
+        Route::get('/dashboard','index')->name('home');
+        Route::get('/produk/category/{id}/{slug}','CategoryPage')->name('category');
         Route::get('/about','About')->name('about');
         Route::get('/penyakit','Penyakit')->name('penyakit');
+        Route::get('/produk-details/{id}/{slug}','SingleProduct')->name('singleproduct');
         Route::get('/produk','Product')->name('product');
         Route::get('/shiping-address','GetShippingaddress')->name('shippingaddress');
         Route::post('/place-order','PlaceOrder')->name('placeorder');
-        // Route::get('/shiping-address','GetShippingaddress')->name('shippingaddress');
+        Route::delete('delete-cart','deleteAll')->name('cart.delete');
+        Route::post('/cart/checkout', 'CheckOut')->name('cart.checkout');
+        Route::get('/shiping-address','GetShippingaddress')->name('shippingaddress');
         Route::post('add-shipping-address','AddShippingAddress')->name('addshippingaddress');
         Route::get('/checkout','Checkout')->name('checkout');
+        Route::post('/items/{id}','update')->name('items.update');
         Route::get('/user-profile','UserProfile')->name('userprofile');
         Route::get('/user-profile/pedding-orders','PeddingOrders')->name('peddingorders');
         Route::get('/user-profile/history','History')->name('history');
@@ -61,9 +60,9 @@ Route::middleware(['auth','role:user'])->group(function(){
 });
 
 
-Route::get('/home', function () {
-    return view('users.home');
-})->middleware(['auth', 'role:user'])->name('dashboard');
+// Route::get('/home', function () {
+//     return view('users.home');
+// })->middleware(['auth', 'role:user'])->name('dashboard');
 
 
 
@@ -80,7 +79,7 @@ Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.
 
 Route::middleware(['auth','role:admin'])->group(function(){
     Route::controller(DasboardController::class)->group(function(){
-        Route::get('/admin/dasboard','index')->name('admindasboard');
+        Route::get('admin/dasboard','index')->name('admindasboard');
     });
     Route::controller(CategoryController::class)->group(function(){
         Route::get('/admin/all-category','Index')->name('allcategory');

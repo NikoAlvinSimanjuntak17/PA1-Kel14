@@ -12,6 +12,10 @@ use App\Models\ShippingInfo;
 
 class ClientController extends Controller
 {
+        public function index(){
+        $allproduct = Product::latest()->get();
+    return view('users.home',compact('allproduct'));
+    }
      public function Dasboard(){
     $allproduct = Product::latest()->get();
     return view('users.home',compact('allproduct'));
@@ -39,20 +43,31 @@ class ClientController extends Controller
         $cart_items = Cart::where('user_id',$userid)->get();
         return view('users.addtocart',compact('cart_items'));
     }
-    public function AddProductToCart(Request $request){
-        $product_price = $request->price;
-        $quantity = $request->quantity;
-        $price =  $product_price * $quantity;
-        Cart::Insert([
 
+    public function deleteAll(Request $request){
+        $ids = $request->ids;
+        Cart::whereIn('id',$ids)->delete();
+        return redirect()->route('addtocart')->with('message','Barang Berhasil Dihapus dari keranjang');
+    }
+    public function AddProductToCart(Request $request){
+        Cart::Insert([
             'product_id' => $request->product_id,
             'user_id' => \Illuminate\Support\Facades\Auth::id(),
             'quantity' => $request->quantity,
-            'price' => $price,
+            'price' => $request->price,
         ]);
 
         return redirect()->route('addtocart')->with('message','Barang Berhasil Ditambahkan ke Keranjang');
     }
+    public function update(Request $request, $id)
+    {
+        $cart = Cart::findOrFail($id);
+        $cart->quantity = $request->input('quantity');
+        $cart->save();
+
+        return redirect()->back()->with('success', 'Quantity updated successfully.');
+    }
+
     public function about(){
         return view('users.about');
     }
@@ -73,12 +88,20 @@ class ClientController extends Controller
         Cart::findOrFail($id)->delete();
         return redirect()->route('addtocart')->with('message','Barang Berhasil Dihapus dari keranjang');
     }
+    // public function CheckOut(Request $request){
+    //     $ids = $request->ids;
+    //     $userid = \Illuminate\Support\Facades\Auth::id();
+    //     $cart_items = Cart::where('id',$ids)->where('user_id', $userid)->get();
+    //     $shipping_address = ShippingInfo::where('user_id',$userid)->first();
+    //     return view('users.checkout',compact('cart_items','shipping_address'));
+    // }
     public function CheckOut(){
         $userid = \Illuminate\Support\Facades\Auth::id();
         $cart_items = Cart::where('user_id',$userid)->get();
         $shipping_address = ShippingInfo::where('user_id',$userid)->first();
         return view('users.checkout',compact('cart_items','shipping_address'));
     }
+
     public function PlaceOrder(){
         $userid = \Illuminate\Support\Facades\Auth::id();
         $shipping_address = ShippingInfo::where('user_id',$userid)->first();

@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="{{asset('users/css/navbar.css')}}">
   <link href="{{asset('users/css/style.css')}}" rel="stylesheet">
   @yield('css')
+  @stack('css')
 </head>
 
 <body>
@@ -52,7 +53,7 @@
 
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
-          <li><a class="nav-link scrollto active" href="/">Home</a></li>
+          <li><a class="nav-link scrollto active" href="{{route('home')}}">Home</a></li>
           <li><a class="nav-link scrollto" href="{{route('product')}}">Products</a></li>
           <li><a class="nav-link scrollto" href="{{route('penyakit')}}">Deseases</a></li>
           {{-- {{-- <li><a class="nav-link scrollto" href="{{route('todaydeal')}}">Today's deal</a></li> --}}
@@ -298,6 +299,7 @@
       document.getElementById("mySidenav").style.width = "0";
     }
  </script>
+  @stack('js')
 </body>
 
 </html>
