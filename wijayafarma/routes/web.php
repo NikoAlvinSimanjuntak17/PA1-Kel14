@@ -40,16 +40,16 @@ Route::middleware(['auth','role:user'])->group(function(){
         Route::get('/penyakit','Penyakit')->name('penyakit');
         Route::get('/produk-details/{id}/{slug}','SingleProduct')->name('singleproduct');
         Route::get('/produk','Product')->name('product');
-        Route::get('/shiping-address','GetShippingaddress')->name('shippingaddress');
         Route::post('/place-order','PlaceOrder')->name('placeorder');
-        Route::delete('delete-cart','deleteAll')->name('cart.delete');
-        Route::post('/cart/checkout', 'CheckOut')->name('cart.checkout');
-        Route::get('/shiping-address','GetShippingaddress')->name('shippingaddress');
+        Route::get('/cart/delete','deletecart')->name('deletecart');
+        Route::get('/products/{id}/increment','incrementQuantity')->name('products.increment');
+Route::get('/products/{id}/decrement', 'decrementQuantity')->name('products.decrement');
         Route::post('add-shipping-address','AddShippingAddress')->name('addshippingaddress');
         Route::get('/checkout','Checkout')->name('checkout');
         Route::post('/items/{id}','update')->name('items.update');
         Route::get('/user-profile','UserProfile')->name('userprofile');
         Route::get('/user-profile/pedding-orders','PeddingOrders')->name('peddingorders');
+        Route::get('/user-profile/pedding-orders/{id}','PeddingOrdersDetil')->name('peddingordersdetil');
         Route::get('/user-profile/history','History')->name('history');
         Route::get('todays-deal','TodayDeal')->name('todaydeal');
         Route::get('/custom-service','CustomerService')->name('customerservice');
@@ -121,9 +121,6 @@ Route::middleware(['auth','role:admin'])->group(function(){
     });
     Route::controller(OrderController::class)->group(function(){
         Route::get('/admin/pending-order','index')->name('pendingorder');
-    });
-    Route::controller(AdminAboutController::class)->group(function(){
-        Route::get('/admin/about','index')->name('about');
     });
 
 

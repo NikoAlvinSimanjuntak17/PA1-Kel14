@@ -1,5 +1,17 @@
 @extends('users.layouts.templete')
 @section('title','WijayaFarma | Check out')
+@section('css')
+<style>
+    input{
+        border-bottom:1px solid black;
+        padding:0.5em;
+        margin: 0.4em;
+    }
+    input:focus {
+        outline: none;
+    }
+</style>
+@endsection
 @section('main-content')
 <br><br><br><br><br><br>
 <div class="container">
@@ -8,11 +20,12 @@
     <div class="col-8">
         <div class="box-main">
             <h3>Product Will Send At-</h3>
-            <p>City/Village- {{$shipping_address->city_name}}</p>
-            <p>City/Village- {{$shipping_address->postal_code}}</p>
-            <p>City/Village- {{$shipping_address->phone_number}}</p>
-
-        </div>
+<form action="{{route('placeorder')}}" method="POST">
+    @csrf
+   <input type="text" placeholder="nama kota"  name="shipping_city" required>
+<input type="text" placeholder="Postal Code" name="shipping_postalcode" required>
+<input type="text" placeholder="phone number" name="shipping_phonenumber" required>
+</div>
     </div>
 
     <div class="col-4">
@@ -64,14 +77,11 @@
     </div>
 </div>
 </div>
+<br><br><br><br><br><br>
 <div class="d-flex">
-    <form action="">
-        @csrf
-        <input type="submit" value="Cancel Order" class="btn btn-danger">
-    </form>
-<form action="{{route('placeorder')}}" method="POST">
-    @csrf
+        <a href="" class="btn btn-danger">Cancel Order</a>
     <input type="submit" value="Place Order" class="btn btn-primary ms-3">
+</div>
 </form>
 
 </div>

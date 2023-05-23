@@ -6,20 +6,54 @@
         background-color:black;
         opacity: 0.8;
     }
+    .quantity-container {
+  display: flex;
+  align-items: center;
+}
+
+.quantity-btn {
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 18px;
+  text-decoration: none;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  color: #333;
+  transition: background-color 0.3s ease;
+}
+
+.quantity-btn:hover {
+  background-color: #e5e5e5;
+}
+
+.quantity-text {
+  margin: 0 10px;
+  font-size: 16px;
+}
 </style>
 @endsection
 @section('main-content')
 <div class="container">
 <br><br><br><br><br><br><br><br>
 @if (session()->has('message'))
-<div class="alert alert-success">
-    {{session()->get('message')}}
+<div id="alert" class="alert alert-success">
+    {{ session()->get('message') }}
+</div>
+@elseif (session()->has('error'))
+<div id="alert" class="alert alert-danger">
+    {{ session()->get('error') }}
 </div>
 @endif
+
 <div class="row">
     <div class="col-12">
         <div class="box_main">
             <div class="table-responsive">
+                <div>
+                    <a href="{{route('product')}}"><i class="bi bi-cart-plus"> Tambah Keranjang</i></a>
+                </div>
+                <form action="{{route('checkout')}}">
                 <table class="table">
                     <thead>
                     <tr>
@@ -37,24 +71,21 @@
                     @endphp
                     @foreach ($cart_items as $item)
                     <tbody>
-                    <tr id="cart{{$item->id}}">
+                    <tr>
                         @php
 $product_name = App\Models\Product::where('id',$item->product_id)->value('product_name');
 $img = App\Models\Product::where('id',$item->product_id)->value('product_img');
 @endphp
-<td><input type="checkbox" name="ids" class="checkbox_ids" id="" value="{{$item->id}}"></td>
+<td><input type="checkbox" name="ids[{{$item->id}}]" class="checkbox_ids" id="" value="{{$item->id}}" ></td>
 <td>{{$item->id}}</td>
                         <td><img src="{{asset($img)}}" style="width: 50px; height:50px;"  alt=""></td>
                         <td>{{$product_name}}</td>
                         <td>
-                        <form action="{{ route('items.update', $item->id) }}" method="POST">
-                            @csrf
-                            <div class="d-flex">
-                                <input type="number" name="quantity" min="0" value="{{ $item->quantity }}" class="form-control">
-                            <button type="submit" class="btn btn-primary">Update</button>
-                            </div>
-                        </form>
-                        </td>
+                            <div class="d-flex quantity-container">
+                                <a href="{{ route('products.decrement', ['id' => $item->id]) }}" class="quantity-btn">-</a>
+                                <p class="quantity-text">{{ $item->quantity }}</p>
+                                <a href="{{ route('products.increment', ['id' => $item->id]) }}" class="quantity-btn">+</a>
+                              </div>                       </td>
                         <td>{{ 'Rp '.number_format($item->price, 0, ',', '.') }}</td>
                         @php
                             $total = $item->quantity * $item->price
@@ -84,14 +115,15 @@ $img = App\Models\Product::where('id',$item->product_id)->value('product_img');
                             <td></td>
                             <td></td>
                             <td></td>
-                                <td>
-                                    <a href="{{route('cart.delete')}}" id="deleteAllSelectedRecord" class="btn btn-warning">Remove</a>
-                                    <a href="{{route('shippingaddress')}}" class="btn btn-primary" id="checkout_button">Checkout Now</a>
+                                <td colspan="7" class="d-flex">
+                                    <a href="{{route('deletecart')}}" class="btn btn-warning me-2" id="delete_button">Delete</a>
+                                    <input type="submit" class="btn btn-primary" id="checkout_button" value="Check Now">
                                 </td>
                             </tr>
                         @endif
                     </tbody>
                 </table>
+                </form>
             </div>
         </div>
         </div>
@@ -137,67 +169,79 @@ $(function() {
     calculateTotal();
   });
 
-  // Checkbox individual
   $('.checkbox_ids').click(function() {
     calculateTotal();
   });
 });
 
 </script>
-<script>
-    $(function(e){
-$('#select_all_ids').click(function(){
-$('.checkbox_ids').prop('checked',$(this).prop('checked'));
-});
+ <script>
+        // Mendapatkan CSRF token dari meta tag
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
-$('#deleteAllSelectedRecord').click(function(e){
-    e.preventDefault();
-    var all_ids = [];
-    $('input:checkbox[name=ids]:checked').each(function(){
-        all_ids.push($(this).val());
-    });
-    $.ajax({
-        url:"{{route('cart.delete')}}",
-        type:"DELETE",
-        data:{
-            ids:all_ids,
-            _token:'{{ csrf_token()}}'
-        },
-        success:function(response){
-            $.each(all_ids,function(key,val){
-                $('#cart'+val).remove();
-            });
-            location.reload();
-        }
-    });
-});
-
-$('#checkout_button').click(function(e){
-    e.preventDefault();
-    var selected_ids = [];
-    $('input:checkbox[name=ids]:checked').each(function(){
-        selected_ids.push($(this).val());
-    });
-    if (selected_ids.length > 0) {
-        $.ajax({
-            url:"{{route('cart.checkout')}}",
-            type:"POST",
-            data:{
-                ids:selected_ids, // Mengirim hanya ids yang dipilih
-                _token:'{{ csrf_token()}}'
-            },
-            success:function(response){
-                // Jika checkout berhasil, arahkan ke halaman Shipping Address
-                window.location.href = "{{route('shippingaddress')}}";
+        // Menambahkan CSRF token dalam setiap permintaan AJAX
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
             }
         });
-    } else {
-        alert('Anda belum memilih item untuk checkout.');
+
+        // Skrip JavaScript lainnya
+        // ...
+    </script>
+<script>
+    $(function() {
+  // Checkbox all
+  $('#select_all_ids').click(function() {
+    $('.checkbox_ids').prop('checked', $(this).prop('checked'));
+    calculateTotal();
+  });
+
+  $('.checkbox_ids').click(function() {
+    calculateTotal();
+  });
+
+  // Klik tombol Delete
+  $('#delete_button').click(function(e) {
+    e.preventDefault(); // Mencegah pengiriman form
+
+    var checkedIds = [];
+
+    $('.checkbox_ids:checked').each(function() {
+      checkedIds.push($(this).val());
+    });
+
+    if (checkedIds.length === 0) {
+      // Tidak ada checkbox yang dipilih, tampilkan peringatan atau lakukan tindakan yang sesuai
+      return;
     }
-});
 
-
+    var confirmation = confirm('Apakah Anda yakin ingin menghapus item yang dipilih?');
+    if (confirmation) {
+      // Melakukan permintaan AJAX ke route deletecart
+      $.ajax({
+        url: '{{ route("deletecart") }}',
+        method: 'POST',
+        data: { ids: checkedIds },
+        success: function(response) {
+          // Menghandle respons sukses, misalnya menampilkan pesan sukses
+          console.log(response);
+          alert('Item berhasil dihapus');
+          location.reload(); // Refresh halaman atau perbarui item keranjang
+        },
+        error: function(xhr, status, error) {
+          // Menghandle respons error, misalnya menampilkan pesan error
+          console.error(xhr.responseText);
+          alert('Terjadi kesalahan saat menghapus item');
+        }
+      });
+    }
+  });
 });
 
 </script>
-@endsection-
+
+@push('js')
+
+@endpush
+@endsection

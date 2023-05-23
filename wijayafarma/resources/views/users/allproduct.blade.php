@@ -15,9 +15,23 @@ $products = App\Models\Product::latest()->paginate(20);
                   <div class="container">
           <br>
 
+<div>
+<h2 class="h2 title_product">All Products</h2>
+<div style="float: right">
+    @if (session()->has('message'))
+    <div id="alert" class="alert alert-success">
+        {{ session()->get('message') }}
+    </div>
+@elseif (session()->has('error'))
+    <div id="alert" class="alert alert-danger">
+        {{ session()->get('error') }}
+    </div>
+@endif
 
-            <h2 class="h2 title_product">All Products</h2>
 
+
+</div>
+</div>
 <div>
             <div class="search-box p-4 ">
               <button class="btn-search"><i class="bi bi-search"></i></button>
@@ -37,6 +51,7 @@ $products = App\Models\Product::latest()->paginate(20);
             </div>
 
           </div>
+
           <div>
               <ul class="product-list">
 
@@ -45,14 +60,21 @@ $products = App\Models\Product::latest()->paginate(20);
                 <div class="product-card" tabindex="0">
 
                   <figure class="card-banner">
+                    @if(json_decode($produc->product_img))
+                    @foreach(json_decode($produc->product_img) as $image)
+<img src="{{ asset($image) }}" width="312" height="350" loading="lazy"  class="image-contain"  alt="">
+@endforeach
+                    @else
                     <img src="{{asset($produc->product_img)}}" width="312" height="350" loading="lazy"  class="image-contain">
-
+                    @endif
                             <ul class="card-action-list">
 
                               <li class="card-action-item">
                                 <form action="{{route('addproducttocart',$produc->id)}}" method="POST">
                                     @csrf
                                     <input type="hidden" value="{{$produc->id}}" name="product_id">
+                                    <input type="hidden" value="{{$produc->product_name}}" name="product_name">
+                                    <input type="hidden" value="{{$produc->product_img}}" name="product_img">
                                     <input type="hidden" value="{{$produc->price}}" name="price">
                                     <input type="hidden" value="1" name="quantity">
                                     <li class="card-action-item">

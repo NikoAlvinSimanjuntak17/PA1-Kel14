@@ -11,14 +11,41 @@
     <!-- Single Products Detail -->
     <div class="small-container single-product">
       <div class="row">
-        <div class="col-2">
-          <a href="{{route('product')}}"><i class="bi bi-arrow-left">Back</i></a><br><br>
+
+          <div class="col-2">
+              <a href="{{route('product')}}"><i class="bi bi-arrow-left">Back</i></a><br><br>
+              @if( $images = json_decode($product->product_img))
+              <div id="carouselExampleIndicators" class="carousel slide">
+                <div class="carousel-indicators">
+                    @php
+                    $images = json_decode($product->product_img);
+                    @endphp
+                    @foreach ($images as $key => $image)
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ $key }}" class="{{ $key == 0 ? 'active' : '' }}" aria-label="Slide {{ $key + 1 }}"></button>
+                    @endforeach
+                </div>
+                <div class="carousel-inner">
+                    @foreach ($images as $key => $image)
+                    <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                        <img src="{{ asset($image) }}" class="d-block" width="100%" alt="...">
+                    </div>
+                    @endforeach
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+          </div>
+              @else
           <img src="{{asset($product->product_img)}}" width="100%" id="ProductImg" />
-
         </div>
-
+        @endif
         <div class="col-2">
-
             <h2>{{$product->product_name}}</h2>
             <h4>{{$product->price}}</h4>
             <p>Categori - {{$product->product_category_name}}</p>
@@ -49,7 +76,7 @@
     <div>
         <ul class="product-list">
 
-            @foreach ($related_products as $produc)
+            @foreach ($related_products->take(4) as $produc)
         <li class="product-item">
           <div class="product-card" tabindex="0">
 

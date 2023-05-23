@@ -234,6 +234,17 @@
                                             class="w-px-40 h-auto rounded-circle" />
                                     </div>
                                 </a>
+                                <li>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+
+                                        <x-dropdown-link :href="route('logout')"
+                                            onclick="event.preventDefault();
+                                                            this.closest('form').submit();">
+                                            {{ __('Log Out') }}
+                                        </x-dropdown-link>
+                                    </form>
+                                </li>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li>
                                         <a class="dropdown-item" href="#">
@@ -341,7 +352,7 @@
 
     <script src="{{ asset('admindasboard/assets/vendor/libs/jquery/jquery.js') }}"></script>
     <script src="{{ asset('admindasboard/assets/vendor/libs/popper/popper.js') }}"></script>
-    <script src="{{ asset('admindasboard/assets/vendor/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('admindasboard/assets/vendoro/js/bootstrap.js') }}"></script>
     <script src="{{ asset('admindasboard/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
     <script src="{{ asset('admindasboard/assets/vendor/js/menu.js') }}"></script>
     <!-- endbuild -->
@@ -357,6 +368,7 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+
     @stack('js')
 </body>
 

@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>@yield('title','name-title')</title>
 
 
@@ -57,7 +57,7 @@
           <li><a class="nav-link scrollto" href="{{route('product')}}">Products</a></li>
           <li><a class="nav-link scrollto" href="{{route('penyakit')}}">Deseases</a></li>
           {{-- {{-- <li><a class="nav-link scrollto" href="{{route('todaydeal')}}">Today's deal</a></li> --}}
-          <li><a class="nav-link scrollto" href="{{route('customerservice')}}">About</a></li>
+          <li><a class="nav-link scrollto" href="{{route('about')}}">About</a></li>
           <li><a class="nav-link scrollto" href="#doctors"></a></li>
 
         </ul>
@@ -299,6 +299,11 @@
       document.getElementById("mySidenav").style.width = "0";
     }
  </script>
+ <script>
+    setTimeout(function() {
+        document.getElementById('alert').style.display = 'none';
+    }, 5000);
+</script>
   @stack('js')
 </body>
 

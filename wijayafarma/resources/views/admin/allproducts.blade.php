@@ -40,9 +40,14 @@
               <tr>
                     <td>{{$product->id}}</td>
                     <td>{{$product->product_name}}</td>
-                    <td> <div class=""><img src="{{asset($product->product_img)}}" height="100em" width="100em" alt=""> <br>
+                    <td>   @if(json_decode($product->product_img))<div class="">@foreach(json_decode($product->product_img) as $image)<img src="{{ asset($image) }}" style="height:100px; width:200px;" alt="">@endforeach <br>
                         <a href="{{route('editproductimg',$product->id)}}" class="btn btn-primary">Update Image</a>
-                    </div>
+                        </div>
+                        @else
+                        <div class=""><img src="{{asset($product->product_img)}}" height="100em" width="100em" alt=""> <br>
+                            <a href="{{route('editproductimg',$product->id)}}" class="btn btn-primary">Update Image</a>
+                        </div>
+                        @endif
                     <td>{{$product->product_category_name}}</td>
                     <td>{{$product->product_subcategory_name}}</td>
                     </td>

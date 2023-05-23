@@ -1,6 +1,6 @@
 @php
 $categories = App\Models\Category::latest()->paginate(20);
-$product = App\Models\Product::latest()->get()
+// $product = App\Models\Product::latest()->get()
 @endphp
 @extends('users.layouts.templete')
 @section('title','WijayaFarma | Category')
