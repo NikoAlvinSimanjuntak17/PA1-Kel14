@@ -8,7 +8,11 @@ use App\Models\deseases;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Subcategory;
+use App\Models\User;
+use App\Notifications\OrderNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use \Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class DasboardController extends Controller
 {
@@ -22,8 +26,26 @@ class DasboardController extends Controller
         $product = Product::count();
         $category = Category::count();
         $subcategory = Subcategory::count();
-        $order = Order::count();
+        $orders = Order::count();
+        $count = Order::count();
         $deseases = deseases::count();
-        return view('admin.dasboard',compact('product','category','subcategory','order','deseases'));
+        $admin = Auth::user();
+
+        $order = Order::get();
+        foreach ($order as $item) {
+            $notif = $admin->notifications()->where('data->id',$item->id)->first();
+            if(!$notif){
+                $save = new OrderNotification($item);
+                $admin->notify($save);
+            }
+        }
+        return view('admin.dasboard',compact('product','category','subcategory','orders','deseases','admin','count'));
     }
+    public function read($id){
+        if($id){
+            Auth::user()->notifications()->where('id',$id)->first()->markAsRead();
+        }
+        return redirect()->back();
+    }
+
 }

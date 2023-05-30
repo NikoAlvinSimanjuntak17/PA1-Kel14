@@ -9,6 +9,7 @@
     .quantity-container {
   display: flex;
   align-items: center;
+  background-size: contain;
 }
 
 .quantity-btn {
@@ -125,6 +126,36 @@ $img = App\Models\Product::where('id',$item->product_id)->value('product_img');
                 </table>
                 </form>
             </div>
+
+            <div class="col-md-8">
+                <section class=" container col">
+                    <section class="rowered_1">
+                        <div class="row ">
+                         <h1 class="text-left" id="Profile">METODE PEMBAYARAN</h1>
+                         <p class="teks">Silahkan pilih metode yang anda inginkan</p>
+                         <div class="col-md-10 shadow my-5 py-2">
+                            <div class="accordion" id="accordionExample">
+                                <div class="card">
+                                  <div class="card-header" id="headingOne">
+                                    <h2 class="mb-0">
+                                      <button class="btn btn-block text-black dropdown-toggle" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        QRIS Mandiri
+                                      </button>
+                                    </h2>
+                                  </div>
+                                  <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <center><img src="{{ asset('img/qris.jpg')}}"></center>
+                                    </div>
+                                  </div>
+                                </div>
+                             </div>
+                         </div>
+                     </div>
+                 </section>
+                </section>
+            </div>
+
         </div>
         </div>
     </div>

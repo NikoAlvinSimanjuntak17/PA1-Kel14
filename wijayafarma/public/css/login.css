@@ -182,7 +182,8 @@
         top: 25%;
         right: 50%;
         transform: translateY(-50%);
-        background-image: url('../img/Apotek\ Mandiri\ 2.jpg');
+        background-size:cover;
+        background-image: url('../img/IMG_20230504_153632.jpg');
         opacity: 0.6;
         transition: 1.8s ease-in-out;
         border-radius: 50%;

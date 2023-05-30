@@ -15,10 +15,14 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->string('shipping_phonenumber');
-            $table->string('shipping_city');
-            $table->string('shipping_postalcode');
+            $table->integer('product_id');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->text('shipping_phonenumber');
+            $table->text('shipping_city');
+            $table->text('shipping_postalcode');
+            $table->text('address');
+            $table->text('product_img');
             $table->string('product_name');
             $table->integer('quantity');
             $table->integer('totalprice');

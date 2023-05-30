@@ -65,7 +65,7 @@
                 <select class="form-select" id="product_subcategory_id" name="product_subcategory_id" aria-label="Default select example">
                     <option selected>Pilih Subkategori</option>
                     @foreach ($subcategories->groupBy('subcategory_name') as $subcategory)
-                        <option value="{{$subcategory->first()->id}}">{{$subcategory->first()->slug}}</option>
+                        <option value="{{$subcategory->first()->id}}">{{$subcategory->first()->subcategory_name}}</option>
                     @endforeach
                 </select>
 

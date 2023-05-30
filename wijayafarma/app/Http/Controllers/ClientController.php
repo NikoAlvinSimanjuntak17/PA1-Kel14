@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Auth;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
 use App\Models\ShippingInfo;
+use Illuminate\Support\Facades\Storage;
 
 class ClientController extends Controller
 {
@@ -35,13 +37,39 @@ class ClientController extends Controller
     }
     public function PeddingOrdersDetil($id){
         $pedding = Order::findOrFail($id);
+
         return view('users.peddingorderdetil',compact('pedding'));
     }
-    public function SingleProduct($id){
+    public function orderdelete($id){
+        Order::findOrFail($id)->delete();
+        return redirect()->route('peddingorders')->with('message','order berhasil Dihapus');
+    }
+    public function SingleProduct($id)
+    {
         $product = Product::findOrFail($id);
-        $subcat_id = Product::where('id',$id)->value('product_subcategory_id');
-        $related_products = Product::where('product_subcategory_id',$subcat_id)->latest()->get();
-        return view('users.productdetail',compact('product','related_products'));
+        $subcat_id = Product::where('id', $id)->value('product_subcategory_id');
+        $related_products = Product::where('product_subcategory_id', $subcat_id)->latest()->get();
+
+        // Get the orders related to the product and have a non-null ulasan
+        $orders = Order::where('product_id', 'LIKE', '%' . $id . '%')->whereNotNull('ulasan')->get();
+
+        // Prepare arrays to store comments, user IDs, names, and created dates
+        $comments = [];
+        $userIds = [];
+        $userNames = []; // Add this array to store user names
+        $createdDates = [];
+
+        foreach ($orders as $order) {
+            $productIds = json_decode($order->product_id);
+            if (in_array($id, $productIds)) {
+                $comments[] = $order->ulasan;
+                $userIds[] = $order->user_id;
+                $userNames[] = User::where('id', $order->user_id)->value('name'); // Get the user name
+                $createdDates[] = $order->created_at;
+            }
+        }
+
+        return view('users.productdetail', compact('product', 'related_products', 'comments', 'userIds', 'userNames', 'createdDates'));
     }
 
     public function AddToCart(){
@@ -57,17 +85,24 @@ class ClientController extends Controller
     }
 
     public function AddProductToCart(Request $request){
-        Cart::Insert([
-            'product_id' => $request->product_id,
-            'product_nama' => $request->product_name,
-            'product_img' => $request->product_img,
-            'user_id' => \Illuminate\Support\Facades\Auth::id(),
-            'quantity' => $request->quantity,
-            'price' => $request->price,
-        ]);
+        $product = Product::find($request->product_id);
 
-        return redirect()->route('product')->with('message','Barang Berhasil Ditambahkan ke Keranjang');
+        if($request->quantity <= $product->quantity) {
+            Cart::Insert([
+                'product_id' => $request->product_id,
+                'product_nama' => $request->product_name,
+                'product_img' => $request->product_img,
+                'user_id' => \Illuminate\Support\Facades\Auth::id(),
+                'quantity' => $request->quantity,
+                'price' => $request->price,
+            ]);
+
+            return redirect()->route('product')->with('message', 'Barang Berhasil Ditambahkan ke Keranjang');
+        } else {
+            return redirect()->route('product')->with('error', 'Quantity melebihi batas yang tersedia');
+        }
     }
+
     public function update(Request $request, $id)
     {
         $cart = Cart::findOrFail($id);
@@ -122,10 +157,11 @@ class ClientController extends Controller
 
         $shipping_phonenumber = $request->input('shipping_phonenumber');
         $shipping_city = $request->input('shipping_city');
+        $address = $request->input('address');
         $shipping_postalcode = $request->input('shipping_postalcode');
 
         // Periksa validitas data pengiriman
-        if (!$shipping_phonenumber || !$shipping_city || !$shipping_postalcode) {
+        if (!$shipping_phonenumber || !$shipping_city || !$address || !$shipping_postalcode) {
             // Tangani situasi di mana nilai-nilai tersebut tidak valid
             // Misalnya, tampilkan pesan kesalahan kepada pengguna atau lakukan tindakan lain sesuai kebutuhan Anda.
             // Kemudian kembalikan respons atau lakukan pengalihan ke halaman yang sesuai.
@@ -146,12 +182,18 @@ class ClientController extends Controller
 
             $id = $item->id;
             Cart::findOrFail($id)->delete();
+
+            // Mengurangi jumlah produk yang tersedia
+            $product = Product::findOrFail($item->product_id);
+            $product->quantity -= $item->quantity;
+            $product->save();
         }
 
         Order::insert([
             'user_id' => $userid,
             'shipping_phonenumber' => $shipping_phonenumber,
             'shipping_city' => $shipping_city,
+            'address' => $address,
             'shipping_postalcode' => $shipping_postalcode,
             'product_id' => json_encode($productIds),
             'product_nama' => json_encode($productnames),
@@ -163,17 +205,63 @@ class ClientController extends Controller
         return redirect()->route('peddingorders')->with('message', 'Your Order Has Been Placed Successfully!');
     }
 
+
         public function UserProfile(){
             return view('users.profile');
         }
         public function PeddingOrders(){
-            $pending_orders = Order::where("status","pending")->latest()->get();
-        return view('users.peddingorders',compact('pending_orders'));
+            $pending_orders = Order::whereIn('status', ['pending', 'in progress'])->latest()->get();
+            return view('users.peddingorders',compact('pending_orders'));
     }
+
+    public function uploadBayar(Request $request, $id)
+    {
+        $order = Order::find($id);
+
+        if (!$order) {
+            return redirect()->back()->with('error', 'Order not found');
+        }
+
+        if ($request->hasFile('img_bayar')) {
+            $image = $request->file('img_bayar');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('upload'), $imageName);
+
+            // Update the order record with the image path
+            $order->img_bayar = 'upload/' . $imageName;
+            $order->save();
+
+            return redirect()->back()->with('message', 'Payment proof uploaded successfully');
+        }
+
+        return redirect()->back()->with('error', 'No image uploaded');
+    }
+    public function komentar(Request $request, $id)
+    {
+        $order = Order::find($id);
+
+        if (!$order) {
+            return redirect()->back()->with('error', 'Order not found');
+        }
+
+        $ulasan = $request->input('ulasan');
+        // Set nilai ulasan pada order
+
+        $order->ulasan = $ulasan;
+
+        // Simpan perubahan pada order
+        $order->save();
+
+
+        return redirect()->back()->with('message', 'Terimakasi atas Ulasannya');
+    }
+
+
     public function History(){
-        return view('users.history');
+        $completed_orders = Order::where("status", "selesai")->latest()->get();
+        return view('users.history', compact('completed_orders'));
     }
-    public function NewRelease(){
+        public function NewRelease(){
         return view('users.newrelease');
     }
     public function TodayDeal(){
@@ -214,5 +302,39 @@ class ClientController extends Controller
 
         return redirect()->back()->with('success', 'Quantity berhasil didecrement.');
     }
+    public function orderDelivered($id)
+{
+    $order = Order::findOrFail($id);
+    $order->status = 'selesai';
+    $order->save();
+
+    // Redirect ke halaman yang tepat atau tampilkan pesan sukses
+    return redirect()->route('history')->with('success', 'Order has been delivered.');
+}
+public function HistoryDetil($id){
+    $pedding = Order::findOrFail($id);
+    return view('users.historydetil',compact('pedding'));
+}
+public function webdelete($id)
+{
+        Order::findOrFail($id)->delete();
+        return redirect()->route('peddingorders')->with('message','order berhasil Dihapus');
+}
+public function delete($id)
+{
+    // Find the order record
+    $order = Order::findOrFail($id);
+
+    // Delete the image from storage
+    Storage::delete($order->img_bayar);
+
+    // Update the order record with a null value for the image
+    $order->img_bayar = null;
+    $order->save();
+
+    // Redirect or return a response as needed
+    return redirect()->back()->with('success', 'Image deleted successfully.');
+}
+
 }
 

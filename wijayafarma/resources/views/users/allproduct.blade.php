@@ -14,6 +14,7 @@ $products = App\Models\Product::latest()->paginate(20);
                 <section class="section reveal product">
                   <div class="container">
           <br>
+          
 
 <div>
 <h2 class="h2 title_product">All Products</h2>

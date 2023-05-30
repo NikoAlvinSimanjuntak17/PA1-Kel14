@@ -23,9 +23,17 @@
             @csrf
           <div class="row mb-3">
             <label class="col-sm-2 col-form-label" for="basic-default-name">Gambar Sebelumnya</label>
+
+            @if(json_decode($productinfo->product_img))
+            @foreach(json_decode($productinfo->product_img) as $image)
+<img src="{{ asset($image) }}" style="width: 250px" loading="lazy"  class="image-contain"  alt="">
+@endforeach
+            @else
             <div class="col-sm-10">
+
                 <img src="{{asset($productinfo->product_img)}}" alt="">
                             </div>
+            @endif
           </div>
 
           <input type="hidden" name="id" value="{{$productinfo->id}}" id="">

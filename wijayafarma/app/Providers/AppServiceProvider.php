@@ -14,6 +14,13 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
+    protected $listen = [
+        // ...
+        OrderDelivered::class => [
+            NotifyOrderDelivered::class,
+        ],
+    ];
+
     public function register()
     {
         //

@@ -97,7 +97,7 @@
                 </ul>
             </div>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-8">
             <div class="box-main">
                @yield('profilecontent')
             </div>

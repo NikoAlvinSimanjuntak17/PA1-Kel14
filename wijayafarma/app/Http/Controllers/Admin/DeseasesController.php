@@ -21,7 +21,7 @@ class DeseasesController extends Controller
             'Deskripsi' => 'required',
             'Penyakit_img' => 'required|image|mimes:png,jpg,jpeg,giv,svg|max:2048',
         ]);
-        $image = $request->file('Penyakit_img');
+        $image = $request  ->file('Penyakit_img');
         $image_name =  hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
         $request->Penyakit_img->move(public_path('upload'),$image_name);
         $image_url = 'upload/'.$image_name;

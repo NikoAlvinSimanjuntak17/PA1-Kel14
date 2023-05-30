@@ -225,6 +225,51 @@
                             <!-- Place this tag where you want the button to render. -->
 
 
+
+
+
+
+
+                            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
+                                    data-bs-toggle="dropdown">
+                                    <div class="">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
+                                            <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
+                                          </svg>
+                                    </div>
+                                </a>
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        {{auth()->user()->unreadNotifications->count()}}
+                                        {{-- <span class="visually-hidden">unread messages</span> --}}
+                                    </span>
+
+                                <ul class="dropdown-menu dropdown-menu-end" style="min-width: 25rem">
+                                        <div class="p-3 w-80" >
+                                            @foreach (auth()->user()->unreadNotifications as $item)
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
+                                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+                                              </svg>
+                                             <a href="{{route('pendingorder')}}"> {{$item->data['nama']}} melakukan pesanan</a>
+                                             <p class="float-end">{{$item->created_at->diffForHumans() }}</p>
+<br>
+                                              <div>
+    <a href="{{route('read',$item->id)}}">mark as read</a>
+    <hr>
+</div>
+    @endforeach
+                                        </div>
+                                </ul>
+                            </li>
+
+
+
+
+
+
+
+
+
                             <!-- User -->
                             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
@@ -234,17 +279,6 @@
                                             class="w-px-40 h-auto rounded-circle" />
                                     </div>
                                 </a>
-                                <li>
-                                    <form method="POST" action="{{ route('logout') }}">
-                                        @csrf
-
-                                        <x-dropdown-link :href="route('logout')"
-                                            onclick="event.preventDefault();
-                                                            this.closest('form').submit();">
-                                            {{ __('Log Out') }}
-                                        </x-dropdown-link>
-                                    </form>
-                                </li>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li>
                                         <a class="dropdown-item" href="#">
@@ -352,7 +386,7 @@
 
     <script src="{{ asset('admindasboard/assets/vendor/libs/jquery/jquery.js') }}"></script>
     <script src="{{ asset('admindasboard/assets/vendor/libs/popper/popper.js') }}"></script>
-    <script src="{{ asset('admindasboard/assets/vendoro/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('admindasboard/assets/vendor/js/bootstrap.js') }}"></script>
     <script src="{{ asset('admindasboard/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
     <script src="{{ asset('admindasboard/assets/vendor/js/menu.js') }}"></script>
     <!-- endbuild -->
@@ -368,7 +402,6 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-
     @stack('js')
 </body>
 

@@ -51,9 +51,11 @@
             <p>Categori - {{$product->product_category_name}}</p>
             <p>Tipe - {{$product->product_subcategory_name}}</p>
             <p>Stok - {{$product->quantity}}</p>
-          <form action="{{route('addproducttocart')}}" method="POST">
+          <form action="{{route('addproducttocart')}}" method="POST" >
             @csrf
             <input type="hidden" value="{{$product->id}}" name="product_id">
+            <input type="hidden" value="{{$product->product_name}}" name="product_name">
+            <input type="hidden" value="{{$product->product_img}}" name="product_img">
             <input type="hidden" value="{{$product->price}}" name="price">
             <label for="quantity">Berapa Banyak</label>
             <input class="form-control" type="number" min="1" value="1" name="quantity">
@@ -64,7 +66,33 @@
           <p>
             {{$product->product_deskripsi}}
           </p>
+
+
+
         </div>
+        <h1>Ulasan</h1>
+        <div style="max-height: 300px; overflow: auto;">
+            @foreach ($comments as $index => $comment)
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <h5 class="mt-0">{{ $userNames[$index] }} :</h5>
+                                <p class="comment-text">{{ $comment }}</p>
+                                <p class="comment-date text-muted">{{ $createdDates[$index]->diffForHumans() }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+
+
+
+
+
+
       </div>
     </div>
 

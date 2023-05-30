@@ -20,9 +20,12 @@ return new class extends Migration
             $table->integer('price');
             $table->string('product_category_name');
             $table->string('product_subcategory_name');
-            $table->biginteger('product_category_id');
-            $table->biginteger('product_subcategory_id');
+            $table->unsignedBigInteger('product_category_id');
+            $table->foreign('product_category_id')->references('id')->on('categories');
+            $table->unsignedBigInteger('product_subcategory_id');
+            $table->foreign('product_subcategory_id')->references('id')->on('subcategories');
             $table->string('product_img');
+            $table->integer('quantity');
             $table->string('slug');
             $table->timestamps();
         });

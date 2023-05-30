@@ -41,15 +41,22 @@ Route::middleware(['auth','role:user'])->group(function(){
         Route::get('/produk-details/{id}/{slug}','SingleProduct')->name('singleproduct');
         Route::get('/produk','Product')->name('product');
         Route::post('/place-order','PlaceOrder')->name('placeorder');
+        Route::post('/user-profile/pedding-orders/bayar/{id}','uploadbayar')->name('uploadbayar');
+        Route::post('/user-profile/pedding-orders/komentar/{id}','komentar')->name('komentar');
         Route::get('/cart/delete','deletecart')->name('deletecart');
+        Route::get('/payment/{id}/delete', 'delete')->name('deletePayment');
+        Route::get('/user-profile/pedding-orders/delete/{id}','orderdelete')->name('orderdelete');
         Route::get('/products/{id}/increment','incrementQuantity')->name('products.increment');
 Route::get('/products/{id}/decrement', 'decrementQuantity')->name('products.decrement');
         Route::post('add-shipping-address','AddShippingAddress')->name('addshippingaddress');
+        Route::post('/orders/delivered/{id}', 'orderDelivered')->name('orderDelivered');
+        Route::get('/products/{productId}/comments','showComments')->name('product.comments');
         Route::get('/checkout','Checkout')->name('checkout');
         Route::post('/items/{id}','update')->name('items.update');
         Route::get('/user-profile','UserProfile')->name('userprofile');
         Route::get('/user-profile/pedding-orders','PeddingOrders')->name('peddingorders');
         Route::get('/user-profile/pedding-orders/{id}','PeddingOrdersDetil')->name('peddingordersdetil');
+        Route::get('/user-profile/history/{id}','HistoryDetil')->name('historidetil');
         Route::get('/user-profile/history','History')->name('history');
         Route::get('todays-deal','TodayDeal')->name('todaydeal');
         Route::get('/custom-service','CustomerService')->name('customerservice');
@@ -80,6 +87,7 @@ Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.
 Route::middleware(['auth','role:admin'])->group(function(){
     Route::controller(DasboardController::class)->group(function(){
         Route::get('admin/dasboard','index')->name('admindasboard');
+        Route::get('admin/dasboard/{id}','read')->name('read');
     });
     Route::controller(CategoryController::class)->group(function(){
         Route::get('/admin/all-category','Index')->name('allcategory');
@@ -121,6 +129,11 @@ Route::middleware(['auth','role:admin'])->group(function(){
     });
     Route::controller(OrderController::class)->group(function(){
         Route::get('/admin/pending-order','index')->name('pendingorder');
+        Route::get('/admin/pending-order/{id}','detail')->name('pendingorderdetail');
+        Route::post('/orders/approve/{id}', 'approveOrder')->name('approveOrder');
+        Route::post('/orders/cancel/{id}', 'cancelOrder')->name('cancelOrder');
+        Route::post('/admin/pending-order/{id}','detail')->name('orderadmin');
+        Route::get('/orders/{id}', 'rejectOrder')->name('rejectOrder');
     });
 
 
