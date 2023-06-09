@@ -22,7 +22,7 @@
         <form action="{{route('storeproduct')}}" method="POST" enctype="multipart/form-data">
             @csrf
           <div class="row mb-3">
-            <label class="col-sm-2 col-form-label" for="basic-default-name">Nama Produk</label>
+            <label class="col-sm-2 col-form-label" for="basic-default-name">Nama Penyakit</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="product_name" name="product_name" placeholder="Nama Produk"/>
             </div>

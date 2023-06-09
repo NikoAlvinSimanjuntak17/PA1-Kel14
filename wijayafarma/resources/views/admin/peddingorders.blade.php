@@ -13,10 +13,10 @@
 @endpush
 @section('content')
 <div class="container-fluid p-5">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Pages / </span> All Product</h4>
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Pages / </span> Pedding Order</h4>
     <div class="card">
         <div class="table-responsive text-nowrap container pb-4">
-            <h5 class="card-header">All Product Information</h5>
+            <h5 class="card-header">All Order Information</h5>
         <table class="table" >
             <tr>
     <th>User Id</th>

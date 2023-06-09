@@ -27,7 +27,7 @@ class DasboardController extends Controller
         $category = Category::count();
         $subcategory = Subcategory::count();
         $orders = Order::count();
-        $count = Order::count();
+        $count = Order::get()->whereIn('status', ['pending', 'selesai']);
         $deseases = deseases::count();
         $admin = Auth::user();
 

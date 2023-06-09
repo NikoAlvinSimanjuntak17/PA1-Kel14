@@ -40,24 +40,10 @@
             <i class="ri-key-line"></i>
             <input type="password" placeholder="password" id="password" name="password" required autocomplete="current-password" />
         </div>
-        {{-- @if ($errors->has('password'))
-            <div class="mt-2">
-                @foreach ($errors->get('password') as $error)
-                    <span>{{ $error }}</span>
-                    @endforeach
-                </div>
-        @endif
-    </div> --}}
-{{--
-    <div class="block mt-4">
-        <label for="remember_me" class="inline-flex items-center">
-            <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-            <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-        </label>
-    </div> --}}
+
 
     <button type="submit" value="" class="btn solid">login</button>
-    <a href="register.html"><input type="button" value="register" class="btn btnr solid" /></a><br /><br />
+    <a href="{{route('register')}}"><input type="button" value="register" class="btn btnr solid" /></a><br /><br />
     <div class="social-media">
         <a href="#" class="social-icon">
           <i class="ri-instagram-line"></i>

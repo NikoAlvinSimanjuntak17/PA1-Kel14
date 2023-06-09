@@ -39,9 +39,9 @@
           <img class="logo-snake" src="img/Kuy_Apotek__4_-removebg-preview.png" alt="" />
         </div>
         <div class="icons">
-          <a href=""><i class="ri-instagram-line"></i></a>
-          <a href=""><i class="ri-whatsapp-fill"></i></a>
-          <a href=""><i class="ri-message-2-line"></i></a>
+          <a href="https://instagram.com/yesika_pradinatasitohang?igshid=ZGUzMzM3NWJiOQ==" target="_blank"><i class="ri-instagram-line"></i></a>
+          <a href="https://api.whatsapp.com/send/?phone=%2B6282370771069&text&type=phone_number&app_absent=0" target="_blank"><i class="ri-whatsapp-fill"></i></a>
+          <a href="https://www.facebook.com/profile.php?id=100009095737620&mibextid=ZbWKwL" target="_blank"><i class='bx bxl-facebook-square' ></i></a>
         </div>
       </section>
       <script></script>

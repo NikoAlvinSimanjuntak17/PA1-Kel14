@@ -10,16 +10,21 @@
     input:focus {
         outline: none;
     }
+    .header{
+    background-color:black;
+    opacity: 0.8;
+}
+
 </style>
 @endsection
 @section('main-content')
 <br><br><br><br><br><br>
 <div class="container">
-<h2 style="position: ">Final Step TO Place Your Order</h2>
+<h2 style="position: ">Final Order</h2>
 <div class="row">
     <div class="col-8">
         <div class="box-main">
-            <h3>Product Will Send At-</h3>
+            <h3>Masukkan lokasi</h3>
 <form action="{{route('placeorder')}}" method="POST">
     @csrf
    <input type="text" placeholder="nama kota"  name="shipping_city" required>

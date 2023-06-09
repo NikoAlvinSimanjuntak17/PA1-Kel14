@@ -15,11 +15,11 @@
 
 
             <h2 class="h2 title_product">Jenis Penyakit</h2>
-
+{{--
             <div class="search-box p-4 ">
                 <button class="btn-search"><i class="bi bi-search"></i></button>
                 <input type="text" class="input-search" placeholder="Type to Search...">
-            </div>
+            </div> --}}
 
         </div>
         <div>

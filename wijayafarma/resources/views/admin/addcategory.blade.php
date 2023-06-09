@@ -27,7 +27,7 @@ Kode tersebut akan mengecek apakah ada pesan error yang tersedia di dalam $error
           <div class="row mb-3">
             <label class="col-sm-2 col-form -label" for="basic-default-name">Nama Category</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="basic-default-name" placeholder="John Doe" name="category_name"/>
+                <input type="text" class="form-control" id="basic-default-name" placeholder="Nama Category" name="category_name"/>
             </div>
           </div>
 

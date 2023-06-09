@@ -193,13 +193,7 @@
                     </li>
 
 
-                    <li class="menu-header small text-uppercase"><span class="menu-header-text">About</span></li>
-                    <li class="menu-item">
-                        <a href="{{ route('about') }}" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                            <div data-i18n="Analytics">About</div>
-                        </a>
-                    </li>
+
 
             </aside>
             <!-- / Menu -->

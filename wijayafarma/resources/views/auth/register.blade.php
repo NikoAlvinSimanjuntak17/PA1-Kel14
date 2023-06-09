@@ -1,52 +1,80 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+<!DOCTYPE html>
+<html lang="az">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="{{asset('css/register.css')}}">
+    <title></title>
+  </head>
+  <body>
+<h1 class="font">HEALTH</h1>
+<div class="container">
+  <div>
+    <img src="img/WhatsApp_Image_2023-02-16_at_21.09.03-removebg-preview.png" alt="" class="img-r" />
+    <img src="img/ular.png" alt="" class="img-snake" />
+    <img src="img/20230327_162258.png" alt="" class="apotek3" />
+  </div>
+  <div class="forms-container">
+    <div class="signup">
+<form method="POST" action="{{ route('register') }}">
+   @csrf
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-        </div>
+   <a href="../" class="back"><i class="ri-arrow-left-line"></i></a>
+   <h2 class="title">Register</h2>
+   <div class="input-field">
+     <i class="ri-user-6-line"></i>
+     <input type="text" placeholder="name"  id="name"  name="name" value="{{ old('name') }}" required autofocus autocomplete="name"/>
+     @error('name')
+            <span class="text-red-500 text-sm mt-2">{{ $message }}</span>
+        @enderror
+   </div>
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+   <div class="input-field">
+    <i class="ri-key-line"></i>
+    <input type="email" placeholder="email" id="email"  name="email" value="{{ old('email') }}" required autocomplete="username"/>
+  </div>
+  @error('email')
+            <span class="text-red-500 text-sm mt-2">{{ $message }}</span>
+        @enderror
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+        <div class="input-field">
+            <i class="ri-key-line"></i>
+            <input type="password" placeholder="password"  id="password" type="password" name="password" required autocomplete="new-password"/>
+          </div>
+          @error('password')
+          <span class="text-red-500 text-sm mt-2">{{ $message }}</span>
+      @enderror
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
+      <div class="input-field">
+        <i class="ri-key-line"></i>
+        <input type="password" placeholder="Confirm password" id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password"/>
+      </div>
+      @error('password_confirmation')
+      <span class="text-red-500 text-sm mt-2">{{ $message }}</span>
+  @enderror
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+  <a href="{{ __('Register') }}"><input type="submit" value="Register" class="btn solid" /></a>
+  <p>Already have account?</p>
+  <a href="{{route('login')}}" class="a">sign in here</a><br /><br />
+  <div class="social-media">
+    <a href="#" class="social-icon">
+      <i class="ri-instagram-line"></i>
+    </a>
+    <a href="#" class="social-icon">
+      <i class="ri-whatsapp-fill"></i>
+    </a>
+    <a href="#" class="social-icon">
+      <i class="ri-message-2-line"></i>
+    </a>
+  </div>
+</form>
+</div>
+</div>
+</div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ml-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+</form>
+</body>
+</html>

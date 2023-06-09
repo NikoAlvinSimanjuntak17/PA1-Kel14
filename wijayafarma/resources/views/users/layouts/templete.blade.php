@@ -21,9 +21,11 @@
   <link href="{{asset('users/vendor/glightbox/css/glightbox.min.css')}}" rel="stylesheet">
   <link href="{{asset('users/vendor/remixicon/remixicon.css')}}" rel="stylesheet">
   <link href="{{asset('users/vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
+  <link rel="stylesheet" href="{{asset('css/floating-wpp.css')}}">
   <script src="{{asset('users/vendor/bootstrap/js/bootstrap.min.js')}}"></script>
   <link rel="stylesheet" href="{{asset('users/css/navbar.css')}}">
-  <link href="{{asset('users/css/style.css')}}" rel="stylesheet">
+  <link href="{{asset('css/floating-wpp.css')}}" rel="stylesheet">
+  <link rel="stylesheet" href="{{asset('css/floating-wpp.min.css')}}">
   @yield('css')
   @stack('css')
 </head>
@@ -38,9 +40,9 @@
         <i class="bi bi-phone"></i>+62-222-22
       </div>
       <div class="d-none d-lg-flex social-links align-items-center">
-        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-        <a href="#" class="twitter"><i class="bi bi-whatsapp"></i></a>
+        <a href="https://www.facebook.com/profile.php?id=100009095737620&mibextid=ZbWKwL" class="facebook" target="_blank"><i class="bi bi-facebook"></i></a>
+        <a href="https://instagram.com/yesika_pradinatasitohang?igshid=ZGUzMzM3NWJiOQ==" target="_blank" class="instagram"><i class="bi bi-instagram"></i></a>
+        <a href="https://api.whatsapp.com/send/?phone=%2B6282370771069&text&type=phone_number&app_absent=0" target="_blank" class="twitter"><i class="bi bi-whatsapp"></i></a>
       </div>
     </div>
   </div>
@@ -65,11 +67,19 @@
       </nav>
       <div class="d-flex p-1 me-3 nav-cart" style=""><a href="{{route('addtocart')}}" class="cart"><i class="bi bi-cart">&nbsp;Cart</i></a></div>
       <!-- .navbar -->
+      @if (empty(Auth::user()->user_img))
       <img src="{{asset('users/img/profile.png')}}"  width="35px" height="35px" class="profil" onclick="toggleMenu()" alt="">
+        @else
+        <img src="{{asset(Auth::user()->user_img)}}"  width="35px" height="35px" class="profil" onclick="toggleMenu()" alt="">
+      @endif
       <div class="sub-menu-wrap" id="subMenu">
         <div class="sub-menu">
                         <div class="user-info">
-                          <img src="{{asset('users/img/profile.png')}}" alt="">
+                            @if (empty(Auth::user()->user_img))
+                            <img src="{{asset('users/img/profile.png')}}" alt="">
+                              @else
+                              <img src="{{asset(Auth::user()->user_img)}}" alt="">
+                            @endif
                             <h2>{{Auth::user()->name}}</h2>
                         </div><hr>
                         <a href="{{route('userprofile')}}" class="sub-menu-link">
@@ -77,11 +87,11 @@
                             <p class="ms-4">Profil</p>
                           <span>></span>
                         </a>
-                    <a href="" class="sub-menu-link">
+                    {{-- <a href="" class="sub-menu-link">
                         <img src="{{asset('users/img/setting.png')}}" alt="">
                         <p class="ms-4">edit Profil</p>
                         <span>></span>
-                    </a>
+                    </a> --}}
 
                       <form method="POST" action="{{ route('logout') }}" class="sub-menu-link">
                             @csrf
@@ -119,19 +129,19 @@
               <ul class="social-list">
 
                 <li>
-                  <a href="#" class="social-link">
+                  <a href="https://www.facebook.com/profile.php?id=100009095737620&mibextid=ZbWKwL" target="_blank" class="social-link">
                     <ion-icon name="logo-facebook"></ion-icon>
                   </a>
                 </li>
 
                 <li>
-                  <a href="#" class="social-link">
+                  <a href="https://instagram.com/yesika_pradinatasitohang?igshid=ZGUzMzM3NWJiOQ==" target="_blank" class="social-link">
                     <ion-icon name="logo-instagram"></ion-icon>
                   </a>
                 </li>
 
                 <li>
-                  <a href="#" class="social-link">
+                  <a href="https://api.whatsapp.com/send/?phone=%2B6282370771069&text&type=phone_number&app_absent=0" target="_blank" class="social-link">
                     <ion-icon name="logo-whatsapp"></ion-icon>
                   </a>
                 </li>
@@ -183,7 +193,7 @@
                 </li>
 
                 <li>
-                  <a href="#" class="footer-link">
+                  <a href="{{route('userprofile')}}" class="footer-link">
                     <ion-icon name="chevron-forward-outline"></ion-icon>
 
                     <span class="footer-link-text">My Account</span>
@@ -191,7 +201,7 @@
                 </li>
 
                 <li>
-                  <a href="#" class="footer-link">
+                  <a href="{{route('addtocart')}}" class="footer-link">
                     <ion-icon name="chevron-forward-outline"></ion-icon>
 
                     <span class="footer-link-text">View Cart</span>
@@ -269,6 +279,7 @@
         </div>
 
       </footer>
+      <div id="myButton"></div>
 
   <script src="{{asset('users/js/navbar.js')}}"></script>
   <script src="{{asset('users/js/profil.js')}}"></script>
@@ -281,14 +292,7 @@
 	<script src="{{asset('users/js/jquery.superslides.min.js')}}"></script>
     <script src="{{asset('users/js/custom.js')}}"></script>
     <script src="{{asset('users/js/bootstrap.bundle.min.js')}}"></script>
-    <script>
-      window.callbellSettings = {
-        token: "Vn3EtD4HTPLCrScaEfcWABWk"
-      };
-    </script>
-    <script>
-      (function(){var w=window;var ic=w.callbell;if(typeof ic==="function"){ic('reattach_activator');ic('update',callbellSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Callbell=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://dash.callbell.eu/include/'+window.callbellSettings.token+'.js';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()
-    </script>
+
    <link rel="stylesheet" href="{{asset('users/js/jquery.min.js')}}">
    <script>
     function openNav() {
@@ -304,6 +308,26 @@
         document.getElementById('alert').style.display = 'none';
     }, 5000);
 </script>
+<!-- Buat script wa -->
+<script type="text/javascript" src="jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="{{asset('css/floating-wpp.min.js')}}"></script>
+<script src="{{asset('css/floating-wpp.js')}}"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#myButton').floatingWhatsApp({
+            phone: '+6282370771069',
+            popupMessage: 'Selamat Datang Di Toko Obat Wijaya Farma!! Ada yang Bisa dibantu??',
+            message: "Saya Ingin Bertanya",
+            showPopup: true,
+            showOnIE: false,
+            headerTitle: 'Toko Obat Wijaya Farma!',
+            headerColor: '#25D366',
+            backgroundColor: '#25D366',
+            buttonImage: '<img src="img/whatsapp.svg" />'
+        });
+    });
+</script>
+
   @stack('js')
 </body>
 

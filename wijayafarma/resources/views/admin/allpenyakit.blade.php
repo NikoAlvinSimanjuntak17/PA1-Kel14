@@ -32,7 +32,7 @@
                     <td>{{$penyakit->Deskripsi}}</td>
                     <td>
                         <a href="{{route('editpenyakit',$penyakit->id)}}" class="btn btn-primary">Edit</a>
-                        <a href="" data-id="{route('deletepenyakit' ,$penyakit->id)}}" data-name="" class="btn btn-warning delete" id="delete">Delete</a>
+                        <a href="{{route('deletepenyakit',$penyakit->id)}}" data-name="" class="btn btn-warning delete" id="delete">Delete</a>
                 </td>
             </tr>
             @endforeach

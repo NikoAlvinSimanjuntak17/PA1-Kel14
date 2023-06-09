@@ -6,15 +6,22 @@ $products = App\Models\Product::latest()->paginate(20);
 @section('title','WijayaFarma | Category')
 @section('css')
 <link rel="stylesheet" href="{{asset('users/css/category.css')}}">
+<style>
+        .header{
+        background-color:black;
+        opacity: 0.8;
+    }
+</style>
 @endsection
 @section('main-content')
+<br><br><br>
 <!--  Content -->
 <div class="container">
     <!-- End Featured Services Section -->
                 <section class="section reveal product">
                   <div class="container">
           <br>
-          
+
 
 <div>
 <h2 class="h2 title_product">All Products</h2>
@@ -34,11 +41,7 @@ $products = App\Models\Product::latest()->paginate(20);
 </div>
 </div>
 <div>
-            <div class="search-box p-4 ">
-              <button class="btn-search"><i class="bi bi-search"></i></button>
-              <input type="text" class="input-search" placeholder="Type to Search...">
 
-            </div>
 
             <div class="container p-3">
                 <div class="dropdown">

@@ -7,7 +7,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Auth;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
 use App\Models\ShippingInfo;
@@ -50,13 +50,12 @@ class ClientController extends Controller
         $subcat_id = Product::where('id', $id)->value('product_subcategory_id');
         $related_products = Product::where('product_subcategory_id', $subcat_id)->latest()->get();
 
-        // Get the orders related to the product and have a non-null ulasan
         $orders = Order::where('product_id', 'LIKE', '%' . $id . '%')->whereNotNull('ulasan')->get();
 
-        // Prepare arrays to store comments, user IDs, names, and created dates
+
         $comments = [];
         $userIds = [];
-        $userNames = []; // Add this array to store user names
+        $userNames = [];
         $createdDates = [];
 
         foreach ($orders as $order) {
@@ -78,10 +77,9 @@ class ClientController extends Controller
         return view('users.addtocart',compact('cart_items'));
     }
 
-    public function deletecart(Request $request){
-        $ids = $request->ids;
-        Cart::whereIn('id',$ids)->delete();
-        return redirect()->route('addtocart')->with('message','Barang Berhasil Dihapus dari keranjang');
+    public function deletecart($id){
+        Cart::findOrFail($id)->delete();
+        return redirect()->back()->with('message','cart berhasil Dihapus');
     }
 
     public function AddProductToCart(Request $request){
@@ -118,15 +116,6 @@ class ClientController extends Controller
     public function GetShippingaddress(){
         return view('users.shipping');
     }
-    // public function AddShippingAddress(Request $request){
-    //     ShippingInfo::insert ([
-    //         'user_id' => \Illuminate\Support\Facades\Auth::id(),
-    //         'phone_number' => $request->phone_number,
-    //         'city_name' => $request->city_name,
-    //         'postal_code' => $request->postal_code,
-    //     ]);
-    //     return redirect()->route('checkout');
-    // }
     public function RemoveCartItem($id){
         Cart::findOrFail($id)->delete();
         return redirect()->route('addtocart')->with('message','Barang Berhasil Dihapus dari keranjang');
@@ -134,7 +123,7 @@ class ClientController extends Controller
 
     public function CheckOut(Request $request)
     {
-        $userid = \Illuminate\Support\Facades\Auth::id();
+        $userid = Auth::id();
         $checkedItems = $request->input('ids', []);
 
         if (empty($checkedItems)) {
@@ -210,7 +199,12 @@ class ClientController extends Controller
             return view('users.profile');
         }
         public function PeddingOrders(){
-            $pending_orders = Order::whereIn('status', ['pending', 'in progress'])->latest()->get();
+            $user = Auth::user();
+    $pending_orders = Order::where('user_id', $user->id)
+        ->whereIn('status', ['pending', 'in progress'])
+        ->latest()
+        ->get();
+
             return view('users.peddingorders',compact('pending_orders'));
     }
 
@@ -258,7 +252,12 @@ class ClientController extends Controller
 
 
     public function History(){
-        $completed_orders = Order::where("status", "selesai")->latest()->get();
+        $user = Auth::user();
+    $completed_orders = Order::where('user_id', $user->id)
+        ->whereIn('status', ['status', 'selesai'])
+        ->latest()
+        ->get();
+
         return view('users.history', compact('completed_orders'));
     }
         public function NewRelease(){
@@ -335,6 +334,76 @@ public function delete($id)
     // Redirect or return a response as needed
     return redirect()->back()->with('success', 'Image deleted successfully.');
 }
+public function updateProfile(Request $request)
+{
+    $user = Auth::user(); // Mengambil data user yang sedang login
 
+    if (!$user) {
+        return redirect()->back()->with('error', 'User not found');
+    }
+
+    $date = $request->input('birth');
+    $phone = $request->input('phone');
+    $address = $request->input('address');
+
+    // Menerapkan validasi pada inputan phone
+    $validatedData = $request->validate([
+        'phone' => 'numeric', // Mengharuskan inputan berupa angka
+    ]);
+
+    if ($validatedData) {
+        $user->birthdate = $date;
+        $user->address = $address;
+        $user->phone = $phone;
+
+        $user->save();
+
+        return redirect()->back()->with('message', 'Berhasil Ditambah');
+    } else {
+        return redirect()->back()->with('error', 'Inputan phone harus berupa angka');
+    }
 }
 
+ public function editgambar(){
+    return view('users.editgambar');
+ }
+ public function updategambar(Request $request)
+{
+    $user = Auth::user();
+
+    if (!$user) {
+        return redirect()->back()->with('error', 'User not found');
+    }
+
+    // Menerapkan validasi pada inputan user_img
+    $request->validate([
+        'user_img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
+
+    if ($request->hasFile('user_img')) {
+        $image = $request->file('user_img');
+        $imageName = time() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('upload'), $imageName);
+
+        // Menghapus gambar lama jika ada
+        if ($user->user_img) {
+            $oldImagePath = public_path($user->user_img);
+            if (file_exists($oldImagePath)) {
+                unlink($oldImagePath);
+            }
+        }
+
+        // Update the user's image path
+        $user->user_img = 'upload/' . $imageName;
+        $user->save();
+
+        return redirect()->route('userprofile')->with('message', 'Berhasil Diupdate');
+    } else {
+        return redirect()->back()->with('error', 'Inputan foto harus berupa file gambar');
+    }
+}
+
+
+
+
+}

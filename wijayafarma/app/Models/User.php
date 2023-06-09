@@ -23,7 +23,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-
+        'birthdate',
+        'address',
+        'phone',
+        'user_img',
     ];
     public function order(){
         return $this->hasMany(Order::class,'id');

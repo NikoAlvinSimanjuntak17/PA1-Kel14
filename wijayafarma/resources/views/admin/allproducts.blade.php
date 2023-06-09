@@ -38,6 +38,7 @@
             <tbody class="table-border-bottom-0">
                 @foreach ($products as $product)
               <tr>
+                <form action=""></form>
                     <td>{{$product->id}}</td>
                     <td>{{$product->product_name}}</td>
                     <td>   @if(json_decode($product->product_img))<div class="">@foreach(json_decode($product->product_img) as $image)<img src="{{ asset($image) }}" style="height:100px; width:200px;" alt="">@endforeach <br>
@@ -55,7 +56,7 @@
                     <td>{{$product->price}}</td>
                     <td>
                         <a href="{{route('editproduct',$product->id)}}" class="btn btn-primary">Edit</a>
-                    <a href="" data-id="{route('deleteproduct' ,$product->id)}}" data-name="" class="btn btn-warning delete" id="delete">Delete</a>
+                        <a href="{{route('deleteproduct' ,$product->id)}}" data-name="" class="btn btn-warning delete" id="delete">Delete</a>
                 </td>
             </tr>
             @endforeach

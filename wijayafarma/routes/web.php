@@ -23,9 +23,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class,'index']);
+
 
 
 // Route::controller(HomeController::class)->group(function(){
@@ -42,8 +41,9 @@ Route::middleware(['auth','role:user'])->group(function(){
         Route::get('/produk','Product')->name('product');
         Route::post('/place-order','PlaceOrder')->name('placeorder');
         Route::post('/user-profile/pedding-orders/bayar/{id}','uploadbayar')->name('uploadbayar');
+        Route::post('/user-profile/dashboard/editprofil','updateprofile')->name('updateprofile');
         Route::post('/user-profile/pedding-orders/komentar/{id}','komentar')->name('komentar');
-        Route::get('/cart/delete','deletecart')->name('deletecart');
+        Route::get('/cart/delete/{id}','deletecart')->name('deletecart');
         Route::get('/payment/{id}/delete', 'delete')->name('deletePayment');
         Route::get('/user-profile/pedding-orders/delete/{id}','orderdelete')->name('orderdelete');
         Route::get('/products/{id}/increment','incrementQuantity')->name('products.increment');
@@ -63,6 +63,8 @@ Route::get('/products/{id}/decrement', 'decrementQuantity')->name('products.decr
         Route::get('/add-to-cart','AddToCart')->name('addtocart');
         Route::post('/add-product-to-cart','AddProductToCart')->name('addproducttocart');
         Route::get('/remove-cart-item/{id}','RemoveCartItem')->name('removeitem');
+        Route::get('/profile/edit-gambar','editgambar')->name('editgambar');
+        Route::post('/user-profile/editgambar','updategambar')->name('updategambar');
     });
 });
 

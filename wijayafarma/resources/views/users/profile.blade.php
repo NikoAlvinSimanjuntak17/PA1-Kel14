@@ -20,15 +20,25 @@
 </head>
 <body>
     <br><br>
+    @if (session()->has('message'))
+<div id="alert" class="alert alert-success">
+    {{ session()->get('message') }}
+</div>
+@elseif (session()->has('error'))
+<div id="alert" class="alert alert-danger">
+    {{ session()->get('error') }}
+</div>
+@endif
 <div class="col-lg-20">
     <div class="card">
         <div class="card-body">
+
             <div class="row mb-5">
-                <div class="col-sm-3">
-                    <h6 class="mb-0">User Name</h6>
-                </div>
-                <div class="col-sm-9 text-secondary">
-                    <input type="text" class="form-control" value="{{Auth::user()->name}}" disabled>
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">User Name</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        <input type="text" class="form-control" value="{{Auth::user()->name}}" disabled>
                 </div>
             </div>
             <div class="row mb-5">
@@ -39,36 +49,57 @@
                     <input type="text" class="form-control" value="{{Auth::user()->email}}" disabled>
                 </div>
             </div>
+            <form action="{{ route('updateprofile') }}" method="POST">
+                @csrf
             <div class="row mb-5">
                 <div class="col-sm-3">
                     <h6 class="mb-0">Birthday Date</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                    <input type="date" class="form-control" value="" disabled>
+                    @if (empty(Auth::user()->birthdate))
+                    <input type="date" class="form-control" value="" name="birth" required>
+                    @else
+                    <input type="date" class="form-control" value="{{Auth::user()->birthdate}}" name="birth" required readonly>
+@endif
                 </div>
             </div>
-            <div class="row mb-5">
-                <div class="col-sm-3">
-                    <h6 class="mb-0">Phone</h6>
+                <div class="row mb-5">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Phone</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        @if (empty(Auth::user()->birthdate))
+                        <input type="text" class="form-control" value="" name="phone" required>
+                        @else
+                        <input type="text" class="form-control" value="{{Auth::user()->phone}}" readonly name="phone" required>
+                        @endif
+                    </div>
                 </div>
-                <div class="col-sm-9 text-secondary">
-                    <input type="text" class="form-control" value="">
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Address</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        @if (empty(Auth::user()->address))
+                        <textarea class="form-control" cols="33" name="address" required></textarea>
+                        @else
+                        <textarea class="form-control" cols="33" name="address" required readonly>{{Auth::user()->address}}</textarea>
+                        @endif
+                    </div>
                 </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-sm-3">
-                    <h6 class="mb-0">Address</h6>
+                <br>
+                <div class="row">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-9 text-secondary">
+                        @if (empty(Auth::user()->birthdate & Auth::user()->address & Auth::user()->phone))
+<input type="submit" class="btn btn-primary px-4" value="Save">
+@else
+
+                        @endif
+                    </div>
                 </div>
-                <div class="col-sm-9 text-secondary">
-                    <textarea class="form-control" cols="33"></textarea>
-                </div>
-            </div><br>
-            <div class="row">
-                <div class="col-sm-3"></div>
-                <div class="col-sm-9 text-secondary">
-                    <input type="button" class="btn btn-primary px-4" value="Save">
-                </div>
-            </div>
+            </form>
+
         </div>
     </div>
 </div>

@@ -74,13 +74,17 @@
 
     <div class="user-profile container">
         <div class="profile-image">
-            <img src="{{asset('admindasboard/assets/img/avatars/5.png')}}" alt="Foto Profil">
+            @if (empty(Auth::user()->user_img))
+            <a href="{{route('editgambar')}}"><img src="{{asset('users/img/profile.png')}}" alt="Foto Profil"></a>
+              @else
+              <a href="{{route('editgambar')}}"><img src="{{asset(Auth::user()->user_img)}}" alt="Foto Profil"></a>
+            @endif
         </div>
         <div class="profile-info">
           <h2 class="profile-name">{{Auth::user()->name}}</h2>
           <div class="profile-details">
             <p class="profile-email"><i class="far fa-envelope"></i>{{Auth::user()->email}}</p>
-            <p class="profile-birthday"><i class="fas fa-birthday-cake"></i> 01 Januari 1990</p>
+            <p class="profile-birthday"><i class="fas fa-birthday-cake"></i>{{Auth::user()->birthdate}}</p>
         </div>
         </div>
     </div>

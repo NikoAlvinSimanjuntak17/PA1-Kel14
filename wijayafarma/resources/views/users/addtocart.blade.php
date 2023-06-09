@@ -9,7 +9,7 @@
     .quantity-container {
   display: flex;
   align-items: center;
-  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .quantity-btn {
@@ -65,6 +65,7 @@
                         <td>Quantity</td>
                         <td>Price</td>
                         <td>Count</td>
+                        <td></td>
                     </tr>
                     </thead>
                     @php
@@ -92,6 +93,10 @@ $img = App\Models\Product::where('id',$item->product_id)->value('product_img');
                             $total = $item->quantity * $item->price
                         @endphp
                         <td  class="item_price" data-price="{{ $total }}">{{'Rp '.number_format($total)}}</td>
+                        <td>
+                            <a href="{{route('deletecart',$item->id)}}" class="btn btn-warning me-2" id="delete_button">Delete</a>
+
+                        </td>
                     </tr>
                     @php
                         $total = $total + $item->price;
@@ -117,7 +122,6 @@ $img = App\Models\Product::where('id',$item->product_id)->value('product_img');
                             <td></td>
                             <td></td>
                                 <td colspan="7" class="d-flex">
-                                    <a href="{{route('deletecart')}}" class="btn btn-warning me-2" id="delete_button">Delete</a>
                                     <input type="submit" class="btn btn-primary" id="checkout_button" value="Check Now">
                                 </td>
                             </tr>
@@ -220,57 +224,6 @@ $(function() {
         // Skrip JavaScript lainnya
         // ...
     </script>
-<script>
-    $(function() {
-  // Checkbox all
-  $('#select_all_ids').click(function() {
-    $('.checkbox_ids').prop('checked', $(this).prop('checked'));
-    calculateTotal();
-  });
-
-  $('.checkbox_ids').click(function() {
-    calculateTotal();
-  });
-
-  // Klik tombol Delete
-  $('#delete_button').click(function(e) {
-    e.preventDefault(); // Mencegah pengiriman form
-
-    var checkedIds = [];
-
-    $('.checkbox_ids:checked').each(function() {
-      checkedIds.push($(this).val());
-    });
-
-    if (checkedIds.length === 0) {
-      // Tidak ada checkbox yang dipilih, tampilkan peringatan atau lakukan tindakan yang sesuai
-      return;
-    }
-
-    var confirmation = confirm('Apakah Anda yakin ingin menghapus item yang dipilih?');
-    if (confirmation) {
-      // Melakukan permintaan AJAX ke route deletecart
-      $.ajax({
-        url: '{{ route("deletecart") }}',
-        method: 'POST',
-        data: { ids: checkedIds },
-        success: function(response) {
-          // Menghandle respons sukses, misalnya menampilkan pesan sukses
-          console.log(response);
-          alert('Item berhasil dihapus');
-          location.reload(); // Refresh halaman atau perbarui item keranjang
-        },
-        error: function(xhr, status, error) {
-          // Menghandle respons error, misalnya menampilkan pesan error
-          console.error(xhr.responseText);
-          alert('Terjadi kesalahan saat menghapus item');
-        }
-      });
-    }
-  });
-});
-
-</script>
 
 @push('js')
 

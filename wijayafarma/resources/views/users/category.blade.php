@@ -1,13 +1,20 @@
 @php
-$categories = App\Models\Category::latest()->paginate(20);
+$categories = App\Models\Category::latest()->get();
 // $product = App\Models\Product::latest()->get()
 @endphp
 @extends('users.layouts.templete')
 @section('title','WijayaFarma | Category')
 @section('css')
 <link rel="stylesheet" href="{{asset('users/css/category.css')}}">
+<style>
+    .header{
+    background-color:black;
+    opacity: 0.8;
+}
+</style>
 @endsection
 @section('main-content')
+<br><br><br>
 <!--  Content -->
 <div class="container">
     <!-- End Featured Services Section -->
@@ -19,10 +26,10 @@ $categories = App\Models\Category::latest()->paginate(20);
             <h2 class="h2 title_product">Obat {{$category->category_name}} - ({{$category->product_count}})</h2>
 
 <div>
-            <div class="search-box p-4 ">
+            {{-- <div class="search-box p-4 ">
               <button class="btn-search"><i class="bi bi-search"></i></button>
               <input type="text" class="input-search" placeholder="Type to Search...">
-            </div>
+            </div> --}}
 
             <div class="container p-3">
                 <div class="dropdown">
@@ -116,9 +123,11 @@ $categories = App\Models\Category::latest()->paginate(20);
                       </li>
                     </ul>
 
-                  </div>
+
                   </section>
-                  {{$categories->links()}}
+                  {{-- {{$categori->links()}} --}}
+</div>
+
           </div>
         </div>
 
