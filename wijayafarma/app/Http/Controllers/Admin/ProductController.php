@@ -4,20 +4,43 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Subcategory;
+use App\Notifications\OrderNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
     public function index(){
         $products = Product::latest()->get();
-        return view('admin.allproducts', compact('products'));
+        $admin = Auth::user();
+
+        $order = Order::get();
+        foreach ($order as $item) {
+            $notif = $admin->notifications()->where('data->id',$item->id)->first();
+            if(!$notif){
+                $save = new OrderNotification($item);
+                $admin->notify($save);
+            }
+        }
+        return view('admin.allproducts', compact('products','admin'));
     }
     public function AddProduct(){
         $categories = Category::latest()->get();
         $subcategories = Subcategory::latest()->get();
-        return view('admin.addproduct',compact('categories','subcategories'));
+        $admin = Auth::user();
+
+        $order = Order::get();
+        foreach ($order as $item) {
+            $notif = $admin->notifications()->where('data->id',$item->id)->first();
+            if(!$notif){
+                $save = new OrderNotification($item);
+                $admin->notify($save);
+            }
+        }
+        return view('admin.addproduct',compact('categories','subcategories','admin'));
     }
         public function StoreProduct(Request $request){
             $request->validate([

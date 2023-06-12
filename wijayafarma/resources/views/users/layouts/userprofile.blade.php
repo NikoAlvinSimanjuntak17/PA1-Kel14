@@ -1,11 +1,16 @@
     @extends('users.layouts.templete')
 @section('title','WijayaFarma | Profile')
-@section('css')
+@section('csss')
 <style>
+
     .header{
         background-color: black;
         opacity: 0.8s;
     }
+    </style>
+@endsection
+@section('css')
+<style>
     .user-profile {
   display: flex;
   align-items: center;
@@ -75,9 +80,9 @@
     <div class="user-profile container">
         <div class="profile-image">
             @if (empty(Auth::user()->user_img))
-            <a href="{{route('editgambar')}}"><img src="{{asset('users/img/profile.png')}}" alt="Foto Profil"></a>
+            <img src="{{asset('users/img/profile.png')}}" alt="Foto Profil">
               @else
-              <a href="{{route('editgambar')}}"><img src="{{asset(Auth::user()->user_img)}}" alt="Foto Profil"></a>
+           <img src="{{asset(Auth::user()->user_img)}}" alt="Foto Profil">
             @endif
         </div>
         <div class="profile-info">
@@ -85,6 +90,7 @@
           <div class="profile-details">
             <p class="profile-email"><i class="far fa-envelope"></i>{{Auth::user()->email}}</p>
             <p class="profile-birthday"><i class="fas fa-birthday-cake"></i>{{Auth::user()->birthdate}}</p>
+           <a href="{{route('editprofil')}}" class="ps-4" style="color: black"><p><i class="bi bi-gear"></i>Edit Profile</p></a>
         </div>
         </div>
     </div>
@@ -94,10 +100,11 @@
     <div class="row">
         <div class="col-lg-4">
             <div class="box-main">
+                <br>
                 <ul>
-                    <li><a href="{{route('userprofile')}}">Dasboard</a></li>
-                    <li><a href="{{route('peddingorders')}}">Pedding Orders</a></li>
-                    <li><a href="{{route('history')}}">History</a></li>
+                    <li><a href="{{route('userprofile')}}">Profil Saya</a></li>
+                    <li><a href="{{route('peddingorders')}}">Pesanan Saya</a></li>
+                    <li><a href="{{route('history')}}">Riwayat</a></li>
                 </ul>
             </div>
         </div>

@@ -19,7 +19,7 @@
     </style>
 </head>
 <body>
-    <br><br>
+    <br>
     @if (session()->has('message'))
 <div id="alert" class="alert alert-success">
     {{ session()->get('message') }}
@@ -53,7 +53,7 @@
                 @csrf
             <div class="row mb-5">
                 <div class="col-sm-3">
-                    <h6 class="mb-0">Birthday Date</h6>
+                    <h6 class="mb-0">Tanggal Lahir</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
                     @if (empty(Auth::user()->birthdate))
@@ -65,7 +65,7 @@
             </div>
                 <div class="row mb-5">
                     <div class="col-sm-3">
-                        <h6 class="mb-0">Phone</h6>
+                        <h6 class="mb-0">Nomor Telepon</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
                         @if (empty(Auth::user()->birthdate))
@@ -77,7 +77,7 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col-sm-3">
-                        <h6 class="mb-0">Address</h6>
+                        <h6 class="mb-0">Alamat</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
                         @if (empty(Auth::user()->address))

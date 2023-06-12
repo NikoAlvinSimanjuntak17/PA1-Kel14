@@ -8,9 +8,13 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>@yield('title','name-title')</title>
 
+  <link rel="icon" type="image/x-icon"
+  href="{{ asset('admindasboard/assets/img/favicon/Kuy_Apotek-transformed.png') }}" />
+
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  @yield('css')
 
   <!-- Vendor CSS Files -->
   <link href="{{asset('users/vendor/animate.css/animate.min.css')}}" rel="stylesheet">
@@ -26,18 +30,17 @@
   <link rel="stylesheet" href="{{asset('users/css/navbar.css')}}">
   <link href="{{asset('css/floating-wpp.css')}}" rel="stylesheet">
   <link rel="stylesheet" href="{{asset('css/floating-wpp.min.css')}}">
-  @yield('css')
-  @stack('css')
+  @yield('csss')
 </head>
 
 <body>
 
   <!-- ======= Top Bar ======= -->
   <div id="topbar" class="d-flex align-items-center fixed-top">
-    <div class="container-fluid d-flex justify-content-between">
+    <div class="container-fluidd d-flex justify-content-between">
       <div class="contact-info d-flex align-items-center">
         <i class="bi bi-envelope"></i> <a href="mailto:contact@example.com">wijayafarma@gmail.com</a>
-        <i class="bi bi-phone"></i>+62-222-22
+        <i class="bi bi-phone"></i>+62 823-7077-1069
       </div>
       <div class="d-none d-lg-flex social-links align-items-center">
         <a href="https://www.facebook.com/profile.php?id=100009095737620&mibextid=ZbWKwL" class="facebook" target="_blank"><i class="bi bi-facebook"></i></a>
@@ -51,21 +54,23 @@
   <!-- ======= Header ======= -->
   <header id="header" class="fixed-top header">
     <div class="container d-flex align-items-center">
-      <h1 class="logo me-auto"><a href="index.html"><img src="{{asset('users/img/20230327_153201.png')}}')}}" alt=""></a></h1>
+      <h1 class="logo me-auto"><a href="index.html"><img src="{{asset('users/img/20230327_153201.png')}}" alt=""></a></h1>
 
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
           <li><a class="nav-link scrollto active" href="{{route('home')}}">Home</a></li>
-          <li><a class="nav-link scrollto" href="{{route('product')}}">Products</a></li>
-          <li><a class="nav-link scrollto" href="{{route('penyakit')}}">Deseases</a></li>
+          <li><a class="nav-link scrollto" href="{{route('product')}}">Produk</a></li>
+          <li><a class="nav-link scrollto" href="{{route('penyakit')}}">Penyakit</a></li>
           {{-- {{-- <li><a class="nav-link scrollto" href="{{route('todaydeal')}}">Today's deal</a></li> --}}
-          <li><a class="nav-link scrollto" href="{{route('about')}}">About</a></li>
+          <li><a class="nav-link scrollto" href="{{route('about')}}">Tentang</a></li>
           <li><a class="nav-link scrollto" href="#doctors"></a></li>
 
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav>
-      <div class="d-flex p-1 me-3 nav-cart" style=""><a href="{{route('addtocart')}}" class="cart"><i class="bi bi-cart">&nbsp;Cart</i></a></div>
+      @auth
+      @if(auth()->user()->hasRole('customer'))
+            <div class="d-flex p-1 me-3 nav-cart" style=""><a href="{{route('addtocart')}}" class="cart"><i class="bi bi-cart">&nbsp;Keranjang</i></a></div>
       <!-- .navbar -->
       @if (empty(Auth::user()->user_img))
       <img src="{{asset('users/img/profile.png')}}"  width="35px" height="35px" class="profil" onclick="toggleMenu()" alt="">
@@ -76,10 +81,11 @@
         <div class="sub-menu">
                         <div class="user-info">
                             @if (empty(Auth::user()->user_img))
-                            <img src="{{asset('users/img/profile.png')}}" alt="">
+                            <img src="{{asset('users/img/profile.png')}}" style="width: 50px; height:50px;" alt="">
                               @else
-                              <img src="{{asset(Auth::user()->user_img)}}" alt="">
+                              <img src="{{asset(Auth::user()->user_img)}}" style="width: 50px; height:50px;" alt="">
                             @endif
+                            <br>
                             <h2>{{Auth::user()->name}}</h2>
                         </div><hr>
                         <a href="{{route('userprofile')}}" class="sub-menu-link">
@@ -87,11 +93,11 @@
                             <p class="ms-4">Profil</p>
                           <span>></span>
                         </a>
-                    {{-- <a href="" class="sub-menu-link">
+                    <a href="{{route('editprofil')}}" class="sub-menu-link">
                         <img src="{{asset('users/img/setting.png')}}" alt="">
                         <p class="ms-4">edit Profil</p>
                         <span>></span>
-                    </a> --}}
+                    </a>
 
                       <form method="POST" action="{{ route('logout') }}" class="sub-menu-link">
                             @csrf
@@ -105,6 +111,10 @@
                         </form>
                     </div>
                   </div>
+                  @elseif (auth()->user()->hasRole('admin'))
+                  <a href="{{route('admindasboard')}}" class="btn btn-success">Halaman admin</a>
+@endif
+@endauth
     </div>
   </header>
   <!-- End Header -->
@@ -155,7 +165,7 @@
               <ul class="footer-list">
 
                 <li>
-                  <p class="footer-list-title">Contact Us</p>
+                  <p class="footer-list-title">Hubungi Kami</p>
                 </li>
 
                 <li>
@@ -177,10 +187,10 @@
                 </li>
 
                 <li>
-                  <a href="mailto:footcap@help.com" class="footer-link">
+                  <a href="mailto:wijayafarma@gmail.com" class="footer-link">
                     <ion-icon name="mail"></ion-icon>
 
-                    <span class="footer-link-text">kuy.apotek@gmail.com</span>
+                    <span class="footer-link-text">wijayafarma@gmail.com</span>
                   </a>
                 </li>
 
@@ -189,14 +199,14 @@
               <ul class="footer-list">
 
                 <li>
-                  <p class="footer-list-title">My Account</p>
+                  <p class="footer-list-title">Akun Kami</p>
                 </li>
 
                 <li>
                   <a href="{{route('userprofile')}}" class="footer-link">
                     <ion-icon name="chevron-forward-outline"></ion-icon>
 
-                    <span class="footer-link-text">My Account</span>
+                    <span class="footer-link-text">Akun</span>
                   </a>
                 </li>
 
@@ -204,7 +214,7 @@
                   <a href="{{route('addtocart')}}" class="footer-link">
                     <ion-icon name="chevron-forward-outline"></ion-icon>
 
-                    <span class="footer-link-text">View Cart</span>
+                    <span class="footer-link-text">Tampilan Keranjang</span>
                   </a>
                 </li>
 
@@ -212,39 +222,45 @@
 
               <div class="footer-list">
 
-                <p class="footer-list-title">Outlet Opening Time</p>
+                <p class="footer-list-title">Jam Buka Toko</p>
 
                 <table class="footer-table">
                   <tbody>
 
                     <tr class="table-row">
-                      <th class="table-head" scope="row">Mon - Tue:</th>
+                      <th class="table-head" scope="row">Senin-Selasa :</th>
 
                       <td class="table-data">8AM - 10PM</td>
                     </tr>
 
                     <tr class="table-row">
-                      <th class="table-head" scope="row">Wed:</th>
+                      <th class="table-head" scope="row">Rabu :</th>
 
                       <td class="table-data">8AM - 7PM</td>
                     </tr>
 
                     <tr class="table-row">
-                      <th class="table-head" scope="row">Fri:</th>
+                        <th class="table-head" scope="row">Kamis :</th>
+
+                        <td class="table-data">7AM - 12PM</td>
+                      </tr>
+
+                    <tr class="table-row">
+                      <th class="table-head" scope="row">Jumat :</th>
 
                       <td class="table-data">7AM - 12PM</td>
                     </tr>
 
                     <tr class="table-row">
-                      <th class="table-head" scope="row">Sat:</th>
+                      <th class="table-head" scope="row">Sabtu :</th>
 
                       <td class="table-data">9AM - 8PM</td>
                     </tr>
 
                     <tr class="table-row">
-                      <th class="table-head" scope="row">Sun:</th>
+                      <th class="table-head" scope="row">Minggu :</th>
 
-                      <td class="table-data">Closed</td>
+                      <td class="table-data">Tutup</td>
                     </tr>
 
                   </tbody>
@@ -254,10 +270,10 @@
 
               <div class="footer-list">
 
-                <p class="footer-list-title">Newsletter</p>
+                <p class="footer-list-title">Info</p>
 
                 <p class="newsletter-text">
-                  Officially been operating since may 2023 and will operate 24 hours every day.
+                    Resmi beroperasi sejak Mei 2023 dan akan beroperasi 24 jam setiap hari.
                 </p>
 
 
@@ -272,7 +288,7 @@
           <div class="container">
 
             <p class="copyright">
-              &copy; 2023 <a href="#" class="copyright-link">wijayafarma</a>. All Rights Reserved
+              &copy; 2023 <a href="#" class="copyright-link">wijayafarma</a>.
             </p>
 
           </div>
@@ -312,22 +328,7 @@
 <script type="text/javascript" src="jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="{{asset('css/floating-wpp.min.js')}}"></script>
 <script src="{{asset('css/floating-wpp.js')}}"></script>
-<script type="text/javascript">
-    $(function () {
-        $('#myButton').floatingWhatsApp({
-            phone: '+6282370771069',
-            popupMessage: 'Selamat Datang Di Toko Obat Wijaya Farma!! Ada yang Bisa dibantu??',
-            message: "Saya Ingin Bertanya",
-            showPopup: true,
-            showOnIE: false,
-            headerTitle: 'Toko Obat Wijaya Farma!',
-            headerColor: '#25D366',
-            backgroundColor: '#25D366',
-            buttonImage: '<img src="img/whatsapp.svg" />'
-        });
-    });
-</script>
-
+<script src="{{asset('users/js/whatsap.js')}}"></script>
   @stack('js')
 </body>
 

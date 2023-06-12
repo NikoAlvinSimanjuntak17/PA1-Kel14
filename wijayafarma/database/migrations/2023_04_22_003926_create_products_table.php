@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
+use Illuminate\Support\Facades\DB;
 return new class extends Migration
 {
     /**
@@ -24,9 +24,10 @@ return new class extends Migration
             $table->foreign('product_category_id')->references('id')->on('categories');
             $table->unsignedBigInteger('product_subcategory_id');
             $table->foreign('product_subcategory_id')->references('id')->on('subcategories');
-            $table->string('product_img');
+            $table->text('product_img');
             $table->integer('quantity');
             $table->string('slug');
+            $table->dateTime('time')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamps();
         });
     }

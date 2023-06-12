@@ -3,6 +3,13 @@
 @section('css')
 <link rel="stylesheet" href="{{asset('users/css/detailproduct.css')}}">
 @endsection
+@section('csss')
+<style>
+    .header {
+        background-color: #3b3b3b;
+    }
+</style>
+@endsection
 @section('main-content')
 <br><br>
 <!-- Start slides -->
@@ -47,10 +54,14 @@
         @endif
         <div class="col-2">
             <h2>{{$product->product_name}}</h2>
-            <h4>{{$product->price}}</h4>
+            <h4>{{'Rp '.number_format($product->price, 0, ',', '.') }}</h4>
             <p>Categori - {{$product->product_category_name}}</p>
             <p>Tipe - {{$product->product_subcategory_name}}</p>
+            @if ($product->quantity === 0)
+            <h4 class="text-danger"><b><u>Stok Habis</u></b></h4>
+            @else
             <p>Stok - {{$product->quantity}}</p>
+            @endif
           <form action="{{route('addproducttocart')}}" method="POST" >
             @csrf
             <input type="hidden" value="{{$product->id}}" name="product_id">
@@ -59,12 +70,12 @@
             <input type="hidden" value="{{$product->price}}" name="price">
             <label for="quantity">Berapa Banyak</label>
             <input class="form-control" type="number" min="1" value="1" name="quantity">
-              <input type="submit" name="" id="" class="btn btn-warning" value="Add to Cart" style="width: 8em">
+              <input type="submit" name="" id="" class="btn btn-success" style="border:none; width:8em;height:2.3em;" value="Add to Cart" style="width: 8em">
             </form>
           <h3>Deskripsi Produk<i class="fa fa-indent"></i></h3>
           <br/>
           <p>
-            {{$product->product_deskripsi}}
+            <textarea name="" id="" cols="50" style="border:none; max-height:20em;" desabled>{{$product->product_deskripsi}}</textarea>
           </p>
 
 
@@ -79,7 +90,10 @@
                             <div class="media-body">
                                 <h5 class="mt-0">{{ $userNames[$index] }} :</h5>
                                 <p class="comment-text">{{ $comment }}</p>
-                                <p class="comment-date text-muted">{{ $createdDates[$index]->diffForHumans() }}</p>
+                                @if (isset($createdDates[$index]))
+                                    <p class="comment-date text-muted">{{ $createdDates[$index]->diffForHumans() }}</p>
+                                @else
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -100,11 +114,12 @@
     </div>
 
 <div class="container">
-    <h2 class="h2 title_product">Related Product</h2>
+    <h2 class="h2 title_product">Produk Sejenis</h2>
     <div>
         <ul class="product-list">
 
             @foreach ($related_products->take(4) as $produc)
+            @if ($produc->product_img !== $product->product_img)
         <li class="product-item">
           <div class="product-card" tabindex="0">
 
@@ -115,7 +130,7 @@
                         <form action="{{route('addproducttocart')}}" method="POST">
                             @csrf
                             <input type="hidden" value="{{$product->id}}" name="product_id">
-                            <input type="hidden" value="{{$produc->price}}" name="price">
+                            <input type="hidden" value="{{'Rp '.number_format($produc->price, 0, ',', '.') }}" name="price">
                                     <input type="hidden" value="1" name="quantity">
                             <li class="card-action-item">
                                 <button type="submit" class="card-action-btn" aria-labelledby="card-label-1">
@@ -157,6 +172,7 @@
 
                   </div>
                 </li>
+                @endif
                 @endforeach
 
 

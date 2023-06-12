@@ -27,37 +27,38 @@
       </div>
       <div class="forms-container">
         <div class="signin">
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
-        <a href="../" class="back"><i class="ri-arrow-left-line"></i></a>
-        <h2 class="title">Login</h2>
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+            <h2 class="title">Login</h2>
             <div class="input-field">
               <i class="ri-user-6-line"></i>
-              <input type="text" id="name" placeholder="Username" name="name" value="{{ old('name') }}" required autofocus autocomplete="username" />
+              <input type="text" placeholder="Username"  name="name" required/>
+            </div>
+            <div class="input-field">
+              <i class="ri-key-line"></i>
+              <input type="password" placeholder="password" name="password" required />
+            </div>
+            <div class="text-start" >
+              <input type="checkbox" name="remember">
+              <label for="">Remember me</label>
             </div>
 
-        <div class="input-field">
-            <i class="ri-key-line"></i>
-            <input type="password" placeholder="password" id="password" name="password" required autocomplete="current-password" />
+            <input type="submit" value="login" class="btn solid" />
+            <a href="{{route('register')}}""><input type="button" value="register" class="btn btnr solid" /></a><br /><br />
+            <div class="social-media">
+              <a href="#" class="social-icon">
+                <i class="ri-instagram-line"></i>
+              </a>
+              <a href="#" class="social-icon">
+                <i class="ri-whatsapp-fill"></i>
+              </a>
+              <a href="#" class="social-icon">
+                <i class="ri-message-2-line"></i>
+              </a>
+            </div>
+          </form>
         </div>
-
-
-    <button type="submit" value="" class="btn solid">login</button>
-    <a href="{{route('register')}}"><input type="button" value="register" class="btn btnr solid" /></a><br /><br />
-    <div class="social-media">
-        <a href="#" class="social-icon">
-          <i class="ri-instagram-line"></i>
-        </a>
-        <a href="#" class="social-icon">
-          <i class="ri-whatsapp-fill"></i>
-        </a>
-        <a href="#" class="social-icon">
-          <i class="ri-message-2-line"></i>
-        </a>
       </div>
-    </form>
-  </div>
-</div>
-</div>
+    </div>
 
 </body>

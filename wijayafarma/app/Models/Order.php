@@ -14,9 +14,14 @@ protected $fillable = [
     'shipping_phonenumber',
     'shipping_city',
     'shipping_postalcode',
+    'nama',
+    'address',
     'product_id',
+    'product_nama',
+    'product_img',
     'quantity',
-    'totalprice'];
+    'totalprice'
+];
 
     public function user()
     {

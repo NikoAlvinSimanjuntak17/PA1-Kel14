@@ -90,7 +90,7 @@
 
 
                     <li class="menu-header small text-uppercase">
-                        <span class="menu-header-text">Product</span>
+                        <span class="menu-header-text">Produk</span>
                     </li>
 
                     <li class="menu-item">
@@ -192,6 +192,21 @@
                         </ul>
                     </li>
 
+                    <li class="menu-header small text-uppercase">
+
+                    </li>
+<br>
+                    <li class="menu-item">
+                        <a href="{{ route('home') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                            <div data-i18n="Analytics">Halaman user</div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+
+
 
 
 
@@ -224,36 +239,36 @@
 
 
 
-                            <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
-                                    data-bs-toggle="dropdown">
-                                    <div class="">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
-                                            <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
-                                          </svg>
-                                    </div>
-                                </a>
-                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                        {{auth()->user()->unreadNotifications->count()}}
-                                        {{-- <span class="visually-hidden">unread messages</span> --}}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
+                                        <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
+                                    </svg>
+                                    <span class="badge rounded-pill bg-danger">
+                                        {{ auth()->user()->unreadNotifications->count() }}
                                     </span>
-
-                                <ul class="dropdown-menu dropdown-menu-end" style="min-width: 25rem">
-                                        <div class="p-3 w-80" >
-                                            @foreach (auth()->user()->unreadNotifications as $item)
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" style="width: 25rem; max-width:90%;" aria-labelledby="notificationDropdown">
+                                    <div class="dropdown-header">Notifications</div>
+                                    <div class="dropdown-divider"></div>
+                                    <div class="p-3">
+                                        @foreach (auth()->user()->unreadNotifications as $item)
+                                        <div class="notification-item">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
                                                 <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
-                                              </svg>
-                                             <a href="{{route('pendingorder')}}"> {{$item->data['nama']}} melakukan pesanan</a>
-                                             <p class="float-end">{{$item->created_at->diffForHumans() }}</p>
-<br>
-                                              <div>
-    <a href="{{route('read',$item->id)}}">mark as read</a>
-    <hr>
-</div>
-    @endforeach
+                                            </svg>
+                                            <a class="notification-link" href="{{ route('pendingorder') }}">{{ $item->data['nama'] }} melakukan pesanan</a>
+                                            <p class="float-end">{{ $item->created_at->diffForHumans() }}</p>
+                                            @if(auth()->user()->unreadNotifications->count() > 0)
+                                            <a href="{{route('read',$item->id)}}" class="">Mark All as Read</a>
+                                            @endif
+                                            <hr>
                                         </div>
+                                        @endforeach
+                                    </div>
                                 </ul>
+                            </li>
+
                             </li>
 
 
@@ -293,13 +308,13 @@
                                     <li>
                                         <div class="dropdown-divider"></div>
                                     </li>
-                                    {{-- <li>
-                                        <a class="dropdown-item" href="#">
+                                   <li>
+                                        <a class="dropdown-item" href="{{route('editprofileadmin')}}">
                                             <i class="bx bx-user me-2"></i>
-                                            <span class="align-middle">My Profile</span>
+                                            <span class="align-middle">Edit Password</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    {{--  <li>
                                         <a class="dropdown-item" href="#">
                                             <i class="bx bx-cog me-2"></i>
                                             <span class="align-middle">Settings</span>

@@ -5,13 +5,29 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Product;
+use App\Notifications\OrderNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
     public function index(){
-        $peding_orders = Order::latest()->get();
-        return view('admin.peddingorders',compact('peding_orders'));
+        $pending_orders = Order::whereIn('status', ['pending', 'in progress'])
+        ->orderByRaw("CASE WHEN status = 'pending' THEN 1 ELSE 2 END, created_at DESC")
+        ->get();
+$pending_selesai = Order::where('status', 'selesai')->latest()->get();
+
+$admin = Auth::user();
+
+$order = Order::get();
+foreach ($order as $item) {
+    $notif = $admin->notifications()->where('data->id',$item->id)->first();
+    if(!$notif){
+        $save = new OrderNotification($item);
+        $admin->notify($save);
+    }
+}
+        return view('admin.peddingorders',compact('pending_orders','pending_selesai','admin'));
     }
     public function detail($id){
         $pedding = Order::findOrFail($id);
