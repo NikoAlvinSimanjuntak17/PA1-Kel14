@@ -26,8 +26,9 @@ class DasboardController extends Controller
         $product = Product::count();
         $category = Category::count();
         $subcategory = Subcategory::count();
-        $orders = Order::count();
-        $count = Order::get()->whereIn('status', ['pending', 'selesai']);
+        $orders = Order::whereIn('status', ['in progress'])->count();
+        $ordercount = Order::count();
+        $count = Order::whereIn('status', ['in progress'])->get();
         $deseases = deseases::count();
         $admin = Auth::user();
 
@@ -39,7 +40,7 @@ class DasboardController extends Controller
                 $admin->notify($save);
             }
         }
-        return view('admin.dasboard',compact('product','category','subcategory','orders','deseases','admin','count'));
+        return view('admin.dasboard',compact('product','category','subcategory','orders','deseases','admin','count','ordercount'));
     }
     public function read($id){
         if($id){
@@ -47,5 +48,7 @@ class DasboardController extends Controller
         }
         return redirect()->back();
     }
-
+    public function editprofileadmin(){
+        return view('admin.editprofile');
+    }
 }

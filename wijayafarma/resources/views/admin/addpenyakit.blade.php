@@ -24,7 +24,7 @@
           <div class="row mb-3">
             <label class="col-sm-2 col-form-label" for="basic-default-name">Nama Penyakit</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="Nama_Penyakit" name="Nama_Penyakit" placeholder="Nama Produk"/>
+                <input type="text" class="form-control" id="Nama_Penyakit" name="Nama_Penyakit" placeholder="Nama Penyakit"/>
             </div>
           </div>
 

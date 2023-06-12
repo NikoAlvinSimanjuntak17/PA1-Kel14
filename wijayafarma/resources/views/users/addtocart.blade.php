@@ -1,11 +1,15 @@
 @extends('users.layouts.templete')
 @section('title','WijayaFarma | Add To Cart')
+@section('csss')
+<style>
+    .header {
+        background-color: #3b3b3b;
+    }
+</style>
+@endsection
+
 @section('css')
 <style>
-    .header{
-        background-color:black;
-        opacity: 0.8;
-    }
     .quantity-container {
   display: flex;
   align-items: center;
@@ -59,17 +63,19 @@
                     <thead>
                     <tr>
                         <td><input type="checkbox" name="" id="select_all_ids"></td>
-                        <td>Product id</td>
-                        <td>Product Image</td>
-                        <td>Product Name</td>
-                        <td>Quantity</td>
-                        <td>Price</td>
-                        <td>Count</td>
+                        <td>No</td>
+                        <td>Id Produk</td>
+                        <td>Gambar Produk</td>
+                        <td>Nama Produk</td>
+                        <td>Jumlah</td>
+                        <td>Harga</td>
+                        <td>@Total</td>
                         <td></td>
                     </tr>
                     </thead>
                     @php
                         $total = 0;
+                        $nomor = 1;
                     @endphp
                     @foreach ($cart_items as $item)
                     <tbody>
@@ -79,8 +85,9 @@ $product_name = App\Models\Product::where('id',$item->product_id)->value('produc
 $img = App\Models\Product::where('id',$item->product_id)->value('product_img');
 @endphp
 <td><input type="checkbox" name="ids[{{$item->id}}]" class="checkbox_ids" id="" value="{{$item->id}}" ></td>
-<td>{{$item->id}}</td>
-                        <td><img src="{{asset($img)}}" style="width: 50px; height:50px;"  alt=""></td>
+<td>{{ $nomor++ }}</td>
+<td>{{$item->product_id}}</td>
+                        <td><a href="{{route('singleproduct',[$item->product_id,$item->slug])}}"><img src="{{asset($img)}}" style="width: 50px; height:50px;"  alt=""></a></td>
                         <td>{{$product_name}}</td>
                         <td>
                             <div class="d-flex quantity-container">
@@ -94,7 +101,7 @@ $img = App\Models\Product::where('id',$item->product_id)->value('product_img');
                         @endphp
                         <td  class="item_price" data-price="{{ $total }}">{{'Rp '.number_format($total)}}</td>
                         <td>
-                            <a href="{{route('deletecart',$item->id)}}" class="btn btn-warning me-2" id="delete_button">Delete</a>
+                            <a href="{{route('deletecart',$item->id)}}" class="btn btn-warning me-2" id="delete_button">Hapus</a>
 
                         </td>
                     </tr>
@@ -110,8 +117,10 @@ $img = App\Models\Product::where('id',$item->product_id)->value('product_img');
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td>Total</td>
+                        <td></td>
+                        <td>Total Harga</td>
                         <td id="total_price">{{'Rp '.number_format(0)}}</td>
+                        <td></td>
                         </tr>
                         <tr>
                             <td>
@@ -121,8 +130,10 @@ $img = App\Models\Product::where('id',$item->product_id)->value('product_img');
                             <td></td>
                             <td></td>
                             <td></td>
+                            <td></td>
+                            <td></td>
                                 <td colspan="7" class="d-flex">
-                                    <input type="submit" class="btn btn-primary" id="checkout_button" value="Check Now">
+                                    <input type="submit" class="btn btn-primary" value="Pesan Sekarang">
                                 </td>
                             </tr>
                         @endif
@@ -131,34 +142,39 @@ $img = App\Models\Product::where('id',$item->product_id)->value('product_img');
                 </form>
             </div>
 
+
+
             <div class="col-md-8">
-                <section class=" container col">
-                    <section class="rowered_1">
-                        <div class="row ">
-                         <h1 class="text-left" id="Profile">METODE PEMBAYARAN</h1>
-                         <p class="teks">Silahkan pilih metode yang anda inginkan</p>
-                         <div class="col-md-10 shadow my-5 py-2">
-                            <div class="accordion" id="accordionExample">
-                                <div class="card">
-                                  <div class="card-header" id="headingOne">
-                                    <h2 class="mb-0">
-                                      <button class="btn btn-block text-black dropdown-toggle" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        QRIS Mandiri
-                                      </button>
-                                    </h2>
-                                  </div>
-                                  <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                    <div class="card-body">
-                                        <center><img src="{{ asset('img/qris.jpg')}}"></center>
-                                    </div>
-                                  </div>
+                <section class="container col">
+                  <section class="row">
+                    <div class="col">
+                      <h1 class="text-left" id="Profile">METODE PEMBAYARAN</h1>
+                      <p class="teks">Silahkan pilih metode yang Anda inginkan</p>
+                      <div class="col-md-10 shadow my-5 py-2">
+                        <div class="accordion" id="accordionExample">
+                          <div class="card">
+                            <div class="card-header" id="headingOne">
+                              <h2 class="mb-0">
+                                <button class="btn btn-block text-black dropdown-toggle" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                  QRIS Mandiri
+                                </button>
+                              </h2>
+                            </div>
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                              <div class="card-body">
+                                <div class="text-center">
+                                  <img src="{{ asset('img/qris.jpg')}}" class="img-fluid" alt="QRIS Mandiri">
                                 </div>
-                             </div>
-                         </div>
-                     </div>
-                 </section>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
                 </section>
-            </div>
+              </div>
+
 
         </div>
         </div>

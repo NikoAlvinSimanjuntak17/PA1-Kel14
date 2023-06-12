@@ -4,36 +4,36 @@
 <div class="p-2">
     <div class="card p-2">
         <div class="container text-center">
-            <h4>Order Detail</h4>
+            <h4>Pemesanan Detail</h4>
             <div class="row">
               <div class="col text-start">
                 <hr>
-                <p>Order Id : {{$pedding->id}}</p>
-                <p>Order Date : {{ \Carbon\Carbon::parse($pedding->created_at)->format('d M Y')}}</p>
-                <h5 style="border: 1px solid black;color:chartreuse" class="p-2">Order Status Message : {{$pedding->status}}</h5>
+                <p>Id Pemesanan : {{$pedding->id}}</p>
+                <p>Tanggal Pemesanan : {{ \Carbon\Carbon::parse($pedding->updated_at)->format('d M Y')}}</p>
+                <h5 style="border: 1px solid black;color:chartreuse" class="p-2">Status Pemesanan : {{$pedding->status}}</h5>
             </div>
               <div class="col text-start">
                   <hr>
-                  <p>user Id : {{$pedding->user_id}}</p>
-                  <p>username : </p>
-                  <p>Phone : {{$pedding->shipping_phonenumber}} </p>
-                <p>Address : {{$pedding->address}}</p>
+                  <p>Id User : {{$pedding->user_id}}</p>
+                  <p>name : {{$pedding->nama}} </p>
+                  <p>Nomor Telepon : {{$pedding->shipping_phonenumber}} </p>
+                <p>Alamat : {{$pedding->address}}</p>
                 <p>Kota : {{$pedding->shipping_city}}</p>
-                <p>Postal code : {{$pedding->shipping_postalcode}}</p>
+                <p>Kode Pos : {{$pedding->shipping_postalcode}}</p>
             </div>
         </div>
     </div>
     <div class="table-responsive container-fluid" >
-                <h5>All Product Information</h5>
+                <h5>Semua Informasi Produk Pemesanan</h5>
                 <hr>
             <table class="table">
                 <tr>
-                    <th>Product Id</th>
+                    <th>Id Produk</th>
                     <th>gambar</th>
-                    <th>Product Name</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Total WIll Pay</th>
+                    <th>Nama Produk</th>
+                    <th>Jumlah</th>
+                    <th>Harga</th>
+                    <th>@Total</th>
                 </tr>
                 {{-- @foreach ($pedding as $pedding) --}}
                 <tr>
@@ -71,7 +71,7 @@
         <td></td>
         <td></td>
         <td></td>
-        <td class="fw-bold">Total Amount</td>
+        <td class="fw-bold">Total Harga</td>
         <td colspan="4">
             @php
             $quantities = json_decode($pedding->quantity);
@@ -94,6 +94,7 @@
 
     {{-- @endforeach --}}
     </table><br><br><br>
+    </div>
     <div>
         <h4>Bukti Pembayaran</h4>
         @if (session()->has('message'))
@@ -107,10 +108,9 @@
 @endif
         <hr>
         <div class="row">
-            <div class="mb-3">
-
-                <img src="{{asset($pedding->img_bayar)}}" width="750px" alt="">
-                              </div>
+            <div class="col-md-15 mb-3">
+                <img src="{{asset($pedding->img_bayar)}}" style="max-width: 100%; height: auto;" alt="">
+            </div>
         </div>
        @if (empty($pedding->ulasan))
        <div class="row">
@@ -118,7 +118,7 @@
             <h3>Beri komentar</h3>
             <form action="{{ route('komentar', ['id' => $pedding->id]) }}" method="POST">
                 @csrf
-            <textarea name="ulasan" name="ulasan" id="" cols="100" rows="10">Ayo Beri Komentar.....</textarea>
+            <textarea name="ulasan" name="ulasan" id="" cols="" style="width: 100%" rows="10" placeholder="Ayo Beri Komentar...."></textarea>
             <input type="submit" name="" value="Beri Komentar" id="" class="btn btn-success">
             </form>
                           </div>
@@ -126,7 +126,7 @@
     @elseif(!empty($pedding->ulasan))
     <div class="mb-3">
         <h2>Ulasan Anda :</h2>
-        <textarea name=""  id="" cols="95" rows="10" disabled class="p-3">{{$pedding->ulasan}}</textarea>
+        <textarea name=""  id="" cols="95" rows="10" disabled class="p-3" style="width: 100%">{{$pedding->ulasan}}</textarea>
                       </div>
 </div>
        @endif

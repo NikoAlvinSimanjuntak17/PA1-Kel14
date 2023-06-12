@@ -1,7 +1,8 @@
 @extends('users.layouts.userprofile')
 
 @section('profilecontent')
-    <h3>Pending Orders</h3>
+<br>
+    <h3>Riwayat Pemesanan</h3>
     @if (session()->has('message'))
         <div class="alert alert-success">
             {{session()->get('message')}}
@@ -11,11 +12,11 @@
 
     <table class="table">
         <tr>
-            <th>Order id</th>
-            <th>Product</th>
-            <th>quantity</th>
+            <th>Id Pemesanan</th>
+            <th>Produk</th>
+            <th>Jumlah</th>
             <th>status</th>
-            <th>order date</th>
+            <th>Tanggal Pemesanan</th>
             <th></th>
             <th></th>
         </tr>
@@ -29,7 +30,7 @@
                     <p>{{$item}}</p>
                 @endforeach</td>
                 <td>{{$order->status}}</td>
-                <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d M Y')}}</td>
+                <td>{{ \Carbon\Carbon::parse($order->updated_at)->format('d M Y')}}</td>
                 <td><a href="{{route('historidetil',$order->id)}}" class="btn btn-info">Detil</button></td>
             </tr>
         @endforeach

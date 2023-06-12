@@ -52,7 +52,11 @@
                     <td>{{$product->product_category_name}}</td>
                     <td>{{$product->product_subcategory_name}}</td>
                     </td>
+                    @if ($product->quantity === 0)
+                    <td><p class="text-danger">Stok Habis</p></td>
+                    @else
                     <td>{{$product->quantity}}</td>
+                    @endif
                     <td>{{$product->price}}</td>
                     <td>
                         <a href="{{route('editproduct',$product->id)}}" class="btn btn-primary">Edit</a>

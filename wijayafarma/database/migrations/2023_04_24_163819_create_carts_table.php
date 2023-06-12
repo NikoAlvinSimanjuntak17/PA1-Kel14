@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
+use Illuminate\Support\Facades\DB;
 return new class extends Migration
 {
     /**
@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('product_nama',100);
             $table->integer('quantity')->default(1);
             $table->integer('price');
+            $table->dateTime('time')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->string('slug',255);
             $table->timestamps();
         });
     }

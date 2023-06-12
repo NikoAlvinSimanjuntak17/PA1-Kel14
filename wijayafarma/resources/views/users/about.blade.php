@@ -1,7 +1,11 @@
 @extends('users.layouts.templete')
+@section('title','WijayaFarma | Tentang')
 @section('css')
 <link rel="stylesheet" href="{{asset('users/css/templatemo-style.css')}}">
 <link rel="stylesheet" href="{{asset('users/css/about.css')}}">
+@endsection
+@section('csss')
+
 @endsection
 @section('main-content')
 <section id="tmWelcome" class="parallax-window" data-parallax="scroll" >

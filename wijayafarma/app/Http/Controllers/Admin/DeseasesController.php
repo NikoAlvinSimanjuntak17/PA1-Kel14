@@ -4,16 +4,39 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\deseases;
+use App\Models\Order;
+use App\Notifications\OrderNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DeseasesController extends Controller
 {
     function index(){
-        $all_penyakit = deseases::latest()->paginate(10);
-        return view('admin.allpenyakit',compact('all_penyakit'));
+        $all_penyakit = deseases::latest()->get();
+        $admin = Auth::user();
+
+        $order = Order::get();
+        foreach ($order as $item) {
+            $notif = $admin->notifications()->where('data->id',$item->id)->first();
+            if(!$notif){
+                $save = new OrderNotification($item);
+                $admin->notify($save);
+            }
+        }
+        return view('admin.allpenyakit',compact('all_penyakit','admin'));
     }
     function AddPenyakit(){
-        return view('admin.addpenyakit');
+        $admin = Auth::user();
+
+        $order = Order::get();
+        foreach ($order as $item) {
+            $notif = $admin->notifications()->where('data->id',$item->id)->first();
+            if(!$notif){
+                $save = new OrderNotification($item);
+                $admin->notify($save);
+            }
+        }
+        return view('admin.addpenyakit',compact('admin'));
     }
     function StorePenyakit(Request $request){
         $request->validate([
