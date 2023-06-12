@@ -40,7 +40,7 @@
     <div class="container-fluidd d-flex justify-content-between">
       <div class="contact-info d-flex align-items-center">
         <i class="bi bi-envelope"></i> <a href="mailto:contact@example.com">wijayafarma@gmail.com</a>
-        <i class="bi bi-phone"></i>+62-222-22
+        <i class="bi bi-phone"></i>+62 823-7077-1069
       </div>
       <div class="d-none d-lg-flex social-links align-items-center">
         <a href="https://www.facebook.com/profile.php?id=100009095737620&mibextid=ZbWKwL" class="facebook" target="_blank"><i class="bi bi-facebook"></i></a>
@@ -187,10 +187,10 @@
                 </li>
 
                 <li>
-                  <a href="mailto:footcap@help.com" class="footer-link">
+                  <a href="mailto:wijayafarma@gmail.com" class="footer-link">
                     <ion-icon name="mail"></ion-icon>
 
-                    <span class="footer-link-text">kuy.apotek@gmail.com</span>
+                    <span class="footer-link-text">wijayafarma@gmail.com</span>
                   </a>
                 </li>
 
@@ -328,22 +328,7 @@
 <script type="text/javascript" src="jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="{{asset('css/floating-wpp.min.js')}}"></script>
 <script src="{{asset('css/floating-wpp.js')}}"></script>
-<script type="text/javascript">
-    $(function () {
-        $('#myButton').floatingWhatsApp({
-            phone: '+6282370771069',
-            popupMessage: 'Selamat Datang Di Toko Obat Wijaya Farma!! Ada yang Bisa dibantu??',
-            message: "Saya Ingin Bertanya",
-            showPopup: true,
-            showOnIE: false,
-            headerTitle: 'Toko Obat Wijaya Farma!',
-            headerColor: '#25D366',
-            backgroundColor: '#25D366',
-            buttonImage: '<img src="img/whatsapp.svg" />'
-        });
-    });
-</script>
-
+<script src="{{asset('users/js/whatsap.js')}}"></script>
   @stack('js')
 </body>
 

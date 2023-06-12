@@ -126,7 +126,7 @@
     @elseif(!empty($pedding->ulasan))
     <div class="mb-3">
         <h2>Ulasan Anda :</h2>
-        <textarea name=""  id="" cols="95" rows="10" disabled class="p-3">{{$pedding->ulasan}}</textarea>
+        <textarea name=""  id="" cols="95" rows="10" disabled class="p-3" style="width: 100%">{{$pedding->ulasan}}</textarea>
                       </div>
 </div>
        @endif

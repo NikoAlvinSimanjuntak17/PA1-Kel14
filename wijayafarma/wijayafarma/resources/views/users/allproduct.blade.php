@@ -139,9 +139,6 @@ $products = App\Models\Product::orderBy('product_name', 'asc')->get();
                         @endforeach
                     </div>
                 </div>
-                {{-- @if ($products->total() > 20)
-                {{$products->links()}}
-                @endif --}}
             </div>
         </div>
     </section>

@@ -22,6 +22,7 @@
     <th>User Id</th>
     <th>Status</th>
     <th>OrderDate</th>
+    <th>payment</th>
     <th>Action</th>
             </tr>
     @foreach ($pending_orders as $order)
@@ -29,6 +30,12 @@
         <td>{{$order->user_id}}</td>
         <td>{{$order->status}}</td>
         <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d M Y')}}</td>
+        @if (empty($order->img_bayar))
+        <td>Belum Bayar</td>
+    @else
+        <td>Sudah Bayar</td>
+    @endif
+
         <td><a href="{{route('pendingorderdetail',$order->id)}}" class="btn btn-primary">view</a></td>
     </tr>
     @endforeach

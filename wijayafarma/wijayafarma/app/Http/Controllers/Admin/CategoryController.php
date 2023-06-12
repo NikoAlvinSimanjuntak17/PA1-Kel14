@@ -2,14 +2,27 @@
 
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Notifications\OrderNotification;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
     public function index(){
         $categories = Category::latest()->get();
-        return view('admin.allcategory',compact('categories'));
+        $admin = Auth::user();
+
+        $order = Order::get();
+        foreach ($order as $item) {
+            $notif = $admin->notifications()->where('data->id',$item->id)->first();
+            if(!$notif){
+                $save = new OrderNotification($item);
+                $admin->notify($save);
+            }
+        }
+        return view('admin.allcategory',compact('categories','admin'));
     }
     public function AddCategory(){
         return view('admin.addcategory');

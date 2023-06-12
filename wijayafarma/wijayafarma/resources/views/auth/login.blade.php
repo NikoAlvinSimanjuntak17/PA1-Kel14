@@ -36,7 +36,7 @@
             </div>
             <div class="input-field">
               <i class="ri-key-line"></i>
-              <input type="password" placeholder="password" name="password" />
+              <input type="password" placeholder="password" name="password" required />
             </div>
             <div class="text-start" >
               <input type="checkbox" name="remember">

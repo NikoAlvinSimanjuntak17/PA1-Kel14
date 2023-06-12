@@ -3,6 +3,13 @@
 @section('css')
 <link rel="stylesheet" href="{{asset('users/css/detailproduct.css')}}">
 @endsection
+@section('csss')
+<style>
+    .header {
+        background-color: #3b3b3b;
+    }
+</style>
+@endsection
 @section('main-content')
 <br><br>
 <!-- Start slides -->
@@ -50,7 +57,11 @@
             <h4>{{'Rp '.number_format($product->price, 0, ',', '.') }}</h4>
             <p>Categori - {{$product->product_category_name}}</p>
             <p>Tipe - {{$product->product_subcategory_name}}</p>
+            @if ($product->quantity === 0)
+            <h4 class="text-danger"><b><u>Stok Habis</u></b></h4>
+            @else
             <p>Stok - {{$product->quantity}}</p>
+            @endif
           <form action="{{route('addproducttocart')}}" method="POST" >
             @csrf
             <input type="hidden" value="{{$product->id}}" name="product_id">

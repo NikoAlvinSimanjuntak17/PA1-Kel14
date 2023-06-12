@@ -188,5 +188,6 @@ $categories = App\Models\Category::latest()->get();
         }
     });
 </script>
+
 @endsection
 

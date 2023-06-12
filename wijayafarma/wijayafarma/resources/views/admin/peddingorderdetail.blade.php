@@ -113,8 +113,19 @@
     </div>
 </div>
 
+@if ($pedding->status == 'pending' || $pedding->status == 'in progress')
+    <h4 class="mt-5">Order Procces (Order Status Updates)</h4>
+@endif
 
-<h4 class="mt-5">Order Procces (Order Status Updates)</h4>
+@if(!empty($pedding->ulasan))
+<br>
+<div class="mb-3">
+ <h2>Ulasan :</h2>
+ <textarea name=""  id="" cols="95" rows="10" disabled class="p-3">{{$pedding->ulasan}}</textarea>
+
+</div>
+@else
+@endif
 <hr>
 </div>
 

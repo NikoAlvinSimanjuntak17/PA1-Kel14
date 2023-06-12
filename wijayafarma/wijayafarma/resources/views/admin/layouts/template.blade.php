@@ -259,14 +259,12 @@
                                             </svg>
                                             <a class="notification-link" href="{{ route('pendingorder') }}">{{ $item->data['nama'] }} melakukan pesanan</a>
                                             <p class="float-end">{{ $item->created_at->diffForHumans() }}</p>
+                                            @if(auth()->user()->unreadNotifications->count() > 0)
+                                            <a href="{{route('read',$item->id)}}" class="">Mark All as Read</a>
+                                            @endif
                                             <hr>
                                         </div>
                                         @endforeach
-                                        @if(auth()->user()->unreadNotifications->count() > 0)
-                                        <a href="{{route('read',$item->id)}}" class="">Mark All as Read</a>
-                                        @else
-                                        <p class="text-muted">No new notifications.</p>
-                                        @endif
                                     </div>
                                 </ul>
                             </li>

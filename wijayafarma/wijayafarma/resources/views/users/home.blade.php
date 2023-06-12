@@ -103,9 +103,13 @@
                     <li class="card-action-item">
                       @auth
                       @if(auth()->user()->hasRole('customer'))
-                      <form action="{{route('addproducttocart')}}" method="POST">
+                      <form action="{{route('addproducttocart',$produc->id)}}" method="POST">
                         @csrf
                         <input type="hidden" value="{{$produc->id}}" name="product_id">
+                        <input type="hidden" value="{{$produc->product_name}}"
+                            name="product_name">
+                        <input type="hidden" value="{{$produc->product_img}}"
+                            name="product_img">
                         <input type="hidden" value="{{$produc->price}}" name="price">
                         <input type="hidden" value="1" name="quantity">
 

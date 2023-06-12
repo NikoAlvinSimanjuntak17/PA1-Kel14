@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 use App\Models\Category;
+use App\Models\Order;
 use App\Models\Subcategory;
 use App\Http\Controllers\Controller;
+use App\Notifications\OrderNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,7 +13,17 @@ class SubCategoryController extends Controller
 {
     public function index(){
         $allsubcategories = Subcategory::latest()->get();
-        return view('admin.allsubcategory',compact('allsubcategories'));
+        $admin = Auth::user();
+
+        $order = Order::get();
+        foreach ($order as $item) {
+            $notif = $admin->notifications()->where('data->id',$item->id)->first();
+            if(!$notif){
+                $save = new OrderNotification($item);
+                $admin->notify($save);
+            }
+        }
+        return view('admin.allsubcategory',compact('allsubcategories','admin'));
     }
     public function AddSubCategory(){
         $categories = Category::latest()->get();

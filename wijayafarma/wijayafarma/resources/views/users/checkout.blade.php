@@ -65,23 +65,28 @@
                         @php
                             $total = 0;
                         @endphp
-                        @foreach ($cart_items as $item)
-                        <tr>
-                            @php
-                                $product_name = App\Models\Product::where('id',$item->product_id)->value('product_name');
-                            @endphp
-                            <td>{{$product_name}}</td>
-                            <td>{{$item->quantity}}</td>
-                            <td>{{ 'Rp '.number_format($item->price, 0, ',', '.') }}</td>
-                            @php
-                                $count = $item->quantity * $item->price
-                            @endphp
-                            <td>{{'Rp '.number_format($count)}}</td>
-                        </tr>
-                        @php
-                            $total = $total + $count;
-                        @endphp
-                        @endforeach
+                       @foreach ($cart_items as $item)
+                       @php
+                           $product_name = App\Models\Product::where('id', $item->product_id)->value('product_name');
+                       @endphp
+                       <tr>
+                           <td>
+                               <!-- Tambahkan checkbox dengan atribut checked jika produk terpilih -->
+                               <input type="checkbox" name="ids[]" style="display:none;" value="{{ $item->id }}" {{ in_array($item->id, $checkedItems) ? 'checked' : '' }}>
+                               {{ $product_name }}
+                           </td>
+                           <td>{{ $item->quantity }}</td>
+                           <td>{{ 'Rp '.number_format($item->price, 0, ',', '.') }}</td>
+                           @php
+                               $count = $item->quantity * $item->price;
+                           @endphp
+                           <td>{{ 'Rp '.number_format($count) }}</td>
+                       </tr>
+                       @php
+                           $total = $total + $count;
+                       @endphp
+                   @endforeach
+
                         <tr>
                             <td></td>
                             <td></td>
@@ -97,10 +102,10 @@
 <br>
 <div class="row">
     <div class="col-md-6 d-flex align-items-center">
-        <a href="{{route('addtocart')}}" class="btn btn-danger" style="height: 3em; width: 100%;">Cancel Order</a>
+        <a href="{{route('addtocart')}}" class="btn btn-danger" style="height: 3em; width: 100%;">Batalkan</a>
     </div>
     <div class="col-md-6 d-flex align-items-center">
-        <input type="submit" value="Place Order" class="btn btn-primary ms-md-4" style="width: 100%;">
+        <input type="submit" value="Beli" class="btn btn-primary ms-md-4" style="width: 100%;">
     </div>
 </div>
 

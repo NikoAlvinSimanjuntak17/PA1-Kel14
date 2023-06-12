@@ -40,10 +40,27 @@ class ClientController extends Controller
 
         return view('users.peddingorderdetil',compact('pedding'));
     }
-    public function orderdelete($id){
-        Order::findOrFail($id)->delete();
-        return redirect()->route('peddingorders')->with('message','order berhasil Dihapus');
+    public function orderdelete($id)
+    {
+        $order = Order::findOrFail($id);
+
+        // Menambahkan quantity produk yang tersedia
+        $productIds = json_decode($order->product_id);
+        $quantities = json_decode($order->quantity);
+
+        foreach ($productIds as $index => $productId) {
+            $product = Product::findOrFail($productId);
+            $product->quantity += $quantities[$index];
+            $product->save();
+        }
+
+        // Hapus pesanan
+        $order->delete();
+
+        // Redirect ke halaman yang tepat atau tampilkan pesan sukses
+        return redirect()->route('peddingorders')->with('message', 'Pesanan berhasil dihapus.');
     }
+
     public function SingleProduct($id)
     {
         $product = Product::findOrFail($id);
@@ -132,80 +149,87 @@ class ClientController extends Controller
         return redirect()->route('addtocart')->with('message','Barang Berhasil Dihapus dari keranjang');
     }
 
-        public function CheckOut(Request $request)
-        {
-            $userid = Auth::id();
-            $checkedItems = $request->input('ids', []);
+    public function CheckOut(Request $request)
+    {
+        $userid = Auth::id();
+        $checkedItems = $request->input('ids', []);
 
-            if (empty($checkedItems)) {
-                return redirect()->back()->with('error', 'Pilih produk sebelum melanjutkan ke checkout.');
-            }
+        if (empty($checkedItems)) {
+            return redirect()->back()->with('error', 'Pilih produk sebelum melanjutkan ke checkout.');
+        }
 
-            // Dapatkan hanya item yang dicentang dari keranjang
-            $cart_items = Cart::whereIn('id', $checkedItems)->where('user_id', $userid)->get();
+        // Dapatkan hanya item yang dicentang dari keranjang
+        $cart_items = Cart::whereIn('id', $checkedItems)->where('user_id', $userid)->get();
 
-            // $shipping_address = ShippingInfo::where('user_id', $userid)->first();
+        // Kirim data checkbox yang dipilih ke halaman checkout
+        return view('users.checkout', compact('cart_items', 'checkedItems'));
 
-            return view('users.checkout', compact('cart_items'));
         }
 
 
         public function PlaceOrder(Request $request)
-    {
-        $userid = Auth::id();
-        $cart_items = Cart::where('user_id', $userid)->get();
+{
+    $userid = Auth::id();
+    $checkedItems = $request->input('ids', []);
 
-        $shipping_phonenumber = $request->input('shipping_phonenumber');
-        $shipping_city = $request->input('shipping_city');
-        $nama = $request->input('nama');
-        $address = $request->input('address');
-        $shipping_postalcode = $request->input('shipping_postalcode');
-
-        // Periksa validitas data pengiriman
-        if (!$shipping_phonenumber || !$shipping_city || !$address || !$shipping_postalcode) {
-            // Tangani situasi di mana nilai-nilai tersebut tidak valid
-            // Misalnya, tampilkan pesan kesalahan kepada pengguna atau lakukan tindakan lain sesuai kebutuhan Anda.
-            // Kemudian kembalikan respons atau lakukan pengalihan ke halaman yang sesuai.
-        }
-
-        $productIds = [];
-        $productimgs = [];
-        $productnames = [];
-        $quantities = [];
-        $prices = [];
-
-        foreach ($cart_items as $item) {
-            $productIds[] = $item->product_id;
-            $productimgs[] = $item->product_img;
-            $productnames[] = $item->product_nama;
-            $quantities[] = $item->quantity;
-            $prices[] = $item->price;
-
-            $id = $item->id;
-            Cart::findOrFail($id)->delete();
-
-            // Mengurangi jumlah produk yang tersedia
-            $product = Product::findOrFail($item->product_id);
-            $product->quantity -= $item->quantity;
-            $product->save();
-        }
-
-        Order::insert([
-            'user_id' => $userid,
-            'shipping_phonenumber' => $shipping_phonenumber,
-            'shipping_city' => $shipping_city,
-            'address' => $address,
-            'nama' => $nama,
-            'shipping_postalcode' => $shipping_postalcode,
-            'product_id' => json_encode($productIds),
-            'product_nama' => json_encode($productnames),
-            'product_img' => json_encode($productimgs),
-            'quantity' => json_encode($quantities),
-            'totalprice' => json_encode($prices)
-        ]);
-
-        return redirect()->route('peddingorders')->with('message', 'Berhasil Memesan');
+    if (empty($checkedItems)) {
+        return redirect()->back()->with('error', 'Pilih produk sebelum melanjutkan ke checkout.');
     }
+
+    // Dapatkan hanya item yang dicentang dari keranjang
+    $cart_items = Cart::whereIn('id', $checkedItems)->where('user_id', $userid)->get();
+
+    $shipping_phonenumber = $request->input('shipping_phonenumber');
+    $shipping_city = $request->input('shipping_city');
+    $nama = $request->input('nama');
+    $address = $request->input('address');
+    $shipping_postalcode = $request->input('shipping_postalcode');
+
+    // Periksa validitas data pengiriman
+    if (!$shipping_phonenumber || !$shipping_city || !$address || !$shipping_postalcode) {
+        // Tangani situasi di mana nilai-nilai tersebut tidak valid
+        // Misalnya, tampilkan pesan kesalahan kepada pengguna atau lakukan tindakan lain sesuai kebutuhan Anda.
+        // Kemudian kembalikan respons atau lakukan pengalihan ke halaman yang sesuai.
+    }
+
+    $productIds = [];
+    $productimgs = [];
+    $productnames = [];
+    $quantities = [];
+    $prices = [];
+
+    foreach ($cart_items as $item) {
+        $productIds[] = $item->product_id;
+        $productimgs[] = $item->product_img;
+        $productnames[] = $item->product_nama;
+        $quantities[] = $item->quantity;
+        $prices[] = $item->price;
+
+        // Mengurangi jumlah produk yang tersedia
+        $product = Product::findOrFail($item->product_id);
+        $product->quantity -= $item->quantity;
+        $product->save();
+
+        Cart::where('id', $item->id)->where('user_id', $userid)->delete();
+    }
+
+    Order::insert([
+        'user_id' => $userid,
+        'shipping_phonenumber' => $shipping_phonenumber,
+        'shipping_city' => $shipping_city,
+        'address' => $address,
+        'nama' => $nama,
+        'shipping_postalcode' => $shipping_postalcode,
+        'product_id' => json_encode($productIds),
+        'product_nama' => json_encode($productnames),
+        'product_img' => json_encode($productimgs),
+        'quantity' => json_encode($quantities),
+        'totalprice' => json_encode($prices)
+    ]);
+
+    return redirect()->route('peddingorders')->with('message', 'Berhasil Memesan');
+}
+
 
 
 
@@ -242,7 +266,7 @@ class ClientController extends Controller
             return redirect()->back()->with('message', 'Bukti Pembayaran Berhasil Dikirim');
         }
 
-        return redirect()->back()->with('error', 'No image uploaded');
+        return redirect()->back()->with('error', 'kirim bukti pembayaran');
     }
     public function komentar(Request $request, $id)
     {

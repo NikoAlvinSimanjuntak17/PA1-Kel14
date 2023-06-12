@@ -133,7 +133,7 @@ $img = App\Models\Product::where('id',$item->product_id)->value('product_img');
                             <td></td>
                             <td></td>
                                 <td colspan="7" class="d-flex">
-                                    <input type="submit" class="btn btn-primary" value="Check Now">
+                                    <input type="submit" class="btn btn-primary" value="Pesan Sekarang">
                                 </td>
                             </tr>
                         @endif
