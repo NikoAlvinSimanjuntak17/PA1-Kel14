@@ -69,11 +69,25 @@ class SubCategoryController extends Controller
         return redirect()->route('allsubcategory')->with('message','SubCategories Update Succesfullly!');
 
     }
-    public function DeleteSubCat($id){
-        $cat_id = SubCategory::where('id',$id)->value('category_id');
-        SubCategory::findOrFail($id)->delete();
+    public function deleteSubCat($id) {
+        // Mendapatkan ID kategori terkait untuk pengurangan subkategori_count
+        $cat_id = SubCategory::where('id', $id)->value('category_id');
 
-        Category::where('id',$cat_id)->decrement('subcategory_count',1);
-        return redirect()->route('allsubcategory')->with('message','SubCategories Delete Succesfullly!');
+        // Mencari subkategori berdasarkan ID
+        $subcat = SubCategory::findOrFail($id);
+
+        // Pengecekan apakah ada kategori yang menggunakan subkategori ini
+        if (Category::where('id', $subcat->category_id)->count() > 0) {
+            return redirect()->back()->with('message','categories still exist');
+        }
+
+        // Menghapus subkategori
+        $subcat->delete();
+
+        // Mengurangi subkategori_count pada kategori terkait
+        Category::where('id', $cat_id)->decrement('subcategory_count', 1);
+
+        return redirect()->route('allsubcategory')->with('message', 'SubCategories deleted successfully!');
     }
+
 }

@@ -13,6 +13,7 @@ class DeseasesController extends Controller
 {
     function index(){
         $all_penyakit = deseases::latest()->get();
+
         $admin = Auth::user();
 
         $order = Order::get();

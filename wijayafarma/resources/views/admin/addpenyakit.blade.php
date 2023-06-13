@@ -1,5 +1,5 @@
 @extends('admin.layouts.template')
-@section('title','Admin | addproduct')
+@section('title','Admin | addpenyakit')
 @section('content')
 <div class="container p-5">
     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Pages / </span> Add Penyakit</h4>

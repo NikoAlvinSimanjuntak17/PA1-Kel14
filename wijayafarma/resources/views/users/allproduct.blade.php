@@ -97,8 +97,7 @@ $products = App\Models\Product::orderBy('product_name', 'asc')->get();
                                             <form action="{{route('addproducttocart',$produc->id)}}" method="POST">
                                                 @csrf
                                                 <input type="hidden" value="{{$produc->id}}" name="product_id">
-                                                <input type="hidden" value="{{$produc->product_name}}"
-                                                    name="product_name">
+                                                <input type="hidden" value="{{$produc->product_name}}" name="product_name">
                                                 <input type="hidden" value="{{$produc->product_img}}"
                                                     name="product_img">
                                                 <input type="hidden" value="{{$produc->price}}" name="price">
@@ -129,7 +128,7 @@ $products = App\Models\Product::orderBy('product_name', 'asc')->get();
                                         <a href="#" class="card-cat-link">{{$produc->product_category_name}}</a>
                                     </div>
                                     <h3 class="h3 card-title">
-                                        <a href="#">{{$produc->product_name}}</a>
+                                        <a href="{{route('singleproduct',[$produc->id,$produc->slug])}}">{{$produc->product_name}}</a>
                                     </h3>
                                     <data class="card-price"
                                         value="180.85">{{ 'Rp '.number_format($produc->price, 0, ',', '.') }}</data>

@@ -183,40 +183,45 @@ $img = App\Models\Product::where('id',$item->product_id)->value('product_img');
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
 function calculateTotal() {
-  var total = 0;
-  $('.checkbox_ids:checked').each(function() {
-    var price = parseFloat($(this).closest('tr').find('.item_price').data('price'));
-    total += price;
+  var total = 0; //Inisialisasi variabel total dengan nilai 0.
+  $('.checkbox_ids:checked').each(function() { //Menggunakan selector $('.checkbox_ids:checked') untuk memilih semua checkbox dengan class checkbox_ids yang sedang dicek dan Looping menggunakan fungsi .each() untuk setiap checkbox yang dipilih.
+    var price = parseFloat($(this).closest('tr').find('.item_price').data('price')); //Di dalam loop, mengambil nilai harga dari elemen dengan class .item_price yang berada dalam row (<tr>) terdekat dari checkbox yang sedang dicek. Nilai harga diambil dengan menggunakan .data('price') yang mengambil data price dari elemen tersebut.Mengkonversi nilai harga menjadi tipe data float dengan parseFloat().
+    total += price; //Menambahkan nilai harga ke variabel total.
   });
 
   if (total > 0) {
     var total_string = 'Rp ' + formatPrice(total);
+//Jika total lebih besar dari 0, maka:
+//Variabel total_string dibuat dengan format 'Rp ' + formatPrice(total). Format ini digunakan untuk menampilkan harga dengan format mata uang.
+//Mengubah isi elemen dengan id total_price menjadi total_string, sehingga tampilan total harga diperbarui.
     $('#total_price').text(total_string);
   } else {
     $('#total_price').text('Rp 0');
   }
+//Jika total kurang dari atau sama dengan 0, maka:
+//Mengubah isi elemen dengan id total_price menjadi 'Rp 0', menunjukkan bahwa total harga adalah 0.
 }
 
-function formatPrice(price) {
-  var price_string = price.toFixed(0).toString();
-  var formatted_price = '';
-  var last_index = price_string.length - 1;
+function formatPrice(price) { // Mendefinisikan fungsi formatPrice(price) yang menerima argumen price (harga).
+  var price_string = price.toFixed(0).toString(); // Menggunakan fungsi .toFixed(0) untuk membulatkan harga ke angka tanpa desimal. dan Mengkonversi harga menjadi string dengan toString().
+  var formatted_price = ''; //Mendefinisikan variabel formatted_price untuk menyimpan harga yang diformat.
+  var last_index = price_string.length - 1; // Menghitung indeks terakhir dari harga dalam string dengan last_index = price_string.length - 1.
 
-  for (var i = last_index; i >= 0; i--) {
-    formatted_price = price_string[i] + formatted_price;
-    var digit_index_from_right = last_index - i;
-    if (digit_index_from_right % 3 == 2 && i > 0) {
+  for (var i = last_index; i >= 0; i--) { //Melakukan loop mundur dari indeks terakhir hingga indeks pertama harga.
+    formatted_price = price_string[i] + formatted_price; //Di dalam loop, menambahkan setiap digit harga ke awal formatted_price dengan menggunakan formatted_price = price_string[i] + formatted_price.
+    var digit_index_from_right = last_index - i; //Menghitung indeks digit dari kanan ke kiri dengan digit_index_from_right = last_index - i.
+    if (digit_index_from_right % 3 == 2 && i > 0) { //Jika indeks digit dari kanan ke kiri merupakan kelipatan 3 (digit ke-2, 5, 8, dst.) dan bukan digit pertama, maka tambahkan tanda titik sebagai pemisah ribuan dengan formatted_price = '.' + formatted_price.
       formatted_price = '.' + formatted_price;
     }
   }
 
-  return formatted_price;
+  return formatted_price; ////Mengembalikan formatted_price yang merupakan harga yang diformat dengan tanda titik sebagai pemisah ribuan.
 }
 
 $(function() {
   // Checkbox all
   $('#select_all_ids').click(function() {
-    $('.checkbox_ids').prop('checked', $(this).prop('checked'));
+    $('.checkbox_ids').prop('checked', $(this).prop('checked'));//baris ini akan mengubah properti checked (centang) dari semua elemen dengan class checkbox_ids menjadi nilai yang sama dengan properti checked dari elemen yang diklik ($(this).prop('checked')).
     calculateTotal();
   });
 
@@ -226,20 +231,6 @@ $(function() {
 });
 
 </script>
- <script>
-        // Mendapatkan CSRF token dari meta tag
-        var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-        // Menambahkan CSRF token dalam setiap permintaan AJAX
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': csrfToken
-            }
-        });
-
-        // Skrip JavaScript lainnya
-        // ...
-    </script>
 
 @push('js')
 

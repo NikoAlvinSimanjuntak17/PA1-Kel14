@@ -11,7 +11,7 @@
 <div id="slides" class="cover-slides">
     <ul class="slides-container">
       <li class="text-left">
-        <img src="{{asset('users/img/pexels-karolina-grabowska-4021811.jpg')}}" alt="">
+        <img src="{{asset('img/IMG_20230504_153632.jpg')}}" alt="">
         <div class="container">
           <div class="row">
             <div class="col-md-12">
@@ -23,7 +23,7 @@
         </div>
       </li>
       <li class="text-left">
-        <img src="{{asset('users/img/pexels-pixabay-161688.jpg')}}" alt="">
+        <img src="{{asset('img/IMG_20230504_153725.jpg')}}" alt="">
         <div class="container">
           <div class="row">
             <div class="col-md-12">
@@ -35,7 +35,7 @@
         </div>
       </li>
       <li class="text-left">
-        <img src="{{asset('users/img/pexels-mart-production-7230192.jpg')}}" alt="">
+        <img src="{{asset('img/IMG_20230504_152915.jpg')}}" alt="">
         <div class="container">
           <div class="row">
             <div class="col-md-12">

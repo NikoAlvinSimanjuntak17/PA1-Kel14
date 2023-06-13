@@ -11,6 +11,7 @@ use App\Models\Subcategory;
 use App\Models\User;
 use App\Notifications\OrderNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use \Illuminate\Database\Eloquent\Relations\MorphMany;
 
@@ -26,9 +27,11 @@ class DasboardController extends Controller
         $product = Product::count();
         $category = Category::count();
         $subcategory = Subcategory::count();
-        $orders = Order::whereIn('status', ['in progress'])->count();
+        $today = Carbon::today();
+        $orders = Order::whereDate('time', $today)->whereIn('status', ['in progress', 'selesai'])->count();
+
         $ordercount = Order::count();
-        $count = Order::whereIn('status', ['in progress'])->get();
+        $count = Order::whereIn('status', ['in progress','selesai'])->get();
         $deseases = deseases::count();
         $admin = Auth::user();
 

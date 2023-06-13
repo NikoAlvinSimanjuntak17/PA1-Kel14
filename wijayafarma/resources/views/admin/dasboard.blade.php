@@ -124,7 +124,7 @@
 
                 @foreach ($count as $item)
                     @foreach (json_decode($item->totalprice) as $as)
-                    @if (Carbon\Carbon::parse($item->updated_at)->isToday())
+                    @if (Carbon\Carbon::parse($item->time)->isToday())
                         @php
                             $total += $as;
                         @endphp
