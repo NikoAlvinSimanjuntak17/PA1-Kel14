@@ -740,7 +740,7 @@ button {
 }
 
 .social-link:is(:hover, :focus) {
-    background: hsl(5, 100%, 69%);
+    background: #3d7d6c;
     color: white;
 }
 

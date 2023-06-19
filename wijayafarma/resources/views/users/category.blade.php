@@ -22,7 +22,7 @@ $categories = App\Models\Category::latest()->get();
     <section class="section reveal product">
         <div class="container">
             <br>
-            <h2 class="h2 title_product">{{$category->category_name}} - ({{$category->product_count}})</h2>
+            <h2 class="h2 title_product">Kategori - {{$category->category_name}}</h2>
             <div>
                 <div class="container">
                     <div class="row">
@@ -87,8 +87,15 @@ $categories = App\Models\Category::latest()->get();
                                     @endif
                                     <ul class="card-action-list">
                                         <li class="card-action-item">
-                                            @auth
-                                            @if(auth()->user()->hasRole('customer'))
+                                            @if (!Auth::check())
+                                            <a href="{{route('login')}}">
+                                                <button type="submit" class="card-action-btn" aria-labelledby="card-label-1">
+                                                    <ion-icon name="cart-outline"></ion-icon>
+                                                  </button>
+                                                  <div class="card-action-tooltip" id="card-label-1">Beli Sekarang</div>
+                                              </a>
+                                              @elseif(auth()->user()->hasRole('customer'))
+                                              @auth
                                             <form action="{{route('addproducttocart',$produc->id)}}" method="POST">
                                                 @csrf
                                                 <input type="hidden" value="{{$produc->id}}" name="product_id">
@@ -105,8 +112,8 @@ $categories = App\Models\Category::latest()->get();
                                                 <div class="card-action-tooltip" id="card-label-1">Beli Sekarang
                                                 </div>
                                             </form>
-                                            @endif
                                             @endauth
+                                            @endif
                                         </li>
                                         <li class="card-action-item">
                                             <a href="{{route('singleproduct',[$produc->id,$produc->slug])}}">

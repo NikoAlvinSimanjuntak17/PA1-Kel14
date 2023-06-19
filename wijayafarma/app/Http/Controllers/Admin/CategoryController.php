@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Product;
 use App\Notifications\OrderNotification;
 use Illuminate\Http\Request;
 use App\Models\Category;
@@ -34,7 +35,6 @@ class CategoryController extends Controller
 
         Category::insert([
             'category_name' => $request->category_name,
-            'slug' => strtolower(str_replace('','-',$request->category_name))
         ]);
 
         return redirect()->route('allcategory')->with('message','Categories Added Succesfullly!');
@@ -54,14 +54,20 @@ class CategoryController extends Controller
 
             Category::findOrFail($category_id)->update([
                 'category_name' => $request->category_name,
-                'slug' => strtolower(str_replace('','-',$request->category_name))
             ]);
 
             return redirect()->route('allcategory')->with('message','Categories Update Succesfullly!');
 
         }
-        public function DeleteCategory($id){
-            Category::findOrFail($id)->delete();
-            return redirect()->route('allcategory')->with('message','Categories Delete Succesfullly!');
+        public function deleteCategory($id) {
+            $category = Category::findOrFail($id);
+
+            if (Product::where('product_category_id', $category->id)->count() > 0) {
+                return redirect()->route('allcategory');
+            }
+
+            $category->delete();
+            return redirect()->route('allcategory')->with('message', 'Category deleted successfully!');
         }
+
 }

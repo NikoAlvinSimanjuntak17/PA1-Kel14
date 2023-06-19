@@ -24,7 +24,6 @@ return new class extends Migration
             $table->integer('quantity')->default(1);
             $table->integer('price');
             $table->dateTime('time')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->string('slug',255);
             $table->timestamps();
         });
     }

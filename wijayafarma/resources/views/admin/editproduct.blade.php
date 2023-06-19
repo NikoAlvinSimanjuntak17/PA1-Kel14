@@ -41,9 +41,26 @@
             </div>
           </div>
           <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="basic-default-name">Tipe Produk</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="quantity" name="tipe" value="{{$product->tipe}}"/>
+            </div>
+          </div>
+          <div class="row mb-3">
             <label class="col-sm-2 col-form-label" for="basic-default-name">Deskripsi Produk</label>
             <div class="col-sm-10">
                 <textarea class="form-control" name="product_deskripsi" id="product_deskripsi"  cols="30" rows="10">{{$product->product_deskripsi}}</textarea>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="basic-default-name">Pilih Categori</label>
+            <div class="col-sm-10">
+                <select class="form-select" id="product_category_id" name="product_category_id" aria-label="Default select example">
+                    <option selected>{{$product->product_category_name}}</option>
+                    @foreach ($categories as $categori )
+                    <option value="{{$categori->id}}">{{$categori->category_name}}</option>
+                    @endforeach
+                  </select>
             </div>
           </div>
 

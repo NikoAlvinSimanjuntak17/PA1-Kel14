@@ -113,8 +113,11 @@
                   </div>
                   @elseif (auth()->user()->hasRole('admin'))
                   <a href="{{route('admindasboard')}}" class="btn btn-success">Halaman admin</a>
-@endif
-@endauth
+                  @endif
+                  @endauth
+                  @guest
+                  <a href="{{route('login')}}" class="p-2 pe-4 ps-4" style="border:1px solid white;border-radius:50%;color:white;">login</a>
+                  @endguest
     </div>
   </header>
   <!-- End Header -->

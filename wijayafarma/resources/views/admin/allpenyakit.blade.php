@@ -1,4 +1,5 @@
 @extends('admin.layouts.template')
+@section('title','Admin | allpenyakit')
 @push('css')
     <link href="{{asset('css/tables.css')}}" rel="stylesheet" />
 @endpush

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Waktu pembuatan: 19 Jun 2023 pada 08.08
+-- Waktu pembuatan: 12 Jun 2023 pada 10.54
 -- Versi server: 8.0.30
 -- Versi PHP: 8.0.28
 
@@ -36,17 +36,10 @@ CREATE TABLE `carts` (
   `quantity` int NOT NULL DEFAULT '1',
   `price` int NOT NULL,
   `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data untuk tabel `carts`
---
-
-INSERT INTO `carts` (`id`, `product_id`, `user_id`, `product_img`, `product_nama`, `quantity`, `price`, `time`, `created_at`, `updated_at`) VALUES
-(3, 1, 2, 'upload/1764032625102343.jpg', 'sanmol', 2, 6000, '2023-06-19 14:25:24', NULL, NULL),
-(6, 1, 2, 'upload/1764032625102343.jpg', 'sanmol', 1, 6000, '2023-06-19 14:49:33', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -57,6 +50,9 @@ INSERT INTO `carts` (`id`, `product_id`, `user_id`, `product_img`, `product_nama
 CREATE TABLE `categories` (
   `id` bigint UNSIGNED NOT NULL,
   `category_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subcategory_count` int NOT NULL DEFAULT '0',
+  `product_count` int NOT NULL DEFAULT '0',
   `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -67,33 +63,33 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `category_name`, `time`, `created_at`, `updated_at`) VALUES
-(12, 'Batuk', '2023-06-09 11:46:15', NULL, '2023-05-15 15:36:13'),
-(13, 'Demam', '2023-06-09 11:46:15', NULL, '2023-05-15 15:33:34'),
-(14, 'Pening', '2023-06-09 11:46:15', NULL, '2023-04-22 18:04:06'),
-(15, 'Influenza', '2023-06-09 11:46:15', NULL, '2023-05-15 15:31:11'),
-(16, 'Mulut', '2023-06-09 11:46:15', NULL, '2023-05-02 17:04:54'),
-(17, 'Pencernaan', '2023-06-09 11:46:15', NULL, '2023-05-15 14:12:22'),
-(18, 'Flu & Batuk', '2023-06-09 11:46:15', NULL, '2023-05-15 15:35:05'),
-(19, 'Diare', '2023-06-09 11:46:15', NULL, '2023-05-15 15:24:56'),
-(20, 'Sembelit', '2023-06-09 11:46:15', NULL, '2023-05-02 18:01:06'),
-(21, 'Maag', '2023-06-09 11:46:15', NULL, '2023-05-15 15:20:45'),
-(22, 'kanker', '2023-06-09 11:46:15', NULL, NULL),
-(23, 'Obat Luar', '2023-06-09 11:46:15', NULL, '2023-05-15 15:44:46'),
-(24, 'Asam Lambung', '2023-06-09 11:46:15', NULL, '2023-05-13 02:38:45'),
-(25, 'Tulang', '2023-06-09 11:46:15', NULL, '2023-05-09 18:52:11'),
-(26, 'Suplemen', '2023-06-09 11:46:15', NULL, '2023-05-15 14:28:32'),
-(27, 'Batuk Berdahak', '2023-06-09 11:46:15', NULL, '2023-05-13 02:36:45'),
-(28, 'Tenggorokan', '2023-06-09 11:46:15', NULL, '2023-05-13 02:49:25'),
-(29, 'Berbagai Nyeri Ringan', '2023-06-09 11:46:15', NULL, '2023-05-13 03:14:32'),
-(30, 'Gejala Alergi', '2023-06-09 11:46:15', NULL, '2023-05-13 03:24:27'),
-(31, 'Ambeien', '2023-06-09 11:46:15', NULL, '2023-05-15 14:16:52'),
-(32, 'Anemia', '2023-06-09 11:46:15', NULL, '2023-05-15 14:18:47'),
-(33, 'Vitamin', '2023-06-09 11:46:15', NULL, '2023-05-15 15:42:29'),
-(34, 'Nyeri otot,sendi,dll', '2023-06-09 11:46:15', NULL, '2023-05-15 14:38:54'),
-(35, 'Anti Mual', '2023-06-09 11:46:15', NULL, '2023-05-15 14:40:05'),
-(36, 'Sakit Kepala', '2023-06-09 11:46:15', NULL, '2023-05-15 15:28:47'),
-(37, 'Sariawan', '2023-06-09 11:46:15', NULL, '2023-05-15 14:53:01'),
-(38, 'Obat Cacing', '2023-06-09 11:46:15', NULL, '2023-05-15 15:32:36');
+(12, 'Batuk', '2023-06-09 11:46:15', NULL, '2023-05-15 22:36:13'),
+(13, 'Demam', '2023-06-09 11:46:15', NULL, '2023-05-15 22:33:34'),
+(14, 'Pening', '2023-06-09 11:46:15', NULL, '2023-04-23 01:04:06'),
+(15, 'Influenza','2023-06-09 11:46:15', NULL, '2023-05-15 22:31:11'),
+(16, 'Mulut','2023-06-09 11:46:15', NULL, '2023-05-03 00:04:54'),
+(17, 'Pencernaan', '2023-06-09 11:46:15', NULL, '2023-05-15 21:12:22'),
+(18, 'Flu & Batuk','2023-06-09 11:46:15', NULL, '2023-05-15 22:35:05'),
+(19, 'Diare','2023-06-09 11:46:15', NULL, '2023-05-15 22:24:56'),
+(20, 'Sembelit','2023-06-09 11:46:15', NULL, '2023-05-03 01:01:06'),
+(21, 'Maag','2023-06-09 11:46:15', NULL, '2023-05-15 22:20:45'),
+(22, 'kanker','2023-06-09 11:46:15', NULL, NULL),
+(23, 'Obat Luar','2023-06-09 11:46:15', NULL, '2023-05-15 22:44:46'),
+(24, 'Asam Lambung', '2023-06-09 11:46:15', NULL, '2023-05-13 09:38:45'),
+(25, 'Tulang','2023-06-09 11:46:15', NULL, '2023-05-10 01:52:11'),
+(26, 'Suplemen', '2023-06-09 11:46:15', NULL, '2023-05-15 21:28:32'),
+(27, 'Batuk Berdahak','2023-06-09 11:46:15', NULL, '2023-05-13 09:36:45'),
+(28, 'Tenggorokan','2023-06-09 11:46:15', NULL, '2023-05-13 09:49:25'),
+(29, 'Berbagai Nyeri Ringan','2023-06-09 11:46:15', NULL, '2023-05-13 10:14:32'),
+(30, 'Gejala Alergi','2023-06-09 11:46:15', NULL, '2023-05-13 10:24:27'),
+(31, 'Ambeien','2023-06-09 11:46:15', NULL, '2023-05-15 21:16:52'),
+(32, 'Anemia','2023-06-09 11:46:15', NULL, '2023-05-15 21:18:47'),
+(33, 'Vitamin','2023-06-09 11:46:15', NULL, '2023-05-15 22:42:29'),
+(34, 'Nyeri otot,sendi,dll','2023-06-09 11:46:15', NULL, '2023-05-15 21:38:54'),
+(35, 'Anti Mual','2023-06-09 11:46:15', NULL, '2023-05-15 21:40:05'),
+(36, 'Sakit Kepala', '2023-06-09 11:46:15', NULL, '2023-05-15 22:28:47'),
+(37, 'Sariawan', '2023-06-09 11:46:15', NULL, '2023-05-15 21:53:01'),
+(38, 'Obat Cacing','2023-06-09 11:46:15', NULL, '2023-05-15 22:32:36');
 
 -- --------------------------------------------------------
 
@@ -117,13 +113,13 @@ CREATE TABLE `deseases` (
 --
 
 INSERT INTO `deseases` (`id`, `Nama_Penyakit`, `Deskripsi`, `Penyakit_img`, `slug`, `time`, `created_at`, `updated_at`) VALUES
-(1, 'Demam', 'Demam merupakan kondisi terjadinya peningkatan suhu tubuh di atas 38 derajat Celsius. Umumnya, demam merupakan respons tubuh atau gejala terhadap penyakit. Suhu tubuh yang meningkat atau demam sebenarnya merupakan salah satu cara sistem kekebalan tubuh manusia untuk memerangi infeksi.', 'upload/1765383202085027.jpeg', 'demam', '2023-06-09 11:47:22', NULL, '2023-05-07 15:50:18'),
-(2, 'Batuk', 'Batuk adalah tindakan refleks yang dilakukan untuk membersihkan tenggorokan dari lendir atau iritasi akibat benda asing. Namun, beberapa kondisi kesehatan juga bisa menyebabkan seseorang lebih sering untuk batuk. Sebagian besar gejala akan hilang atau setidaknya membaik secara signifikan dalam waktu dua minggu.', 'upload/1765383340823872.gif', 'batuk', '2023-06-09 11:47:22', NULL, '2023-05-07 15:52:30'),
-(3, 'Influenza', 'Influenza adalah sebuah penyakit yang dapat menular dan disebabkan oleh virus. Seseorang yang terserang penyakit ini mungkin akan merasakan demam tinggi, pilek, sakit tenggorokan, nyeri otot, sakit kepala, hingga batuk. Ternyata, virus tersebut dapat berkembang sehingga menyebabkan laringitis.', 'upload/1765383218347380.jpg', 'influenza', '2023-06-09 11:47:22', NULL, '2023-05-07 15:50:34'),
-(4, 'Sariawan', 'Sariawan atau dikenal sebagai sariawan adalah luka akibat iritasi pada gusi, lidah, dan lapisan dalam mulut. Luka pada sariawan berwarna putih atau kekuningan dan dikelilingi peradangan di sekitarnya. Kendati ukuran lukanya kecil, namun sariawan kerap membuat penderitanya tidak enak makan dan tidak nyaman berbicara.', 'upload/1765383231934200.jpeg', 'sariawan', '2023-06-09 11:47:22', NULL, '2023-05-07 15:50:46'),
-(5, 'Batuk', 'Batuk adalah tindakan refleks yang dilakukan untuk membersihkan tenggorokan dari lendir atau iritasi akibat benda asing. Namun, beberapa kondisi kesehatan juga bisa menyebabkan seseorang lebih sering untuk batuk. Sebagian besar gejala akan hilang atau setidaknya membaik secara signifikan dalam waktu dua minggu.', 'upload/1764974641882465.jpeg', 'batuk', '2023-06-09 11:47:22', NULL, '2023-05-07 15:49:52'),
-(6, 'Maag', 'Maag yang juga dikenal dengan istilah dispepsia merupakan gangguan di organ lambung yang ditandai dengan rasa nyeri atau terbakar di ulu hati, rasa penuh atau tidak nyaman setelah makan, dan rasa cepat kenyang. Kondisi ini cukup umum dialami oleh kebanyakan orang.', 'upload/1765383253200826.jpeg', 'maag', '2023-06-09 11:47:22', NULL, '2023-05-07 15:51:07'),
-(7, 'Diare', 'Diare merupakan penyakit yang membuat penderitanya sering buang air besar dengan kondisi tinja encer atau cair. Pada umumnya diare terjadi akibat mengkonsumsi makanan dan minuman yang terkontaminasi virus, bakteri, atau parasit. Diare umumnya berlangsung kurang dari 14 hari (diare akut).', 'upload/1768458572164048.jpg', 'diare', '2023-06-12 08:30:16', NULL, '2023-06-11 04:31:59'),
+(1, 'Demam', 'Demam merupakan kondisi terjadinya peningkatan suhu tubuh di atas 38 derajat Celsius. Umumnya, demam merupakan respons tubuh atau gejala terhadap penyakit. Suhu tubuh yang meningkat atau demam sebenarnya merupakan salah satu cara sistem kekebalan tubuh manusia untuk memerangi infeksi.', 'upload/1765383202085027.jpeg', 'demam', '2023-06-09 11:47:22', NULL, '2023-05-07 22:50:18'),
+(2, 'Batuk', 'Batuk adalah tindakan refleks yang dilakukan untuk membersihkan tenggorokan dari lendir atau iritasi akibat benda asing. Namun, beberapa kondisi kesehatan juga bisa menyebabkan seseorang lebih sering untuk batuk. Sebagian besar gejala akan hilang atau setidaknya membaik secara signifikan dalam waktu dua minggu.', 'upload/1765383340823872.gif', 'batuk', '2023-06-09 11:47:22', NULL, '2023-05-07 22:52:30'),
+(3, 'Influenza', 'Influenza adalah sebuah penyakit yang dapat menular dan disebabkan oleh virus. Seseorang yang terserang penyakit ini mungkin akan merasakan demam tinggi, pilek, sakit tenggorokan, nyeri otot, sakit kepala, hingga batuk. Ternyata, virus tersebut dapat berkembang sehingga menyebabkan laringitis.', 'upload/1765383218347380.jpg', 'influenza', '2023-06-09 11:47:22', NULL, '2023-05-07 22:50:34'),
+(4, 'Sariawan', 'Sariawan atau dikenal sebagai sariawan adalah luka akibat iritasi pada gusi, lidah, dan lapisan dalam mulut. Luka pada sariawan berwarna putih atau kekuningan dan dikelilingi peradangan di sekitarnya. Kendati ukuran lukanya kecil, namun sariawan kerap membuat penderitanya tidak enak makan dan tidak nyaman berbicara.', 'upload/1765383231934200.jpeg', 'sariawan', '2023-06-09 11:47:22', NULL, '2023-05-07 22:50:46'),
+(5, 'Batuk', 'Batuk adalah tindakan refleks yang dilakukan untuk membersihkan tenggorokan dari lendir atau iritasi akibat benda asing. Namun, beberapa kondisi kesehatan juga bisa menyebabkan seseorang lebih sering untuk batuk. Sebagian besar gejala akan hilang atau setidaknya membaik secara signifikan dalam waktu dua minggu.', 'upload/1764974641882465.jpeg', 'batuk', '2023-06-09 11:47:22', NULL, '2023-05-07 22:49:52'),
+(6, 'Maag', 'Maag yang juga dikenal dengan istilah dispepsia merupakan gangguan di organ lambung yang ditandai dengan rasa nyeri atau terbakar di ulu hati, rasa penuh atau tidak nyaman setelah makan, dan rasa cepat kenyang. Kondisi ini cukup umum dialami oleh kebanyakan orang.', 'upload/1765383253200826.jpeg', 'maag', '2023-06-09 11:47:22', NULL, '2023-05-07 22:51:07'),
+(7, 'Diare', 'Diare merupakan penyakit yang membuat penderitanya sering buang air besar dengan kondisi tinja encer atau cair. Pada umumnya diare terjadi akibat mengkonsumsi makanan dan minuman yang terkontaminasi virus, bakteri, atau parasit. Diare umumnya berlangsung kurang dari 14 hari (diare akut).', 'upload/1768458572164048.jpg', 'diare', '2023-06-12 08:30:16', NULL, '2023-06-11 11:31:59'),
 (8, 'Malaria', 'Malaria adalah penyakit yang disebabkan oleh parasit bernama Plasmodium. Penyakit ini ditularkan melalui gigitan nyamuk yang terinfeksi parasit tersebut. Di dalam tubuh manusia, parasit Plasmodium akan berkembang biak di organ hati kemudian menginfeksi sel darah merah.', 'upload/1768458730733710.jpeg', 'malaria', '2023-06-12 08:34:31', NULL, NULL),
 (9, 'Tuberkulosis', 'TBC (tuberkulosis) adalah penyakit menular dan mematikan dengan tingkat pasien tinggi yang disebabkan oleh bakteri Mycobacterium tuberculosis, TBC adalah salah satu penyakit infeksi pada paru yang penularannya disebabkan oleh droplet atau percikan ludah.', 'upload/1768458806227399.jpeg', 'tuberkulosis', '2023-06-12 08:35:43', NULL, NULL),
 (10, 'Covid-19', 'Coronavirus Disease 2019 atau COVID-19 adalah penyakit baru yang dapat menyebabkan gangguan pernapasan dan radang paru. Penyakit ini disebabkan oleh infeksi Severe Acute Respiratory Syndrome Coronavirus 2 (SARS-CoV-2). Gejala klinis yang muncul beragam, mulai dari seperti gejala flu biasa (batuk, pilek, nyeri tenggorok, nyeri otot, nyeri kepala) sampai yang berkomplikasi berat (pneumonia atau sepsis).', 'upload/1768458961041297.jpeg', 'covid-19', '2023-06-12 08:38:10', NULL, NULL),
@@ -182,11 +178,12 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (5, '2023_04_20_102240_laratrust_setup_tables', 1),
 (6, '2023_04_21_161018_create_sessions_table', 1),
 (7, '2023_04_21_172109_create_categories_table', 1),
-(8, '2023_04_22_003926_create_products_table', 1),
-(9, '2023_04_24_163819_create_carts_table', 1),
-(10, '2023_05_01_073425_create_orders_table', 1),
-(11, '2023_05_03_014005_create_deseases_table', 1),
-(12, '2023_05_24_060946_create_notifications_table', 1);
+(8, '2023_04_22_003023_create_subcategories_table', 1),
+(9, '2023_04_22_003926_create_products_table', 1),
+(10, '2023_04_24_163819_create_carts_table', 1),
+(11, '2023_05_01_073425_create_orders_table', 1),
+(12, '2023_05_03_014005_create_deseases_table', 1),
+(13, '2023_05_24_060946_create_notifications_table', 1);
 
 -- --------------------------------------------------------
 
@@ -204,13 +201,6 @@ CREATE TABLE `notifications` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data untuk tabel `notifications`
---
-
-INSERT INTO `notifications` (`id`, `type`, `notifiable_type`, `notifiable_id`, `data`, `read_at`, `created_at`, `updated_at`) VALUES
-('addc4b4e-55c8-42a9-907b-10ba7b23f88f', 'App\\Notifications\\OrderNotification', 'App\\Models\\User', 1, '{\"id\":1,\"nama\":\"carloka\"}', NULL, '2023-06-19 00:27:55', '2023-06-19 00:27:55');
 
 -- --------------------------------------------------------
 
@@ -238,13 +228,6 @@ CREATE TABLE `orders` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data untuk tabel `orders`
---
-
-INSERT INTO `orders` (`id`, `product_id`, `product_nama`, `user_id`, `nama`, `shipping_phonenumber`, `shipping_postalcode`, `address`, `shipping_city`, `product_img`, `quantity`, `totalprice`, `status`, `img_bayar`, `ulasan`, `time`, `created_at`, `updated_at`) VALUES
-(1, '[2,1]', '[\"panadol\",\"sanmol\"]', 2, 'Calvin', '082283314904', '301313', 'jl it del', 'medan', '[\"upload\\/1764032665890314.jpeg\",\"upload\\/1764032625102343.jpg\"]', '[1,2]', '[12000,6000]', 'selesai', 'upload/1687161719.jpeg', 'asas', '2023-06-19 14:26:08', NULL, '2023-06-19 01:03:28');
 
 -- --------------------------------------------------------
 
@@ -278,16 +261,16 @@ CREATE TABLE `permissions` (
 --
 
 INSERT INTO `permissions` (`id`, `name`, `display_name`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'users-create', 'Create Users', 'Create Users', '2023-06-15 18:29:50', '2023-06-15 18:29:50'),
-(2, 'users-read', 'Read Users', 'Read Users', '2023-06-15 18:29:50', '2023-06-15 18:29:50'),
-(3, 'users-update', 'Update Users', 'Update Users', '2023-06-15 18:29:50', '2023-06-15 18:29:50'),
-(4, 'users-delete', 'Delete Users', 'Delete Users', '2023-06-15 18:29:50', '2023-06-15 18:29:50'),
-(5, 'payments-create', 'Create Payments', 'Create Payments', '2023-06-15 18:29:50', '2023-06-15 18:29:50'),
-(6, 'payments-read', 'Read Payments', 'Read Payments', '2023-06-15 18:29:50', '2023-06-15 18:29:50'),
-(7, 'payments-update', 'Update Payments', 'Update Payments', '2023-06-15 18:29:50', '2023-06-15 18:29:50'),
-(8, 'payments-delete', 'Delete Payments', 'Delete Payments', '2023-06-15 18:29:50', '2023-06-15 18:29:50'),
-(9, 'profile-read', 'Read Profile', 'Read Profile', '2023-06-15 18:29:50', '2023-06-15 18:29:50'),
-(10, 'profile-update', 'Update Profile', 'Update Profile', '2023-06-15 18:29:50', '2023-06-15 18:29:50');
+(1, 'users-create', 'Create Users', 'Create Users', '2023-06-11 06:26:25', '2023-06-11 06:26:25'),
+(2, 'users-read', 'Read Users', 'Read Users', '2023-06-11 06:26:25', '2023-06-11 06:26:25'),
+(3, 'users-update', 'Update Users', 'Update Users', '2023-06-11 06:26:25', '2023-06-11 06:26:25'),
+(4, 'users-delete', 'Delete Users', 'Delete Users', '2023-06-11 06:26:25', '2023-06-11 06:26:25'),
+(5, 'payments-create', 'Create Payments', 'Create Payments', '2023-06-11 06:26:25', '2023-06-11 06:26:25'),
+(6, 'payments-read', 'Read Payments', 'Read Payments', '2023-06-11 06:26:25', '2023-06-11 06:26:25'),
+(7, 'payments-update', 'Update Payments', 'Update Payments', '2023-06-11 06:26:25', '2023-06-11 06:26:25'),
+(8, 'payments-delete', 'Delete Payments', 'Delete Payments', '2023-06-11 06:26:25', '2023-06-11 06:26:25'),
+(9, 'profile-read', 'Read Profile', 'Read Profile', '2023-06-11 06:26:25', '2023-06-11 06:26:25'),
+(10, 'profile-update', 'Update Profile', 'Update Profile', '2023-06-11 06:26:25', '2023-06-11 06:26:25');
 
 -- --------------------------------------------------------
 
@@ -365,10 +348,12 @@ CREATE TABLE `products` (
   `product_deskripsi` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `price` int NOT NULL,
   `product_category_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_subcategory_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `product_category_id` bigint UNSIGNED NOT NULL,
+  `product_subcategory_id` bigint UNSIGNED NOT NULL,
   `product_img` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `quantity` int NOT NULL,
-  `tipe` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -378,95 +363,49 @@ CREATE TABLE `products` (
 -- Dumping data untuk tabel `products`
 --
 
-INSERT INTO `products` (`id`, `product_name`, `product_deskripsi`, `price`, `product_category_name`, `product_category_id`, `product_img`, `quantity`, `tipe`, `time`, `created_at`, `updated_at`) VALUES
-(1, 'sanmol', 'obat demam', 6000, 'Demam', 13, 'upload/1764032625102343.jpg', 16, 'tablet', '2023-06-09 11:52:50', NULL, '2023-06-19 00:49:01'),
-(2, 'panadol', 'obat pening', 12000, 'Pening', 14, 'upload/1764032665890314.jpeg', 27, NULL, '2023-06-09 11:52:50', NULL, '2023-06-19 00:26:08'),
-(3, 'OBH', 'buat batuk kering', 15000, 'Batuk', 12, 'upload/1764046470449554.jpeg', 9, NULL, '2023-06-09 11:52:50', NULL, '2023-04-22 21:43:31'),
-(4, 'Decolgen', 'ebjeuhfeuifjenjfbhefuijeqknfjk', 6000, 'flue', 15, 'upload/1764834685291948.jpeg', 17, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(5, 'Ramolit Sh', 'P022013BB\r\nFeb-25', 35000, 'Pencernaan', 17, 'upload/1764935502124075.png', 14, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(6, 'Sanmol Drops', 'C01907\r\nApr-24', 25000, 'Demam', 13, 'upload/1764935783405265.jpeg', 1, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(7, 'Contrexin Sry', 'B81652\r\nJul-24', 9000, 'Demam', 13, 'upload/1764935909688915.jpeg', 6, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(8, 'Praxion Sry', 'D2D196B\r\nApr-24', 30000, 'Demam', 13, 'upload/1764936078411189.jpeg', 2, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(9, 'Sanmol Syrup', 'CD9802\r\nApr-24', 17000, 'Demam', 13, 'upload/1764936355875570.jpeg', 2, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(10, 'Tempraforte', '1H569\r\nAug-23', 59000, 'Demam', 13, 'upload/1764936484895629.jpeg', 1, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(11, 'Pamol Syrup', 'S019L009\r\nMar-26', 40000, 'Demam', 13, 'upload/1764936636702970.jpeg', 2, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(12, 'Oraprofen syrup', '721201\r\nJul-23', 7000, 'Demam', 13, 'upload/1764936903367476.jpeg', 1, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(13, 'Proris Hijau Syrup', 'D2E8403\r\nMay-24', 25000, 'Demam', 13, 'upload/1764937028373527.jpeg', 2, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(14, 'Flutamol Syrup', 'KP023\r\nNov-23', 10000, 'flue', 15, 'upload/1764937173119994.jpeg', 1, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(15, 'Pimtrakol syrup', '32104003\r\nApr-24', 20000, 'flue', 15, 'upload/1764937348325818.jpeg', 1, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(16, 'Hufagrip Hijau', 'A801072\r\nApr-26', 20000, 'Batuk', 12, 'upload/1764937454810174.jpeg', 2, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(17, 'Hufagrip Biru', 'C600022\r\nJan-25', 18000, 'flue', 15, 'upload/1764937667715726.jpeg', 2, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(18, 'Hufagrip Kuning', 'A900752\r\nFeb-25', 25000, 'Flu & Batuk', 18, 'upload/1764937942880950.jpeg', 2, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(19, 'Hufagrip Merah', 'B000032\r\nJan-25', 20000, 'Demam', 13, 'upload/1764938022607585.jpeg', 2, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(20, 'Guanistrep Syrup', '109022\r\nSep-25', 8000, 'Diare', 19, 'upload/1764938180531788.jpg', 7, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(21, 'Kaotin Syrup', 'S1157107\r\nApr-24', 10000, 'Diare', 19, 'upload/1764938280286283.jpg', 4, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(22, 'Kompolax  Syrup', '1226\r\nJul-23', 17000, 'Sembelit', 20, 'upload/1764938446719061.jpg', 2, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(23, 'Hufamag Plus Syrup', 'B500361\r\nJun-23', 10000, 'Maag', 21, 'upload/1764938619327180.jpeg', 3, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(24, 'Gentian Violet', 'E46202\r\nMay-25', 5000, 'Obat Luar', 23, 'upload/1765575291682949.jpeg', 9, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(25, 'Lambucid syrup', 'KLLCDD14179\r\nAug-23', 15000, 'Asam Lambung', 24, 'upload/1765575467539278.jpg', 5, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(26, 'Mylanta Syrup', 'B14L0381\r\nApr-25', 17000, 'Asam Lambung', 24, 'upload/1765575559551950.jpeg', 4, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(27, 'CDR', 'CM944134\r\nAug-23', 45000, 'Tulang', 25, 'upload/1765575742248942.jpeg', 2, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(28, 'CDR Fortos', 'CM01017\r\nMar-24', 45000, 'Tulang', 25, 'upload/1765575839559435.jpg', 2, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(29, 'Sakatonik Activ Syrup', 'TLSAA16045\r\nNov-23', 16000, 'Suplemen', 26, 'upload/1765575944195068.jpeg', 4, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(30, 'Omevita Syrup', '421139\r\nApr-23', 15000, 'Suplemen', 26, 'upload/1765576040539788.jpg', 3, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(31, 'Muliavit Syrup', '322329\r\nMar-24', 10000, 'Suplemen', 26, 'upload/1765576126429178.jpg', 3, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(32, 'Cerebrofot Gold', 'KLCRGA22042\r\nMar-24', 16000, 'Suplemen', 26, 'upload/1765576241478420.jpg', 3, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(33, 'H-Booster Syrup', '200062\r\nMar-24', 18000, 'Suplemen', 26, 'upload/1765576733387446.jpeg', 4, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(34, 'Albusmin', 'Y1L7023\r\nNov-23', 110000, 'Suplemen', 26, 'upload/1765876412571482.jpeg', 2, NULL, '2023-06-09 11:52:50', NULL, '2023-06-11 20:16:29'),
-(35, 'Rexcof', 'D0C8088\r\nMar-25', 4000, 'Batuk Berdahak', 27, 'upload/1765876858496756.jpeg', 3, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(36, 'Mylanta Tablet', '131L016\r\nJan-24', 10000, 'Asam Lambung', 24, 'upload/1765876983905997.jpeg', 5, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(37, 'Imbost Force', '2120137B\r\nSep-24', 80000, 'Suplemen', 26, 'upload/1765877264222926.jpeg', 1, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(38, 'Strepsils', '8272545\r\nDec-24', 17000, 'Tenggorokan', 28, 'upload/1765877654765776.jpeg', 1, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(39, 'Ikadryl Syrup', 'DL2007\r\nApr-23', 10000, 'Flu & Batuk', 18, 'upload/1765877808259612.jpeg', 4, NULL, '2023-06-09 11:52:50', NULL, '2023-05-13 02:52:12'),
-(40, 'OBH Combi 100ml', '21B022\r\nFeb-24', 16000, 'Batuk Berdahak', 18, 'upload/1765878069370305.jpeg', 5, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(41, 'OBH Combi Plus 100ml', '21D041\r\nApr-24', 20000, 'Flu & Batuk', 18, 'upload/1765878793406598.jpeg', 5, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(42, 'Farsifen plus', '/papan\r\n11624\r\nApr-24', 8000, 'Berbagai Nyeri Ringan', 29, 'upload/1765879008559021.jpeg', 9, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(43, 'Emturnas tablet', '/papan\r\n(63724\r\nJun-27)', 6000, 'Berbagai Nyeri Ringan', 29, 'upload/1765879156959918.jpeg', 26, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(44, 'Fasidol tablet', '/papan\r\n(18932\r\nDec-25)', 8000, 'Berbagai Nyeri Ringan', 29, 'upload/1765879234991013.jpeg', 22, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(45, 'Orphen tablet', '/papan\r\n(tux109\r\nDec-25)', 3000, 'Gejala Alergi', 30, 'upload/1765879858761956.jpg', 18, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(46, 'Sanmol tablet', '/papan\r\n(ca8212\r\nJan-24)', 3000, 'Demam', 13, 'upload/1765879954729456.jpeg', 12, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(47, 'Omegdiar tablet', '/papan\r\n(922277\r\nSep-24)', 5000, 'Diare', 19, 'upload/1765880168316288.jpeg', 12, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(48, 'Zink tablet', '/papan\r\n(211008350\r\nOct-23)', 15000, 'Suplemen', 26, 'upload/1766101649510376.jpeg', 4, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(49, 'Dulcolac tablet', '/papan\r\n(210905102\r\nAug-24)', 20000, 'Pencernaan', 17, 'upload/1766101816656580.jpeg', 4, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(50, 'AntiHemoroid tablet', '/papan\r\n( 002HW\r\nAug-23)', 20000, 'Ambeien', 31, 'upload/1766102099975801.jpeg', 10, NULL, '2023-06-09 11:52:50', NULL, '2023-06-09 12:26:49'),
-(51, 'Sangobion tablet', '/papan\r\n(1455185\r\nNov-24)', 20000, 'Anemia', 32, 'upload/1766102220133136.jpeg', 10, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(52, 'Neurobion putih', '/papan\r\n(Do156442\r\nJan-24)', 27000, 'Vitamin', 33, 'upload/1766102397395379.jpeg', 3, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(53, 'Neurobion merah', '/papan', 48000, 'Vitamin', 33, 'upload/1766102607109231.png', 2, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(54, 'Imbost tablet', '/papan\r\n (22A033\r\nFeb-25)', 45000, 'Vitamin', 33, 'upload/1766102711481511.jpg', 3, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(55, 'Arkavit', '/papan\r\n(T2106470\r\nAug-24)', 6000, 'Suplemen', 26, 'upload/1766102833661582.jpeg', 2, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(56, 'Grantusif', '/papan\r\n(SG116G\r\nJul-24)', 11000, 'Batuk', 12, 'upload/1766102975384315.jpeg', 10, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(57, 'Calortusin', '/papan\r\n( T08044BA\r\nAug-24)', 8000, 'Influenza', 15, 'upload/1766103140780967.jpeg', 14, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(58, 'Flutamol tablet', '/papan\r\n(EY010\r\nMay-24)', 11000, 'Influenza', 15, 'upload/1766103266934234.jpeg', 20, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(59, 'OBH Combi Anak', '1HL036\r\nNov-23', 17000, 'Flu & Batuk', 18, 'upload/1766103363327186.jpeg', 9, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(60, 'Neorheumasil Tablet', '100982\r\nDec-24', 10000, 'Nyeri otot,sendi,dll', 34, 'upload/1766103485554077.jpeg', 7, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(61, 'Antimo Anak', '56107018\r\nMar-24', 2000, 'Anti Mual', 35, 'upload/1766103560026100.jpg', 31, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(62, 'Betadine Salap', 'KB20085\r\nOct-23', 15000, 'Obat Luar', 23, 'upload/1766103647469694.jpeg', 5, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(63, 'Proclod Flu', 'BNKTPOCAK1206\r\nAug-23', 4000, 'Influenza', 15, 'upload/1766103710855717.jpeg', 10, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(64, 'Procold Flu Batuk', 'KTPOCBI4913\r\nAug-23', 5000, 'Flu & Batuk', 18, 'upload/1766103806384894.jpeg', 18, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(65, 'Panadol Merah', '1HM132\r\nOct-24', 14000, 'Sakit Kepala', 36, 'upload/1766104110611831.jpeg', 4, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(66, 'Panadol Biru', '1HM132\r\nDec-24', 12000, 'Sakit Kepala', 36, 'upload/1766104189143364.jpeg', 4, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(67, 'Komix Obh', 'BK008\r\nOct-23', 2000, 'Flu & Batuk', 18, 'upload/1766104267595195.jpeg', 15, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(68, 'Kuldon', 'BC001520\r\nJul-23', 3000, 'Sariawan', 37, 'upload/1766104374149056.jpeg', 3, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(69, 'Diatabs Tablet', '21251901\r\nDec-24', 4000, 'Diare', 19, 'upload/1766105626899062.jpeg', 12, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(70, 'Nosib Salep', '13050\r\nMay-25', 15000, 'Obat Luar', 23, 'upload/1766105710336405.jpeg', 15, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(71, 'Kalpanak Salap', '920272\r\nJul-24', 10000, 'Obat Luar', 23, 'upload/1766105784962827.jpg', 15, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(72, 'Pagoda Salep', '21011110\r\nMay-24', 8000, 'Obat Luar', 23, 'upload/1766105863707159.jpg', 13, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(73, 'Salap 88', '3010217\r\nOct-24', 15000, 'Obat Luar', 23, 'upload/1766106020981899.jpeg', 13, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(74, 'Promag Tablet', 'KTPRGR22849\r\nApr-25', 10000, 'Maag', 21, 'upload/1766106118539943.jpeg', 36, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(75, 'Entrostop Tablet', 'KTNTPKI5786\r\nOct-26', 9000, 'Diare', 19, 'upload/1766106291061856.jpg', 21, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(76, 'Entrostop anak', 'BJ007\r\nSep-23', 2500, 'Diare', 19, 'upload/1766106381513149.jpg', 12, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(77, 'Bodrexin Tablet', '40492\r\nMar-24', 5000, 'Demam', 13, 'upload/1766106487229715.jpeg', 8, NULL, '2023-06-09 11:52:50', NULL, '2023-06-09 12:26:49'),
-(78, 'Bodrex Tablet', '/papan\r\n(21342\r\nFeb-27)', 5000, 'Sakit Kepala', 36, 'upload/1766106624487124.jpg', 12, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(79, 'Mixagrip Flu Batuk', 'STMXGE16133\r\nNov-23', 4000, 'Flu & Batuk', 18, 'upload/1766106710029081.jpeg', 14, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(80, 'Mixagrip Flu', 'STMXGF14206\r\nAug-23', 3000, 'Influenza', 15, 'upload/1766106774992431.jpeg', 3, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(81, 'Askamex', 'NOV21A02\r\nNov-23', 4000, 'Obat Cacing', 38, 'upload/1766106864374055.jpeg', 25, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(82, 'Contrexin Syrup', '31372\r\nMar-24', 10000, 'Demam', 13, 'upload/1766106924615556.jpeg', 8, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(83, 'Siladex BP', 'APR22A28\r\nApr-25', 18000, 'Flu & Batuk', 18, 'upload/1766107020852052.jpeg', 3, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(84, 'Laserin Syrup', '58204\r\nApr-26', 24000, 'Batuk', 12, 'upload/1766107091553813.jpeg', 5, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(85, 'Viodiran Smart Syrup', '122071\r\nDec-23', 18000, 'Vitamin', 33, 'upload/1766107306421949.jpeg', 4, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(86, 'KurKur Syrup', '340\r\nJan-24', 75000, 'Vitamin', 33, 'upload/1766107486142510.jpg', 3, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(87, 'Trombosphop Gel', '122B22\r\nFeb-26', 68000, 'Obat Luar', 23, 'upload/1766107574168589.jpg', 3, NULL, '2023-06-09 11:52:50', NULL, NULL),
-(88, 'Canesten', '12H1892\r\nAug-23', 18000, 'Obat Luar', 23, 'upload/1766107629363520.jpeg', 3, NULL, '2023-06-09 11:52:50', NULL, NULL);
+INSERT INTO `products` (`id`, `product_name`, `product_deskripsi`, `price`, `product_category_name`, `product_category_id`, `product_img`, `quantity`,`time`, `created_at`, `updated_at`) VALUES
+(47, 'Omegdiar tablet', '/papan\r\n(922277\r\nSep-24)', 5000, 'Diare', 'Tablet', 19, 18, 'upload/1765880168316288.jpeg', 12, 'omegdiar tablet', '2023-06-09 11:52:50', NULL, NULL),
+(48, 'Zink tablet', '/papan\r\n(211008350\r\nOct-23)', 15000, 'Suplemen', 'Tablet', 26, 18, 'upload/1766101649510376.jpeg', 4, 'zink tablet', '2023-06-09 11:52:50', NULL, NULL),
+(49, 'Dulcolac tablet', '/papan\r\n(210905102\r\nAug-24)', 20000, 'Pencernaan', 'Tablet', 17, 18, 'upload/1766101816656580.jpeg', 4, 'dulcolac tablet', '2023-06-09 11:52:50', NULL, NULL),
+(50, 'AntiHemoroid tablet', '/papan\r\n( 002HW\r\nAug-23)', 20000, 'Ambeien', 'Tablet', 31, 19, 'upload/1766102099975801.jpeg', 10, 'antihemoroid tablet', '2023-06-09 11:52:50', NULL, '2023-06-09 19:26:49'),
+(51, 'Sangobion tablet', '/papan\r\n(1455185\r\nNov-24)', 20000, 'Anemia', 'Tablet', 32, 18, 'upload/1766102220133136.jpeg', 10, 'sangobion tablet', '2023-06-09 11:52:50', NULL, NULL),
+(52, 'Neurobion putih', '/papan\r\n(Do156442\r\nJan-24)', 27000, 'Vitamin', 'Tablet', 33, 18, 'upload/1766102397395379.jpeg', 3, 'neurobion putih', '2023-06-09 11:52:50', NULL, NULL),
+(53, 'Neurobion merah', '/papan', 48000, 'Vitamin', 'Tablet', 33, 18, 'upload/1766102607109231.png', 2, 'neurobion merah', '2023-06-09 11:52:50', NULL, NULL),
+(54, 'Imbost tablet', '/papan\r\n (22A033\r\nFeb-25)', 45000, 'Vitamin', 'Tablet', 33, 18, 'upload/1766102711481511.jpg', 3, 'imbost tablet', '2023-06-09 11:52:50', NULL, NULL),
+(55, 'Arkavit', '/papan\r\n(T2106470\r\nAug-24)', 6000, 'Suplemen', 'Tablet', 26, 19, 'upload/1766102833661582.jpeg', 2, 'arkavit', '2023-06-09 11:52:50', NULL, NULL),
+(56, 'Grantusif', '/papan\r\n(SG116G\r\nJul-24)', 11000, 'Batuk', 'Tablet', 12, 18, 'upload/1766102975384315.jpeg', 10, 'grantusif', '2023-06-09 11:52:50', NULL, NULL),
+(57, 'Calortusin', '/papan\r\n( T08044BA\r\nAug-24)', 8000, 'Influenza', 'Tablet', 15, 18, 'upload/1766103140780967.jpeg', 14, 'calortusin', '2023-06-09 11:52:50', NULL, NULL),
+(58, 'Flutamol tablet', '/papan\r\n(EY010\r\nMay-24)', 11000, 'Influenza', 'Tablet', 15, 18, 'upload/1766103266934234.jpeg', 20, 'flutamol tablet', '2023-06-09 11:52:50', NULL, NULL),
+(59, 'OBH Combi Anak', '1HL036\r\nNov-23', 17000, 'Flu & Batuk', 'Sirup', 18, 20, 'upload/1766103363327186.jpeg', 9, 'obh combi anak', '2023-06-09 11:52:50', NULL, NULL),
+(60, 'Neorheumasil Tablet', '100982\r\nDec-24', 10000, 'Nyeri otot,sendi,dll', 'Tablet', 34, 18, 'upload/1766103485554077.jpeg', 7, 'neorheumasil tablet', '2023-06-09 11:52:50', NULL, NULL),
+(61, 'Antimo Anak', '56107018\r\nMar-24', 2000, 'Anti Mual', 'Sirup', 35, 20, 'upload/1766103560026100.jpg', 31, 'antimo anak', '2023-06-09 11:52:50', NULL, NULL),
+(62, 'Betadine Salap', 'KB20085\r\nOct-23', 15000, 'Obat Luar', 'Luka Luar', 23, 26, 'upload/1766103647469694.jpeg', 5, 'betadine salap', '2023-06-09 11:52:50', NULL, NULL),
+(63, 'Proclod Flu', 'BNKTPOCAK1206\r\nAug-23', 4000, 'Influenza', 'Tablet', 15, 18, 'upload/1766103710855717.jpeg', 10, 'proclod flu', '2023-06-09 11:52:50', NULL, NULL),
+(64, 'Procold Flu Batuk', 'KTPOCBI4913\r\nAug-23', 5000, 'Flu & Batuk', 'Tablet', 18, 19, 'upload/1766103806384894.jpeg', 18, 'procold flu batuk', '2023-06-09 11:52:50', NULL, NULL),
+(65, 'Panadol Merah', '1HM132\r\nOct-24', 14000, 'Sakit Kepala', 'Tablet', 36, 19, 'upload/1766104110611831.jpeg', 4, 'panadol merah', '2023-06-09 11:52:50', NULL, NULL),
+(66, 'Panadol Biru', '1HM132\r\nDec-24', 12000, 'Sakit Kepala', 'Tablet', 36, 18, 'upload/1766104189143364.jpeg', 4, 'panadol biru', '2023-06-09 11:52:50', NULL, NULL),
+(67, 'Komix Obh', 'BK008\r\nOct-23', 2000, 'Flu & Batuk', 'Sirup', 18, 21, 'upload/1766104267595195.jpeg', 15, 'komix obh', '2023-06-09 11:52:50', NULL, NULL),
+(68, 'Kuldon', 'BC001520\r\nJul-23', 3000, 'Sariawan', 'Tablet', 37, 18, 'upload/1766104374149056.jpeg', 3, 'kuldon', '2023-06-09 11:52:50', NULL, NULL),
+(69, 'Diatabs Tablet', '21251901\r\nDec-24', 4000, 'Diare', 'Tablet', 19, 18, 'upload/1766105626899062.jpeg', 12, 'diatabs tablet', '2023-06-09 11:52:50', NULL, NULL),
+(70, 'Nosib Salep', '13050\r\nMay-25', 15000, 'Obat Luar', 'Luka Luar', 23, 26, 'upload/1766105710336405.jpeg', 15, 'nosib salep', '2023-06-09 11:52:50', NULL, NULL),
+(71, 'Kalpanak Salap', '920272\r\nJul-24', 10000, 'Obat Luar', 'Luka Luar', 23, 26, 'upload/1766105784962827.jpg', 15, 'kalpanak salap', '2023-06-09 11:52:50', NULL, NULL),
+(72, 'Pagoda Salep', '21011110\r\nMay-24', 8000, 'Obat Luar', 'Luka Luar', 23, 26, 'upload/1766105863707159.jpg', 13, 'pagoda salep', '2023-06-09 11:52:50', NULL, NULL),
+(73, 'Salap 88', '3010217\r\nOct-24', 15000, 'Obat Luar', 'Luka Luar', 23, 26, 'upload/1766106020981899.jpeg', 13, 'salap 88', '2023-06-09 11:52:50', NULL, NULL),
+(74, 'Promag Tablet', 'KTPRGR22849\r\nApr-25', 10000, 'Maag', 'Tablet', 21, 18, 'upload/1766106118539943.jpeg', 36, 'promag tablet', '2023-06-09 11:52:50', NULL, NULL),
+(75, 'Entrostop Tablet', 'KTNTPKI5786\r\nOct-26', 9000, 'Diare', 'Tablet', 19, 18, 'upload/1766106291061856.jpg', 21, 'entrostop tablet', '2023-06-09 11:52:50', NULL, NULL),
+(76, 'Entrostop anak', 'BJ007\r\nSep-23', 2500, 'Diare', 'Sirup', 19, 20, 'upload/1766106381513149.jpg', 12, 'entrostop anak', '2023-06-09 11:52:50', NULL, NULL),
+(77, 'Bodrexin Tablet', '40492\r\nMar-24', 5000, 'Demam', 'Tablet', 13, 19, 'upload/1766106487229715.jpeg', 8, 'bodrexin tablet', '2023-06-09 11:52:50', NULL, '2023-06-09 19:26:49'),
+(78, 'Bodrex Tablet', '/papan\r\n(21342\r\nFeb-27)', 5000, 'Sakit Kepala', 'Tablet', 36, 18, 'upload/1766106624487124.jpg', 12, 'bodrex tablet', '2023-06-09 11:52:50', NULL, NULL),
+(79, 'Mixagrip Flu Batuk', 'STMXGE16133\r\nNov-23', 4000, 'Flu & Batuk', 'Tablet', 18, 18, 'upload/1766106710029081.jpeg', 14, 'mixagrip flu batuk', '2023-06-09 11:52:50', NULL, NULL),
+(80, 'Mixagrip Flu', 'STMXGF14206\r\nAug-23', 3000, 'Influenza', 'Tablet', 15, 18, 'upload/1766106774992431.jpeg', 3, 'mixagrip flu', '2023-06-09 11:52:50', NULL, NULL),
+(81, 'Askamex', 'NOV21A02\r\nNov-23', 4000, 'Obat Cacing', 'Tablet', 38, 18, 'upload/1766106864374055.jpeg', 25, 'askamex', '2023-06-09 11:52:50', NULL, NULL),
+(82, 'Contrexin Syrup', '31372\r\nMar-24', 10000, 'Demam', 'Sirup', 13, 20, 'upload/1766106924615556.jpeg', 8, 'contrexin syrup', '2023-06-09 11:52:50', NULL, NULL),
+(83, 'Siladex BP', 'APR22A28\r\nApr-25', 18000, 'Flu & Batuk', 'Sirup', 18, 20, 'upload/1766107020852052.jpeg', 3, 'siladex bp', '2023-06-09 11:52:50', NULL, NULL),
+(84, 'Laserin Syrup', '58204\r\nApr-26', 24000, 'Batuk', 'Sirup', 12, 20, 'upload/1766107091553813.jpeg', 5, 'laserin syrup', '2023-06-09 11:52:50', NULL, NULL),
+(85, 'Viodiran Smart Syrup', '122071\r\nDec-23', 18000, 'Vitamin', 'Sirup', 33, 20, 'upload/1766107306421949.jpeg', 4, 'viodiran smart syrup', '2023-06-09 11:52:50', NULL, NULL),
+(86, 'KurKur Syrup', '340\r\nJan-24', 75000, 'Vitamin', 'Sirup', 33, 20, 'upload/1766107486142510.jpg', 3, 'kurkur syrup', '2023-06-09 11:52:50', NULL, NULL),
+(87, 'Trombosphop Gel', '122B22\r\nFeb-26', 68000, 'Obat Luar', 'Luka Luar', 23, 26, 'upload/1766107574168589.jpg', 3, 'trombosphop gel', '2023-06-09 11:52:50', NULL, NULL),
+(88, 'Canesten', '12H1892\r\nAug-23', 18000, 'Obat Luar', 'Luka Luar', 23, 26, 'upload/1766107629363520.jpeg', 3, 'canesten', '2023-06-09 11:52:50', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -488,8 +427,8 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `name`, `display_name`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'Admin', 'Admin', '2023-06-15 18:29:50', '2023-06-15 18:29:50'),
-(2, 'customer', 'Customer', 'Customer', '2023-06-15 18:29:50', '2023-06-15 18:29:50');
+(1, 'admin', 'Admin', 'Admin', '2023-06-11 06:26:25', '2023-06-11 06:26:25'),
+(2, 'customer', 'Customer', 'Customer', '2023-06-11 06:26:25', '2023-06-11 06:26:25');
 
 -- --------------------------------------------------------
 
@@ -529,6 +468,40 @@ CREATE TABLE `sessions` (
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `subcategories`
+--
+
+CREATE TABLE `subcategories` (
+  `id` bigint UNSIGNED NOT NULL,
+  `subcategory_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `category_id` bigint NOT NULL,
+  `category_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_count` int NOT NULL DEFAULT '0',
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `subcategories`
+--
+
+INSERT INTO `subcategories` (`id`, `subcategory_name`, `category_id`, `category_name`, `product_count`, `slug`, `time`, `created_at`, `updated_at`) VALUES
+(18, 'Tablet', 14, 'Pening', 29, '', '2023-06-09 11:52:27', NULL, '2023-05-15 22:32:36'),
+(19, 'Tablet', 12, 'Batuk', 9, '', '2023-06-09 11:52:27', NULL, '2023-05-15 22:26:36'),
+(20, 'Sirup', 12, 'Batuk', 37, '', '2023-06-09 11:52:27', NULL, '2023-05-15 22:42:29'),
+(21, 'Sirup', 13, 'Demam', 1, '', '2023-06-09 11:52:27', NULL, '2023-05-15 21:51:20'),
+(22, 'Tablet', 15, 'flue', 1, '', '2023-06-09 11:52:27', NULL, '2023-05-13 09:29:40'),
+(24, 'Obat Kumur', 16, 'Mulut', 1, '', '2023-06-09 11:52:27', NULL, '2023-05-03 00:04:54'),
+(25, 'Serbuk', 17, 'Pencernaan', 1, '', '2023-06-09 11:52:27', NULL, '2023-05-03 00:14:18'),
+(26, 'Luka Luar', 23, 'Obat Luar', 8, '', '2023-06-09 11:52:27', NULL, '2023-05-15 22:44:46'),
+(27, 'Suplemen', 25, 'Tulang', 2, '', '2023-06-09 11:52:27', NULL, '2023-05-10 01:52:11'),
+(28, 'Tablet Hisap', 28, 'Tenggorokan', 1, '', '2023-06-09 11:52:27', NULL, '2023-05-13 09:49:25');
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `users`
 --
 
@@ -552,8 +525,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `phone`, `birthdate`, `user_img`, `address`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'admin@gmail.com', NULL, NULL, NULL, NULL, NULL, '$2y$10$In34FBk9XFnkI/yXgsX8neLc/aJe5tjJZYHZyyQtigaIWfdYbtXju', NULL, '2023-06-10 23:27:39', '2023-06-11 20:02:32'),
-(2, 'carloka', 'carlo366@gmail.com', '082283314904', '2004-03-10', 'upload/1686491709.jpg', 'jl gang bonsai , melati raya no 21', NULL, '$2y$10$/VovGm7kGjlGFzjeEKfnW.dUMyKb.iHlTem2RNkdCcUyLugipJ1I6', NULL, '2023-06-10 23:28:58', '2023-06-11 00:13:01');
+(1, 'admin', 'admin@gmail.com', NULL, NULL, NULL, NULL, NULL, '$2y$10$In34FBk9XFnkI/yXgsX8neLc/aJe5tjJZYHZyyQtigaIWfdYbtXju', NULL, '2023-06-11 06:27:39', '2023-06-12 03:02:32'),
+(2, 'carloka', 'carlo366@gmail.com', '082283314904', '2004-03-10', 'upload/1686491709.jpg', 'jl gang bonsai , melati raya no 21', NULL, '$2y$10$/VovGm7kGjlGFzjeEKfnW.dUMyKb.iHlTem2RNkdCcUyLugipJ1I6', NULL, '2023-06-11 06:28:58', '2023-06-11 07:13:01');
 
 --
 -- Indexes for dumped tables
@@ -646,7 +619,8 @@ ALTER TABLE `personal_access_tokens`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `products_product_category_id_foreign` (`product_category_id`);
+  ADD KEY `products_product_category_id_foreign` (`product_category_id`),
+  ADD KEY `products_product_subcategory_id_foreign` (`product_subcategory_id`);
 
 --
 -- Indeks untuk tabel `roles`
@@ -671,6 +645,12 @@ ALTER TABLE `sessions`
   ADD KEY `sessions_last_activity_index` (`last_activity`);
 
 --
+-- Indeks untuk tabel `subcategories`
+--
+ALTER TABLE `subcategories`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `users`
 --
 ALTER TABLE `users`
@@ -685,13 +665,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT untuk tabel `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT untuk tabel `deseases`
@@ -709,13 +689,13 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT untuk tabel `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT untuk tabel `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT untuk tabel `permissions`
@@ -733,13 +713,19 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT untuk tabel `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT untuk tabel `roles`
 --
 ALTER TABLE `roles`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT untuk tabel `subcategories`
+--
+ALTER TABLE `subcategories`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
@@ -781,7 +767,8 @@ ALTER TABLE `permission_user`
 -- Ketidakleluasaan untuk tabel `products`
 --
 ALTER TABLE `products`
-  ADD CONSTRAINT `products_product_category_id_foreign` FOREIGN KEY (`product_category_id`) REFERENCES `categories` (`id`);
+  ADD CONSTRAINT `products_product_category_id_foreign` FOREIGN KEY (`product_category_id`) REFERENCES `categories` (`id`),
+  ADD CONSTRAINT `products_product_subcategory_id_foreign` FOREIGN KEY (`product_subcategory_id`) REFERENCES `subcategories` (`id`);
 
 --
 -- Ketidakleluasaan untuk tabel `role_user`

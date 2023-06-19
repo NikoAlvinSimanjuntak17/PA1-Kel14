@@ -11,7 +11,7 @@
       </div>
       <div class="card-body">
         @if ($errors->any())
-        <div id="alert" class="alert alert-danger">
+        <div class="alert alert-danger">
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -22,7 +22,7 @@
         <form action="{{route('storeproduct')}}" method="POST" enctype="multipart/form-data">
             @csrf
           <div class="row mb-3">
-            <label class="col-sm-2 col-form-label" for="basic-default-name">Nama Penyakit</label>
+            <label class="col-sm-2 col-form-label" for="basic-default-name">Nama Produk</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="product_name" name="product_name" placeholder="Nama Produk"/>
             </div>
@@ -37,6 +37,13 @@
             <label class="col-sm-2 col-form-label" for="basic-default-name">Stok Produk</label>
             <div class="col-sm-10">
                 <input type="number" class="form-control" id="quantity" name="quantity" placeholder="quantity"/>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="basic-default-name">tipe Product</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="product_name" name="product_tipe" placeholder="Tipe Produk"/>
             </div>
           </div>
           <div class="row mb-3">
@@ -59,30 +66,18 @@
             </div>
           </div>
 
-          <div class="row mb-3">
-            <label class="col-sm-2 col-form-label" for="basic-default-name">Pilih Sub Categori</label>
-            <div class="col-sm-10">
-                <select class="form-select" id="product_subcategory_id" name="product_subcategory_id" aria-label="Default select example">
-                    <option selected>Pilih Subkategori</option>
-                    @foreach ($subcategories->groupBy('subcategory_name') as $subcategory)
-                        <option value="{{$subcategory->first()->id}}">{{$subcategory->first()->subcategory_name}}</option>
-                    @endforeach
-                </select>
 
-
-            </div>
-          </div>
 
           <div class="row mb-3">
             <label class="col-sm-2 col-form-label" for="basic-default-name">Kirim Gambar</label>
             <div class="col-sm-10">
-                <input type="file" id="product_img" class="form-control" name="product_img[]" multiple>
+                <input type="file" id="product_img" class="form-control" name="product_img">
             </div>
           </div>
 
           <div class="row justify-content-end">
             <div class="col-sm-10">
-              <button type="submit" class="btn btn-primary">Add Produk</button>
+              <button type="submit" class="btn btn-primary">Add product</button>
             </div>
           </div>
         </form>

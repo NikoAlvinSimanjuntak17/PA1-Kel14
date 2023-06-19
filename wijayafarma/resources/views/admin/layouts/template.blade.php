@@ -132,27 +132,7 @@
                         </ul>
                     </li>
 
-                    <li class="menu-item">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
-                            <i class="menu-icon tf-icons bx bx-layout"></i>
-                            <div data-i18n="Layouts">Sub Categori</div>
-                        </a>
 
-                        <ul class="menu-sub">
-                            <li class="menu-item">
-                                <a href="{{ route('addsubcategory') }}" class="menu-link">
-                                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                                    <div data-i18n="Analytics">Add SubCategori</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="{{ route('allsubcategory') }}" class="menu-link">
-                                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                                    <div data-i18n="Analytics">all SubCategori</div>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
 
 
 

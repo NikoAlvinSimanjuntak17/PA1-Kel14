@@ -64,9 +64,10 @@ class ClientController extends Controller
     public function SingleProduct($id)
     {
         $product = Product::findOrFail($id);
-        $subcat_id = Product::where('id', $id)->value('product_subcategory_id');
-        $related_products = Product::where('product_subcategory_id', $subcat_id)->latest()->get();
-
+        $subcat_id = Product::where('id', $id)->value('product_category_id');
+        $related_products = Product::where('product_category_id', $subcat_id)->latest()->get();
+//Mengambil semua pesanan (order) yang memiliki ID produk seperti yang diberikan dalam parameter $id,
+// dan memiliki kolom ulasan yang tidak null. Hasilnya disimpan dalam variabel $orders.
         $orders = Order::where('product_id', 'LIKE', '%' . $id . '%')->whereNotNull('ulasan')->get();
 
 
@@ -74,15 +75,17 @@ class ClientController extends Controller
         $userIds = [];
         $userNames = [];
         $createdDates = [];
-
         foreach ($orders as $order) {
             $productIds = json_decode($order->product_id);
+//Memeriksa apakah ID produk yang diberikan ada dalam array $productIds menggunakan fungsi in_array.
+//Jika iya, artinya pesanan tersebut terkait dengan produk yang sedang diproses dalam metode ini.
             if (in_array($id, $productIds)) {
                 $comments[] = $order->ulasan;
                 $userIds[] = $order->user_id;
-                $userNames[] = User::where('id', $order->user_id)->value('name'); // Get the user name
+                $userNames[] = User::where('id', $order->user_id)->value('name');
                 $createdDates[] = $order->created_at;
             }
+
         }
 
         return view('users.productdetail', compact('product', 'related_products', 'comments', 'userIds', 'userNames', 'createdDates'));
@@ -119,7 +122,6 @@ class ClientController extends Controller
             'user_id' => $userid,
             'quantity' => $request->quantity,
             'price' => $request->price,
-            'slug' => strtolower(str_replace('','-',$request->product_name)),
         ]);
 
         return redirect()->route('product')->with('message', 'Barang Berhasil Ditambahkan ke Keranjang');
@@ -178,7 +180,7 @@ class ClientController extends Controller
 
     // Dapatkan hanya item yang dicentang dari keranjang
     $cart_items = Cart::whereIn('id', $checkedItems)->where('user_id', $userid)->get();
-
+//Mengambil item-item dari keranjang dengan mengkombinasikan dua kriteria: hanya item dengan ID yang ada dalam $checkedItems dan hanya item-item yang milik pengguna dengan ID $userid. Hasilnya disimpan dalam variabel $cart_items.
     $shipping_phonenumber = $request->input('shipping_phonenumber');
     $shipping_city = $request->input('shipping_city');
     $nama = $request->input('nama');
@@ -210,6 +212,8 @@ class ClientController extends Controller
         $product->quantity -= $item->quantity;
         $product->save();
 
+
+        //Menghapus item keranjang yang telah diproses dalam perulangan sebelumnya. Menggunakan model Cart dan menghapus item berdasarkan ID item dan ID pengguna yang terautentikasi.
         Cart::where('id', $item->id)->where('user_id', $userid)->delete();
     }
 

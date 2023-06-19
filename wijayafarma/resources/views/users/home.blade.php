@@ -11,7 +11,7 @@
 <div id="slides" class="cover-slides">
     <ul class="slides-container">
       <li class="text-left">
-        <img src="{{asset('users/img/pexels-karolina-grabowska-4021811.jpg')}}" alt="">
+        <img src="{{asset('img/IMG_20230504_153632.jpg')}}" alt="">
         <div class="container">
           <div class="row">
             <div class="col-md-12">
@@ -23,7 +23,7 @@
         </div>
       </li>
       <li class="text-left">
-        <img src="{{asset('users/img/pexels-pixabay-161688.jpg')}}" alt="">
+        <img src="{{asset('img/IMG_20230504_153725.jpg')}}" alt="">
         <div class="container">
           <div class="row">
             <div class="col-md-12">
@@ -35,7 +35,7 @@
         </div>
       </li>
       <li class="text-left">
-        <img src="{{asset('users/img/pexels-mart-production-7230192.jpg')}}" alt="">
+        <img src="{{asset('img/IMG_20230504_152915.jpg')}}" alt="">
         <div class="container">
           <div class="row">
             <div class="col-md-12">
@@ -99,35 +99,44 @@
                 <figure class="card-banner">
                   <img src="{{asset($produc->product_img)}}" width="312" height="350" loading="lazy" class="image-contain">
 
+
                   <ul class="card-action-list">
-                    <li class="card-action-item">
-                      @auth
-                      @if(auth()->user()->hasRole('customer'))
-                      <form action="{{route('addproducttocart',$produc->id)}}" method="POST">
-                        @csrf
+                      <li class="card-action-item">
+                        @if (!Auth::check())
+                          <a href="{{route('login')}}">
+                              <button type="submit" class="card-action-btn" aria-labelledby="card-label-1">
+                                  <ion-icon name="cart-outline"></ion-icon>
+                                </button>
+                                <div class="card-action-tooltip" id="card-label-1">Beli Sekarang</div>
+                            </a>
+                            @elseif(auth()->user()->hasRole('customer'))
+                            @auth
+                            <form action="{{route('addproducttocart',$produc->id)}}" method="POST">
+                                @csrf
                         <input type="hidden" value="{{$produc->id}}" name="product_id">
                         <input type="hidden" value="{{$produc->product_name}}"
-                            name="product_name">
+                        name="product_name">
                         <input type="hidden" value="{{$produc->product_img}}"
                             name="product_img">
                         <input type="hidden" value="{{$produc->price}}" name="price">
                         <input type="hidden" value="1" name="quantity">
 
                         <button type="submit" class="card-action-btn" aria-labelledby="card-label-1">
-                          <ion-icon name="cart-outline"></ion-icon>
+                            <ion-icon name="cart-outline"></ion-icon>
                         </button>
                         <div class="card-action-tooltip" id="card-label-1">Beli Sekarang</div>
-                      </form>
-                      @endif
-                      @endauth
+                    </form>
+                    @endauth
                     </li>
+                    @endif
+
                     <li class="card-action-item">
-                      <a href="{{route('singleproduct',[$produc->id,$produc->slug])}}">
-                        <button class="card-action-btn" aria-labelledby="card-label-3">
-                          <ion-icon name="eye-outline"></ion-icon>
-                        </button>
-                        <div class="card-action-tooltip" id="card-label-3">Lihat Detail</div>
-                      </a>
+                        <a href="{{route('singleproduct',$produc->id)}}">
+                            <button class="card-action-btn" aria-labelledby="card-label-3">
+                                <ion-icon name="eye-outline"></ion-icon>
+                            </button>
+                            <div class="card-action-tooltip" id="card-label-3">Lihat Detail</div>
+                        </a>
                     </li>
                   </ul>
                 </figure>

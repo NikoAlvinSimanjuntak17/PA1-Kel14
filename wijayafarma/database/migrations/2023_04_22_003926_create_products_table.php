@@ -19,14 +19,10 @@ return new class extends Migration
             $table->text('product_deskripsi');
             $table->integer('price');
             $table->string('product_category_name');
-            $table->string('product_subcategory_name');
             $table->unsignedBigInteger('product_category_id');
             $table->foreign('product_category_id')->references('id')->on('categories');
-            $table->unsignedBigInteger('product_subcategory_id');
-            $table->foreign('product_subcategory_id')->references('id')->on('subcategories');
             $table->text('product_img');
             $table->integer('quantity');
-            $table->string('slug');
             $table->dateTime('time')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamps();
         });

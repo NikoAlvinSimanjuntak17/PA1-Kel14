@@ -25,41 +25,47 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class,'index']);
 
+Route::controller(ClientController::class)->group(function(){
+    Route::get('/','index')->name('home');
+    Route::get('/produk/category/{id}','CategoryPage')->name('category');
+    Route::get('/tentang','About')->name('about');
+    Route::get('/penyakit','Penyakit')->name('penyakit');
+    Route::get('/produk-details/{id}','SingleProduct')->name('singleproduct');
+    Route::get('/produk','Product')->name('product');
+    Route::post('/add-product-to-cart','AddProductToCart')->name('addproducttocart');
+    Route::get('/keranjang','AddToCart')->name('addtocart');
+    Route::post('/place-order','PlaceOrder')->name('placeorder');
+    Route::post('/user-profile/pedding-orders/bayar/{id}','uploadbayar')->name('uploadbayar');
+    Route::post('/user-profile/dashboard/updateprofil','updateprofile')->name('updateprofile');
+    Route::post('/user-profile/dashboard/editprofil','editprofile')->name('editprofile');
+    Route::post('/user-profile/pedding-orders/komentar/{id}','komentar')->name('komentar');
+    Route::get('/cart/delete/{id}','deletecart')->name('deletecart');
+    Route::get('/payment/{id}/delete', 'delete')->name('deletePayment');
+    Route::get('/user-profile/pedding-orders/delete/{id}','orderdelete')->name('orderdelete');
+    Route::get('/products/{id}/increment','incrementQuantity')->name('products.increment');
+Route::get('/products/{id}/decrement', 'decrementQuantity')->name('products.decrement');
+    Route::post('add-shipping-address','AddShippingAddress')->name('addshippingaddress');
+    Route::post('/orders/delivered/{id}', 'orderDelivered')->name('orderDelivered');
+    Route::get('/products/{productId}/comments','showComments')->name('product.comments');
+    Route::get('/checkout','Checkout')->name('checkout');
+    Route::post('/items/{id}','update')->name('items.update');
+    Route::get('/user-profile','UserProfile')->name('userprofile');
+    Route::get('/user-profile/pembelian','PeddingOrders')->name('peddingorders');
+    Route::get('/user-profile/pedding-orders/{id}','PeddingOrdersDetil')->name('peddingordersdetil');
+    Route::get('/user-profile/riwayat/{id}','HistoryDetil')->name('historidetil');
+    Route::get('/user-profile/riwayat','History')->name('history');
+    Route::get('todays-deal','TodayDeal')->name('todaydeal');
+    Route::get('/custom-service','CustomerService')->name('customerservice');
+
+    Route::get('/remove-cart-item/{id}','RemoveCartItem')->name('removeitem');
+    Route::get('/profile/edit-profile','editprofil')->name('editprofil');
+    Route::post('/user-profile/editgambar','updategambar')->name('updategambar');
+});
+
 Route::middleware(['auth','role:customer'])->group(function(){
     Route::controller(ClientController::class)->group(function(){
-        Route::get('/dashboard','index')->name('home');
-        Route::get('/produk/category/{id}/{slug}','CategoryPage')->name('category');
-        Route::get('/penyakit','Penyakit')->name('penyakit');
-        Route::get('/produk-details/{id}/{slug}','SingleProduct')->name('singleproduct');
-        Route::get('/produk','Product')->name('product');
-        Route::post('/place-order','PlaceOrder')->name('placeorder');
-        Route::post('/user-profile/pedding-orders/bayar/{id}','uploadbayar')->name('uploadbayar');
-        Route::post('/user-profile/dashboard/updateprofil','updateprofile')->name('updateprofile');
-        Route::post('/user-profile/dashboard/editprofil','editprofile')->name('editprofile');
-        Route::post('/user-profile/pedding-orders/komentar/{id}','komentar')->name('komentar');
-        Route::get('/cart/delete/{id}','deletecart')->name('deletecart');
-        Route::get('/payment/{id}/delete', 'delete')->name('deletePayment');
-        Route::get('/user-profile/pedding-orders/delete/{id}','orderdelete')->name('orderdelete');
-        Route::get('/products/{id}/increment','incrementQuantity')->name('products.increment');
-Route::get('/products/{id}/decrement', 'decrementQuantity')->name('products.decrement');
-        Route::post('add-shipping-address','AddShippingAddress')->name('addshippingaddress');
-        Route::post('/orders/delivered/{id}', 'orderDelivered')->name('orderDelivered');
-        Route::get('/products/{productId}/comments','showComments')->name('product.comments');
-        Route::get('/checkout','Checkout')->name('checkout');
-        Route::post('/items/{id}','update')->name('items.update');
-        Route::get('/user-profile','UserProfile')->name('userprofile');
-        Route::get('/user-profile/pembelian','PeddingOrders')->name('peddingorders');
-        Route::get('/user-profile/pedding-orders/{id}','PeddingOrdersDetil')->name('peddingordersdetil');
-        Route::get('/user-profile/riwayat/{id}','HistoryDetil')->name('historidetil');
-        Route::get('/user-profile/riwayat','History')->name('history');
-        Route::get('todays-deal','TodayDeal')->name('todaydeal');
-        Route::get('/custom-service','CustomerService')->name('customerservice');
-        Route::get('/keranjang','AddToCart')->name('addtocart');
-        Route::post('/add-product-to-cart','AddProductToCart')->name('addproducttocart');
-        Route::get('/remove-cart-item/{id}','RemoveCartItem')->name('removeitem');
-        Route::get('/profile/edit-profile','editprofil')->name('editprofil');
-        Route::post('/user-profile/editgambar','updategambar')->name('updategambar');
-        Route::get('/search', 'ProductController@search')->name('search');
+        // Route::get('/dashboard','index')->name('home');
+
     });
 });
 
@@ -70,16 +76,7 @@ Route::middleware('auth')->group(function () { /* middleware auth digunakan untu
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['auth'])->group(function(){
-    Route::controller(ClientController::class)->group(function(){
-    Route::get('/dashboard','index')->name('home');
-    Route::get('/produk/category/{id}/{slug}','CategoryPage')->name('category');
-    Route::get('/tentang','About')->name('about');
-    Route::get('/penyakit','Penyakit')->name('penyakit');
-    Route::get('/produk-details/{id}/{slug}','SingleProduct')->name('singleproduct');
-    Route::get('/produk','Product')->name('product');
-});
-});
+
 
 Route::middleware(['auth','role:admin'])->group(function(){
     Route::controller(DasboardController::class)->group(function(){

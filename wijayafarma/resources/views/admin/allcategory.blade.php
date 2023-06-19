@@ -30,8 +30,6 @@
                         <tr>
                             <th>ID</th>
                             <th>Nama Categori</th>
-                            <th>SUB Categori</th>
-                            <th>Slug</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -40,8 +38,6 @@
                             <tr>
                                 <td>{{ $categori->id }}</td>
                                 <td>{{ $categori->category_name }}</td>
-                                <td>{{ $categori->subcategory_count }}</td>
-                                <td>{{ $categori->slug }}</td>
                                 <td>
                                     <a href="{{ route('editcategory', $categori->id) }}" class="btn btn-primary">Edit</a>
                                     <a href="{{ route('deletecategory', $categori->id) }}" class="btn btn-warning"id="delete">Delete</a>

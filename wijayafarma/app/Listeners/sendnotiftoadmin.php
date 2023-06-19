@@ -15,9 +15,13 @@ class sendnotiftoadmin
      *
      * @return void
      */
-
+//menerima event sebagai parameter langsung dalam method handle.
     public function handle($event)
     {
+        //ita mencari admin berdasarkan kondisi tertentu, yaitu mencari pesanan (order)
+        //yang memiliki nama (name) dengan ID 1.
+        // Kemudian, menggunakan fasad Notification, kita mengirim notifikasi pesanan (OrderNotification)
+        // kepada admin yang ditemukan.
         $admin = Order::whereHas('name',function($query){
             $query->where('id',1);
         })->get();

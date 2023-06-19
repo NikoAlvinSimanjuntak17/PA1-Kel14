@@ -29,12 +29,14 @@ class NotifyOrderDelivered
     public function handle(OrderDelivered $event)
     {
         $order = $event->order;
-        $admin = User::where('role', 'admin')->first();
+        $admin = User::where('role', 'admin')->first();//dari event dan mencari admin pertama yang memiliki peran (role) "admin" di database pengguna (user).
 
         // Buat notifikasi
+        //kita membuat notifikasi pesanan (OrderNotification) menggunakan pesanan tersebut.
         $notification = new OrderNotification($order);
 
         // Kirim notifikasi ke admin
+        //notifikasi dikirim ke admin melalui metode notify pada objek admin.
         $admin->notify($notification);
     }
 

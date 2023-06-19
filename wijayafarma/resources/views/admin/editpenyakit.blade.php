@@ -1,12 +1,12 @@
 @extends('admin.layouts.template')
-@section('title','Admin | Editproduk')
+@section('title','Admin | EditPenyakit')
 @section('content')
 <div class="container p-5">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Pages / </span> editproduk</h4>
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Pages / </span> edit desease</h4>
     <div class="col-xxl">
         <div class="card mb-4">
             <div class="card-header d-flex align-items-center justify-content-between">
-        <h5 class="mb-0">Edit Produk</h5>
+        <h5 class="mb-0">Edit Desease</h5>
         <small class="text-muted float-end">informasi input</small>
       </div>
       <div class="card-body">
