@@ -35,7 +35,6 @@ class CategoryController extends Controller
 
         Category::insert([
             'category_name' => $request->category_name,
-            'slug' => strtolower(str_replace('','-',$request->category_name))
         ]);
 
         return redirect()->route('allcategory')->with('message','Categories Added Succesfullly!');
@@ -55,7 +54,6 @@ class CategoryController extends Controller
 
             Category::findOrFail($category_id)->update([
                 'category_name' => $request->category_name,
-                'slug' => strtolower(str_replace('','-',$request->category_name))
             ]);
 
             return redirect()->route('allcategory')->with('message','Categories Update Succesfullly!');

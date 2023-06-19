@@ -47,7 +47,7 @@ $products = App\Models\Product::orderBy('product_name', 'asc')->get();
                                     </button>
                                     <div class="dropdown-menu dropdown-scroll" aria-labelledby="dropdownMenuButton">
                                         @foreach ($categories as $categori)
-                                        <a class="dropdown-item" href="{{route('category', [$categori->id, $categori->slug]) }}">
+                                        <a class="dropdown-item" href="{{route('category', $categori->id) }}">
                                             {{$categori->category_name}}
                                         </a>
                                         @endforeach
@@ -92,8 +92,15 @@ $products = App\Models\Product::orderBy('product_name', 'asc')->get();
                                     @endif
                                     <ul class="card-action-list">
                                         <li class="card-action-item">
-                                            @auth
-                                            @if(auth()->user()->hasRole('customer'))
+                                            @if (!Auth::check())
+                                            <a href="{{route('login')}}">
+                                                <button type="submit" class="card-action-btn" aria-labelledby="card-label-1">
+                                                    <ion-icon name="cart-outline"></ion-icon>
+                                                  </button>
+                                                  <div class="card-action-tooltip" id="card-label-1">Beli Sekarang</div>
+                                              </a>
+                                              @else
+                                              @auth
                                             <form action="{{route('addproducttocart',$produc->id)}}" method="POST">
                                                 @csrf
                                                 <input type="hidden" value="{{$produc->id}}" name="product_id">
@@ -109,11 +116,11 @@ $products = App\Models\Product::orderBy('product_name', 'asc')->get();
                                                 <div class="card-action-tooltip" id="card-label-1">Beli Sekarang
                                                 </div>
                                             </form>
-                                            @endif
                                             @endauth
+                                            @endif
                                         </li>
                                         <li class="card-action-item">
-                                            <a href="{{route('singleproduct',[$produc->id,$produc->slug])}}">
+                                            <a href="{{route('singleproduct',$produc->id)}}">
                                                 <button class="card-action-btn" aria-labelledby="card-label-3">
                                                     <ion-icon name="eye-outline"></ion-icon>
                                                 </button>
@@ -128,7 +135,7 @@ $products = App\Models\Product::orderBy('product_name', 'asc')->get();
                                         <a href="#" class="card-cat-link">{{$produc->product_category_name}}</a>
                                     </div>
                                     <h3 class="h3 card-title">
-                                        <a href="{{route('singleproduct',[$produc->id,$produc->slug])}}">{{$produc->product_name}}</a>
+                                        <a href="{{route('singleproduct',$produc->id)}}">{{$produc->product_name}}</a>
                                     </h3>
                                     <data class="card-price"
                                         value="180.85">{{ 'Rp '.number_format($produc->price, 0, ',', '.') }}</data>

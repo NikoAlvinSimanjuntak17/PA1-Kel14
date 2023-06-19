@@ -31,6 +31,7 @@
                 <th>Jenis Penyakit</th>
                 <th>Jenis Obat</th>
                 <th>Stok</th>
+                <th>Deskripsi</th>
                 <th>Price</th>
                 <th>Actions</th>
               </tr>
@@ -50,13 +51,14 @@
                         </div>
                         @endif
                     <td>{{$product->product_category_name}}</td>
-                    <td>{{$product->product_subcategory_name}}</td>
+                    <td>{{$product->tipe}}</td>
                     </td>
                     @if ($product->quantity === 0)
                     <td><p class="text-danger">Stok Habis</p></td>
                     @else
                     <td>{{$product->quantity}}</td>
                     @endif
+                    <td>{{$product->product_deskripsi}}</td>
                     <td>{{$product->price}}</td>
                     <td>
                         <a href="{{route('editproduct',$product->id)}}" class="btn btn-primary">Edit</a>
