@@ -99,7 +99,7 @@ $products = App\Models\Product::orderBy('product_name', 'asc')->get();
                                                   </button>
                                                   <div class="card-action-tooltip" id="card-label-1">Beli Sekarang</div>
                                               </a>
-                                              @else
+                                              @elseif(auth()->user()->hasRole('customer'))
                                               @auth
                                             <form action="{{route('addproducttocart',$produc->id)}}" method="POST">
                                                 @csrf

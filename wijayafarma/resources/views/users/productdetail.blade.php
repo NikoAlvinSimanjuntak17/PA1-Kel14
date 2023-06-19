@@ -39,7 +39,7 @@
             <a href="{{route('login')}}">
                 <input type="submit" name="" id="" class="btn btn-success" style="border:none; width:8em;height:2.3em;" value="Add to Cart" style="width: 8em">
               </a>
-              @else
+              @elseif(auth()->user()->hasRole('customer'))
               @auth
             <form action="{{route('addproducttocart')}}" method="POST" >
                 @csrf
@@ -114,7 +114,7 @@
                               </button>
                               <div class="card-action-tooltip" id="card-label-1">Beli Sekarang</div>
                           </a>
-                          @else
+                          @elseif(auth()->user()->hasRole('customer'))
                           @auth
                         <form action="{{route('addproducttocart')}}" method="POST">
                             @csrf

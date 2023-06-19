@@ -69,6 +69,7 @@
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav>
       @auth
+      @if(auth()->user()->hasRole('customer'))
             <div class="d-flex p-1 me-3 nav-cart" style=""><a href="{{route('addtocart')}}" class="cart"><i class="bi bi-cart">&nbsp;Keranjang</i></a></div>
       <!-- .navbar -->
       @if (empty(Auth::user()->user_img))
@@ -110,6 +111,9 @@
                         </form>
                     </div>
                   </div>
+                  @elseif (auth()->user()->hasRole('admin'))
+                  <a href="{{route('admindasboard')}}" class="btn btn-success">Halaman admin</a>
+                  @endif
                   @endauth
                   @guest
                   <a href="{{route('login')}}" class="p-2 pe-4 ps-4" style="border:1px solid white;border-radius:50%;color:white;">login</a>
